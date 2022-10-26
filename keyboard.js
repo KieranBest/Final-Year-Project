@@ -1,11 +1,11 @@
-const canvas = document.querySelector('canvas');
-const c = canvas.getContext('2d');
+var canvas = document.querySelector('canvas');
+var c = canvas.getContext('2d');
 
 let cw = canvas.width=window.innerWidth;
 let ch = canvas.height=window.innerHeight/2;
 
 
-c.fillRect(cw,ch,10,10);
+c.fillRect(200,200,50,50);
 c.fillRect(30,30,10,10);
 c.fillRect(100,100,10,10);
 
@@ -44,9 +44,16 @@ function handleInput(input){
 
 function noteOn(note,velocity){
     console.log(note,velocity);
+    c.fillStyle="#cc0000";
+    c.fillRect(30,30,10,10);
+    c.fill
 }
 
 function noteOff(note){
+    c.fillStyle="#000000";
+    c.fillRect(30,30,10,10);
+    c.fill
+
     console.log(note);
 }
 
