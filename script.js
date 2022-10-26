@@ -39,16 +39,16 @@ function handleInput(input){
 }
 function noteOn(note,velocity){
     //console.log(note,velocity);
-    //ctx.fillStyle="#cc0000";
-    //ctx.fillRect(30,30,10,10);
-    //ctx.fill;
+    ctx.fillStyle="#cc0000";
+    ctx.fillRect(30,30,10,10);
+    ctx.fill;
     console.log(noteNumber(note));
 }
 function noteOff(note){    
     //console.log(note);
-    //ctx.fillStyle="#000000";
-    //ctx.fillRect(30,30,10,10);
-    //ctx.fill;
+    ctx.fillStyle="#000000";
+    ctx.fillRect(30,30,10,10);
+    ctx.fill;
 }
 
 //Input data taken to define which key pressed
@@ -58,23 +58,24 @@ function noteNumber(note){
     return noteLetter[noteNumber];
 }
 
+//Canvas creation
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
 let cw = canvas.width=window.innerWidth*0.99;
 let ch = canvas.height=window.innerHeight/2;
 
-var totalKeys = 32;
+//Midi keyboard key information
+var totalKeys = 32    //ready for input from midi device;
 var numWhiteKeys = 19;
 var numBlackKeys = totalKeys-numWhiteKeys;
 var whiteKeyWidth = ((cw-10)/numWhiteKeys);
 var whiteKeyHeight = ch;
-var blackKeyWidth = whiteKeyWidth*0.75;
+var blackKeyWidth = whiteKeyWidth*0.5;
 var blackKeyHeight = ch*0.66;
 
-
-function drawKeyboard(canvas, redKeyArray){
-
+//Canvas Keyboard Drawing
+function drawKeyboard(){
     for (let i =0;i<numWhiteKeys;i++){
         var xCoordinate = cw/numWhiteKeys;
         ctx.beginPath();
@@ -83,6 +84,20 @@ function drawKeyboard(canvas, redKeyArray){
         ctx.rect(i*xCoordinate, 0, whiteKeyWidth, whiteKeyHeight);
         ctx.stroke();
     }
+    for (let i =0;i<numWhiteKeys-1;i++){
+        var j = i % 7
+        if (j !== 2){
+            if (j !== 6){
+                var xCoordinate = cw/numWhiteKeys;
+                ctx.beginPath();
+                ctx.fillStyle="black";
+                ctx.lineWidth = "1";
+                ctx.strokeStyle = "black";
+                ctx.rect((i+0.75)*xCoordinate, 0, blackKeyWidth, blackKeyHeight);
+                ctx.fill();
+                ctx.stroke();    
+            }
+        }
+    }
 }
 drawKeyboard();
-
