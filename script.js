@@ -40,9 +40,23 @@ function handleInput(input){
 function noteOn(note,velocity){
     //console.log(note,velocity);
     ctx.fillStyle="#cc0000";
-    ctx.fillRect(30,30,10,10);
-    ctx.fill;
-    console.log(noteNumber(note));
+    //ctx.fillRect(30,30,10,10);
+    //ctx.fill;
+    //console.log(noteNumber(note));
+    let notePressed=noteNumber(note);
+    if(majorKeyPos.includes(noteNumber(note))){
+        
+
+        //use stuff from initial draw to adapt to change colour.
+        //have a look into octave numbers perhaps to determine which 
+        //octave to light up?
+        
+        
+        console.log("yes");
+    }
+    else if(sharpKeyPos.includes(noteNumber(note))){
+        console.log("no");
+    }
 }
 function noteOff(note){    
     //console.log(note);
@@ -52,7 +66,7 @@ function noteOff(note){
 }
 
 //Input data taken to define which key pressed
-var noteLetter = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
+let noteLetter = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
 function noteNumber(note){
     var noteNumber = note % 12;
     return noteLetter[noteNumber];
@@ -62,8 +76,8 @@ function noteNumber(note){
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
-let cw = canvas.width=window.innerWidth*0.99;
-let ch = canvas.height=window.innerHeight/2;
+const cw = canvas.width=window.innerWidth*0.99;
+const ch = canvas.height=window.innerHeight/2;
 
 //Midi keyboard key information
 var totalKeys = 32    //ready for input from midi device;
@@ -73,11 +87,11 @@ var whiteKeyWidth = ((cw-10)/numWhiteKeys);
 var whiteKeyHeight = ch;
 var blackKeyWidth = whiteKeyWidth*0.5;
 var blackKeyHeight = ch*0.66;
+var xCoordinate = cw/numWhiteKeys;
 
 //Canvas Keyboard Drawing
 function drawKeyboard(){
     for (let i =0;i<numWhiteKeys;i++){
-        var xCoordinate = cw/numWhiteKeys;
         ctx.beginPath();
         ctx.lineWidth = "1";
         ctx.strokeStyle = "black";
@@ -88,16 +102,16 @@ function drawKeyboard(){
         var j = i % 7
         if (j !== 2){
             if (j !== 6){
-                var xCoordinate = cw/numWhiteKeys;
                 ctx.beginPath();
                 ctx.fillStyle="black";
                 ctx.lineWidth = "1";
-                ctx.strokeStyle = "black";
                 ctx.rect((i+0.75)*xCoordinate, 0, blackKeyWidth, blackKeyHeight);
                 ctx.fill();
-                ctx.stroke();    
             }
         }
     }
 }
 drawKeyboard();
+
+const majorKeyPos = ["C","D","E","F","G","A","B"]
+const sharpKeyPos = ["C#","D#","F#","G#","A#"]
