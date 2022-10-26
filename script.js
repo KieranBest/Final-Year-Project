@@ -1,14 +1,3 @@
-const canvas = document.querySelector('canvas');
-const c = canvas.getContext('2d');
-
-let cw = canvas.width=window.innerWidth;
-let ch = canvas.height=window.innerHeight/2;
-
-
-c.fillRect(200,200,50,50);
-c.fillRect(30,30,10,10);
-c.fillRect(100,100,10,10);
-
 //When the Midi device is first connected it will 
 //display device features if successful
 if(navigator.requestMIDIAccess){
@@ -49,17 +38,17 @@ function handleInput(input){
     }
 }
 function noteOn(note,velocity){
-    console.log(note,velocity);
-    c.fillStyle="#cc0000";
-    c.fillRect(30,30,10,10);
-    c.fill;
+    //console.log(note,velocity);
+    //ctx.fillStyle="#cc0000";
+    //ctx.fillRect(30,30,10,10);
+    //ctx.fill;
     console.log(noteNumber(note));
 }
 function noteOff(note){    
-    console.log(note);
-    c.fillStyle="#000000";
-    c.fillRect(30,30,10,10);
-    c.fill;
+    //console.log(note);
+    //ctx.fillStyle="#000000";
+    //ctx.fillRect(30,30,10,10);
+    //ctx.fill;
 }
 
 //Input data taken to define which key pressed
@@ -68,3 +57,32 @@ function noteNumber(note){
     var noteNumber = note % 12;
     return noteLetter[noteNumber];
 }
+
+const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+
+let cw = canvas.width=window.innerWidth*0.99;
+let ch = canvas.height=window.innerHeight/2;
+
+var totalKeys = 32;
+var numWhiteKeys = 19;
+var numBlackKeys = totalKeys-numWhiteKeys;
+var whiteKeyWidth = ((cw-10)/numWhiteKeys);
+var whiteKeyHeight = ch;
+var blackKeyWidth = whiteKeyWidth*0.75;
+var blackKeyHeight = ch*0.66;
+
+
+function drawKeyboard(canvas, redKeyArray){
+
+    for (let i =0;i<numWhiteKeys;i++){
+        var xCoordinate = cw/numWhiteKeys;
+        ctx.beginPath();
+        ctx.lineWidth = "1";
+        ctx.strokeStyle = "black";
+        ctx.rect(i*xCoordinate, 0, whiteKeyWidth, whiteKeyHeight);
+        ctx.stroke();
+    }
+}
+drawKeyboard();
+
