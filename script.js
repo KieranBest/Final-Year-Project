@@ -37,37 +37,38 @@ function handleInput(input){
         noteOff(note);
     }
 }
+//When clicking down on a note
 function noteOn(note,velocity){
-    //console.log(note,velocity);
-    ctx.fillStyle="#cc0000";
-    //ctx.fillRect(30,30,10,10);
-    //ctx.fill;
-    //console.log(noteNumber(note));
-    let notePressed=noteNumber(note);
-    if(majorKeyPos.includes(noteNumber(note))){
-        
+    const octave = parseInt(note/12) - 4; // -4 because my keyboard automatically starts at pos 48
+    const notePressed=findNoteLetter(note);
 
-        //use stuff from initial draw to adapt to change colour.
-        //have a look into octave numbers perhaps to determine which 
-        //octave to light up?
-        
-        
-        console.log("yes");
-    }
-    else if(sharpKeyPos.includes(noteNumber(note))){
-        console.log("no");
-    }
+    if(majorKeyPos.includes(notePressed)){
+        noteNumber = majorKeyPos.indexOf(notePressed)
+    }else if(sharpKeyPos.includes(notePressed)){
+        noteNumber = sharpKeyPos.indexOf(notePressed)
+    }else {noteNumber=-1;}
+
+    noteOnColour(octave,noteNumber,notePressed);
+
+    return console.log(findNoteLetter(note),", Octave:",octave, ", Note Number:",noteNumber)
 }
-function noteOff(note){    
-    //console.log(note);
-    ctx.fillStyle="#000000";
-    ctx.fillRect(30,30,10,10);
-    ctx.fill;
+//When releasing a note
+function noteOff(note){   
+    const octave = parseInt(note/12) - 4; // -4 because my keyboard automatically starts at pos 48
+    const notePressed=findNoteLetter(note);
+
+    if(majorKeyPos.includes(notePressed)){
+        var noteNumber = majorKeyPos.indexOf(notePressed)
+    }else if(sharpKeyPos.includes(notePressed)){
+        var noteNumber = sharpKeyPos.indexOf(notePressed)
+    }else {noteNumber=-1;}
+
+    noteOffColour(octave,noteNumber,notePressed);
 }
 
 //Input data taken to define which key pressed
-let noteLetter = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
-function noteNumber(note){
+const noteLetter = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
+function findNoteLetter(note){
     var noteNumber = note % 12;
     return noteLetter[noteNumber];
 }
@@ -83,6 +84,8 @@ const ch = canvas.height=window.innerHeight/2;
 var totalKeys = 32    //ready for input from midi device;
 var numWhiteKeys = 19;
 var numBlackKeys = totalKeys-numWhiteKeys;
+
+//Keyboard creation information
 var whiteKeyWidth = ((cw-10)/numWhiteKeys);
 var whiteKeyHeight = ch;
 var blackKeyWidth = whiteKeyWidth*0.5;
@@ -114,4 +117,39 @@ function drawKeyboard(){
 drawKeyboard();
 
 const majorKeyPos = ["C","D","E","F","G","A","B"]
-const sharpKeyPos = ["C#","D#","F#","G#","A#"]
+const sharpKeyPos = ["C#","D#","E#","F#","G#","A#","B#"] //There are wrong keys due to the indexing needed
+
+//Change the colour of a key when pressed
+function noteOnColour(octave,noteNumber,notePressed){
+    if(majorKeyPos.includes(notePressed)){
+        ctx.beginPath();                
+        ctx.fillStyle="red";
+        ctx.rect(((7*octave)+noteNumber)*xCoordinate, 0, whiteKeyWidth, whiteKeyHeight);
+        ctx.fill();
+        console.log((7*octave)+noteNumber);
+    }else if(sharpKeyPos.includes(notePressed)){
+        noteNumber=noteNumber+1
+        let x = ((7*octave)+noteNumber)-0.25
+        ctx.beginPath();                
+        ctx.fillStyle="blue";
+        ctx.rect(x*xCoordinate, 0, blackKeyWidth, blackKeyHeight);
+        ctx.fill();
+        console.log(x);
+    }
+    drawKeyboard();
+}
+
+function noteOffColour(octave,noteNumber,notePressed){
+    if(majorKeyPos.includes(notePressed)){
+        ctx.beginPath();                
+        ctx.fillStyle="white";
+        ctx.rect(((7*octave)+noteNumber)*xCoordinate, 0, whiteKeyWidth, whiteKeyHeight);
+        ctx.fill();
+    }else if(sharpKeyPos.includes(notePressed)){
+        ctx.beginPath();                
+        ctx.fillStyle="red";
+        ctx.rect(5*xCoordinate, 0, blackKeyWidth, blackKeyHeight);
+        ctx.fill();
+    }
+    drawKeyboard();
+}
