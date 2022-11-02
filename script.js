@@ -24,6 +24,7 @@ function handleInput(input){
     const command = input.data[0];
     const note = input.data[1];
     const velocity = input.data[2];
+    inputData = []
 
     switch(command){
         case 144: //noteOn
@@ -37,7 +38,7 @@ function handleInput(input){
         noteOff(note);
     }
 }
-//When clicking down on a note
+//When pressing a note
 function noteOn(note,velocity){
     const octave = parseInt(note/12) - 4; // -4 because my keyboard automatically starts at pos 48
     const notePressed=findNoteLetter(note);
@@ -50,7 +51,7 @@ function noteOn(note,velocity){
 
     noteOnColour(octave,noteNumber,notePressed);
 
-    return console.log(findNoteLetter(note),", Octave:",octave, ", Note Number:",noteNumber)
+    console.log(findNoteLetter(note),", Octave:",octave, ", Note Number:",noteNumber)
 }
 //When releasing a note
 function noteOff(note){   
@@ -77,8 +78,8 @@ function findNoteLetter(note){
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
-const cw = canvas.width=window.innerWidth*0.99;
-const ch = canvas.height=window.innerHeight/2;
+const cw = canvas.width = window.innerWidth*0.99;
+const ch = canvas.height = window.innerHeight/2;
 
 //Midi keyboard key information
 var totalKeys = 32    //ready for input from midi device;
@@ -120,23 +121,20 @@ const majorKeyPos = ["C","D","E","F","G","A","B"]
 const sharpKeyPos = ["C#","D#","E#","F#","G#","A#","B#"] //There are wrong keys due to the indexing needed
 
 //Change the colour of a key when pressed
-function noteOnColour(octave,noteNumber,notePressed){
+function noteOnColour(octave,noteNumber,notePressed,note){
     if(majorKeyPos.includes(notePressed)){
         ctx.beginPath();                
         ctx.fillStyle="red";
         ctx.rect(((7*octave)+noteNumber)*xCoordinate, 0, whiteKeyWidth, whiteKeyHeight);
         ctx.fill();
-        console.log((7*octave)+noteNumber);
+        drawKeyboard();
     }else if(sharpKeyPos.includes(notePressed)){
-        noteNumber=noteNumber+1
-        let x = ((7*octave)+noteNumber)-0.25
+        let x = ((7*octave)+noteNumber)
         ctx.beginPath();                
         ctx.fillStyle="blue";
-        ctx.rect(x*xCoordinate, 0, blackKeyWidth, blackKeyHeight);
+        ctx.rect((x+0.75)*xCoordinate, 0, blackKeyWidth, blackKeyHeight);
         ctx.fill();
-        console.log(x);
     }
-    drawKeyboard();
 }
 
 function noteOffColour(octave,noteNumber,notePressed){
@@ -145,11 +143,12 @@ function noteOffColour(octave,noteNumber,notePressed){
         ctx.fillStyle="white";
         ctx.rect(((7*octave)+noteNumber)*xCoordinate, 0, whiteKeyWidth, whiteKeyHeight);
         ctx.fill();
+        drawKeyboard();
     }else if(sharpKeyPos.includes(notePressed)){
+        let x = ((7*octave)+noteNumber)
         ctx.beginPath();                
-        ctx.fillStyle="red";
-        ctx.rect(5*xCoordinate, 0, blackKeyWidth, blackKeyHeight);
+        ctx.fillStyle="black";
+        ctx.rect((x+0.75)*xCoordinate, 0, blackKeyWidth, blackKeyHeight);
         ctx.fill();
     }
-    drawKeyboard();
 }
