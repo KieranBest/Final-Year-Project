@@ -39,6 +39,7 @@ function handleInput(input){
     }
 }
 //When pressing a note
+sharpNote=[-1]
 function noteOn(note,velocity){
     const octave = parseInt(note/12) - 4; // -4 because my keyboard automatically starts at pos 48
     const notePressed=findNoteLetter(note);
@@ -47,11 +48,12 @@ function noteOn(note,velocity){
         noteNumber = majorKeyPos.indexOf(notePressed)
     }else if(sharpKeyPos.includes(notePressed)){
         noteNumber = sharpKeyPos.indexOf(notePressed)
+        sharpNote.push((7*octave)+noteNumber)
     }else {noteNumber=-1;}
 
-    noteOnColour(octave,noteNumber,notePressed);
+    noteOnColour(octave,noteNumber,notePressed,sharpNote);
 
-    console.log(findNoteLetter(note),", Octave:",octave, ", Note Number:",noteNumber)
+    console.log(findNoteLetter(note),", Octave:",octave, ", Note Number:",noteNumber, sharpNote);
 }
 //When releasing a note
 function noteOff(note){   
@@ -62,9 +64,11 @@ function noteOff(note){
         var noteNumber = majorKeyPos.indexOf(notePressed)
     }else if(sharpKeyPos.includes(notePressed)){
         var noteNumber = sharpKeyPos.indexOf(notePressed)
+        sharpNote=sharpNote.filter(function(without){
+            return without !== ((7*octave)+noteNumber)
+        });
     }else {noteNumber=-1;}
-
-    noteOffColour(octave,noteNumber,notePressed);
+    noteOffColour(octave,noteNumber,notePressed,sharpNote);
 }
 
 //Input data taken to define which key pressed
@@ -94,7 +98,7 @@ var blackKeyHeight = ch*0.66;
 var xCoordinate = cw/numWhiteKeys;
 
 //Canvas Keyboard Drawing
-function drawKeyboard(){
+function drawKeyboard(sharpNote){
     for (let i =0;i<numWhiteKeys;i++){
         ctx.beginPath();
         ctx.lineWidth = "1";
@@ -103,14 +107,22 @@ function drawKeyboard(){
         ctx.stroke();
     }
     for (let i =0;i<numWhiteKeys-1;i++){
+    ///////////////////    console.log(sharpNote[1])
         var j = i % 7
         if (j !== 2){
             if (j !== 6){
-                ctx.beginPath();
-                ctx.fillStyle="black";
-                ctx.lineWidth = "1";
-                ctx.rect((i+0.75)*xCoordinate, 0, blackKeyWidth, blackKeyHeight);
-                ctx.fill();
+
+                    ctx.beginPath();
+                    ctx.fillStyle="black";
+                    ctx.lineWidth = "1";
+                    ctx.rect((i+0.75)*xCoordinate, 0, blackKeyWidth, blackKeyHeight);
+                    ctx.fill();
+                
+                
+
+                ///////////////////////////////
+                //trying to get it to read contents of sharpNote and then
+                //create sharp notes not included
             }
         }
     }
@@ -121,13 +133,14 @@ const majorKeyPos = ["C","D","E","F","G","A","B"]
 const sharpKeyPos = ["C#","D#","E#","F#","G#","A#","B#"] //There are wrong keys due to the indexing needed
 
 //Change the colour of a key when pressed
-function noteOnColour(octave,noteNumber,notePressed,note){
+function noteOnColour(octave,noteNumber,notePressed,sharpNote){
     if(majorKeyPos.includes(notePressed)){
         ctx.beginPath();                
         ctx.fillStyle="red";
         ctx.rect(((7*octave)+noteNumber)*xCoordinate, 0, whiteKeyWidth, whiteKeyHeight);
         ctx.fill();
-        drawKeyboard();
+
+        drawKeyboard(sharpNote);
     }else if(sharpKeyPos.includes(notePressed)){
         let x = ((7*octave)+noteNumber)
         ctx.beginPath();                
@@ -137,18 +150,21 @@ function noteOnColour(octave,noteNumber,notePressed,note){
     }
 }
 
-function noteOffColour(octave,noteNumber,notePressed){
+//Change the colour of a key when released
+function noteOffColour(octave,noteNumber,notePressed,sharpNote){
     if(majorKeyPos.includes(notePressed)){
         ctx.beginPath();                
         ctx.fillStyle="white";
         ctx.rect(((7*octave)+noteNumber)*xCoordinate, 0, whiteKeyWidth, whiteKeyHeight);
         ctx.fill();
-        drawKeyboard();
+
+        drawKeyboard(sharpNote);
     }else if(sharpKeyPos.includes(notePressed)){
         let x = ((7*octave)+noteNumber)
         ctx.beginPath();                
         ctx.fillStyle="black";
         ctx.rect((x+0.75)*xCoordinate, 0, blackKeyWidth, blackKeyHeight);
         ctx.fill();
+
     }
 }
