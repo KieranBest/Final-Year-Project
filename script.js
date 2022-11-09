@@ -24,7 +24,6 @@ function handleInput(input){
     const command = input.data[0];
     const note = input.data[1];
     const velocity = input.data[2];
-    inputData = []
 
     switch(command){
         case 144: //noteOn
@@ -45,7 +44,7 @@ const majorKeyPos = ["C","D","E","F","G","A","B"]
 const sharpKeyPos = ["C#","D#","E#","F#","G#","A#","B#"] //There are wrong keys due to the indexing needed
 
 // When pressing a note
-function noteOn(note,velocity){
+function noteOn(note){
     const octave = parseInt(note/12) - 4; // -4 because my keyboard automatically starts at pos 48
     const notePressed=findNoteLetter(note);
 
@@ -58,7 +57,7 @@ function noteOn(note,velocity){
 
     noteOnColour(octave,noteNumber,notePressed,sharpNote);
 
-    console.log(findNoteLetter(note),", Octave:",octave, ", Note Number:",noteNumber, sharpNote);
+    //console.log(findNoteLetter(note),", Octave:",octave, ", Note Number:",noteNumber);
 }
 // When releasing a note
 function noteOff(note){   
@@ -76,7 +75,7 @@ function noteOff(note){
     noteOffColour(octave,noteNumber,notePressed,sharpNote);
 }
 
-// Input data taken to define which key pressed
+// Input data taken to define which key pressed for keyboard representation
 const noteLetter = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
 function findNoteLetter(note){
     var noteNumber = note % 12;
@@ -86,14 +85,14 @@ function findNoteLetter(note){
 // Window starting gets the keyboard statistics needed before creating keyboard
 window.onload = function(){
     canvasStats();
-    drawSheet();
+    drawStaff();
     drawKeyboard();
 }
 
 // Window resizing gets the screen and new keyboard statistics needed before creating keyboard
 window.onresize = function(){
     canvasStats();
-    drawSheet();
+    drawStaff();
     drawKeyboard();
 }
 // https://www.youtube.com/watch?v=uq66IuqYdWg
@@ -115,28 +114,28 @@ function canvasStats(){
     blackKeyHeight = whiteKeyHeight*0.6;
     xCoordinate = cw/numWhiteKeys;
     yCordinate = (ch/7)*3-10;
-    sheetSpacing = (ch/7)/6;
+    staffSpacing = (ch/7)/6;
     hitNoteLine = cw*0.95
-    downLinedistance = sheetSpacing*14
+    downLineDistance = staffSpacing*13
 }
 
 // Draws the sheet music lines
-function drawSheet(){
-    for (let i = 1; i < 6; i++){
+function drawStaff(){
+    for (let i = 2; i < 7; i++){
         ctx.beginPath();
-        ctx.moveTo(0, i*sheetSpacing);
-        ctx.lineTo(cw, i*sheetSpacing);
+        ctx.moveTo(0, i*staffSpacing);
+        ctx.lineTo(cw, i*staffSpacing);
         ctx.stroke();    
     }
-    for (let i = 9; i < 14; i++){
+    for (let i = 8; i < 13; i++){
         ctx.beginPath();
-        ctx.moveTo(0, i*sheetSpacing);
-        ctx.lineTo(cw, i*sheetSpacing);
+        ctx.moveTo(0, i*staffSpacing);
+        ctx.lineTo(cw, i*staffSpacing);
         ctx.stroke();    
     }
     ctx.beginPath();
-    ctx.moveTo(hitNoteLine, 0);
-    ctx.lineTo(hitNoteLine, downLinedistance);
+    ctx.moveTo(hitNoteLine, staffSpacing);
+    ctx.lineTo(hitNoteLine, downLineDistance);
     ctx.stroke(); 
 }
 
@@ -187,8 +186,8 @@ function noteOnColour(octave,noteNumber,notePressed,sharpNote){
         ctx.fillStyle="red";
         ctx.rect(((7*octave)+noteNumber)*xCoordinate, yCordinate, whiteKeyWidth, whiteKeyHeight);
         ctx.fill();
-
         drawKeyboard(sharpNote);
+        noteHitCorrectly(notePressed,octave);
     } else if (sharpKeyPos.includes(notePressed)){
         let x = ((7*octave)+noteNumber)
         ctx.beginPath();                
@@ -205,8 +204,8 @@ function noteOffColour(octave,noteNumber,notePressed,sharpNote){
         ctx.fillStyle="white";
         ctx.rect(((7 * octave) + noteNumber) * xCoordinate, yCordinate, whiteKeyWidth, whiteKeyHeight);
         ctx.fill();
-
         drawKeyboard(sharpNote);
+        removeHitNote(notePressed,octave);
     } else if (sharpKeyPos.includes(notePressed)){
         let x = ((7*octave)+noteNumber)
         ctx.beginPath();                
@@ -215,4 +214,54 @@ function noteOffColour(octave,noteNumber,notePressed,sharpNote){
         ctx.fill();
 
     }
+}
+
+const trebleShtPos = ["B","A","G","F","E","D","C"]
+
+///////need to sort out middle c as a starting point
+
+function noteHitCorrectly(notePressed,octave){
+    if (majorKeyPos.includes(notePressed)){
+        trebleNumber = trebleShtPos.indexOf(notePressed)*0.5+4
+        if (octave === 1){
+            ctx.beginPath();                
+            ctx.fillStyle="red";
+            ctx.arc(hitNoteLine, trebleNumber*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
+            ctx.fill();  
+        } else if (octave === 0){
+            ctx.beginPath();                
+            ctx.fillStyle="red";
+            ctx.arc(hitNoteLine, (trebleNumber+3.5)*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
+            ctx.fill();  
+        } else if (octave === 2){
+            ctx.beginPath();                
+            ctx.fillStyle="red";
+            ctx.arc(hitNoteLine, (trebleNumber-3.5)*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
+            ctx.fill();  
+        }
+    }
+}
+
+function removeHitNote(notePressed,octave){
+    if (majorKeyPos.includes(notePressed)){
+        trebleNumber = trebleShtPos.indexOf(notePressed)*0.5+4
+        if (octave === 1){
+            ctx.beginPath();                
+            ctx.fillStyle="white";
+            ctx.arc(hitNoteLine, trebleNumber*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
+            ctx.fill();  
+        } else if (octave === 0){
+            ctx.beginPath();                
+            ctx.fillStyle="white";
+            ctx.arc(hitNoteLine, (trebleNumber+3.5)*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
+            ctx.fill();  
+        } else if (octave === 2){
+            ctx.beginPath();                
+            ctx.fillStyle="white";
+            ctx.arc(hitNoteLine, (trebleNumber-3.5)*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
+            ctx.fill();  
+        }
+    }
+    drawStaff();
+    noteHitCorrectly();
 }
