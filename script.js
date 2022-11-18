@@ -58,6 +58,7 @@ function noteOn(note){
     noteOnColour(octave,noteNumber,notePressed,sharpNote);
 
     //console.log(findNoteLetter(note),", Octave:",octave, ", Note Number:",noteNumber);
+    console.log(sharpNote)
 }
 // When releasing a note
 function noteOff(note){   
@@ -102,7 +103,8 @@ var canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
 // Midi keyboard key information
-var totalKeys = 32    //ready for input from midi device, once this is done, possibly move into a function
+
+//ready for input from midi device, once this is done, possibly move into a function
 var numWhiteKeys = 19;
 
 function canvasStats(){
@@ -175,6 +177,9 @@ function drawKeyboard(sharpNote){
             ctx.lineWidth = "1";
             ctx.rect((position+0.75)*xCoordinate, yCordinate, blackKeyWidth, blackKeyHeight);
             ctx.fill();            
+            ///////////// this is broken because it is not an array
+            ///////////// bug where sharp key is overwritten if more than 1 pressed
+            //// ////// array.ifcontains
         }
     }
 }
@@ -217,8 +222,6 @@ function noteOffColour(octave,noteNumber,notePressed,sharpNote){
 }
 
 const trebleShtPos = ["B","A","G","F","E","D","C"]
-
-///////need to sort out middle c as a starting point
 
 function noteHitCorrectly(notePressed,octave){
     if (majorKeyPos.includes(notePressed)){
