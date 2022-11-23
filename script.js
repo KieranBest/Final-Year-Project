@@ -27,9 +27,9 @@ function handleInput(input){
 
     switch(command){
         case 144: //noteOn
-        if (velocity>0){
+        if(velocity>0){
             noteOn(note,velocity);
-        }else {
+        }else{
             noteOff(note);
         }
         break;
@@ -38,7 +38,7 @@ function handleInput(input){
     }
 }
 
-// Arrays needed for key positions
+// Arrays needed forkey positions
 sharpNote=[-1]
 const majorKeyPos = ["C","D","E","F","G","A","B"]
 const sharpKeyPos = ["C#","D#","E#","F#","G#","A#","B#"] //There are wrong keys due to the indexing needed
@@ -53,12 +53,11 @@ function noteOn(note){
     }else if(sharpKeyPos.includes(notePressed)){
         noteNumber = sharpKeyPos.indexOf(notePressed)
         sharpNote.push((7*octave)+noteNumber)
-    }else {noteNumber=-1;}
-
+        }
     noteOnColour(octave,noteNumber,notePressed,sharpNote);
 
     //console.log(findNoteLetter(note),", Octave:",octave, ", Note Number:",noteNumber);
-    console.log(sharpNote)
+    //console.log(sharpNote)
 }
 // When releasing a note
 function noteOff(note){   
@@ -70,13 +69,12 @@ function noteOff(note){
     }else if(sharpKeyPos.includes(notePressed)){
         var noteNumber = sharpKeyPos.indexOf(notePressed)
         sharpNote=sharpNote.filter(function(without){
-            return without !== ((7*octave)+noteNumber)
-        });
-    }else {noteNumber=-1;}
-    noteOffColour(octave,noteNumber,notePressed,sharpNote);
+            return without !== ((7*octave)+noteNumber)});
+        }
+        noteOffColour(octave,noteNumber,notePressed,sharpNote);
 }
 
-// Input data taken to define which key pressed for keyboard representation
+// Input data taken to define which key pressed forkeyboard representation
 const noteLetter = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
 function findNoteLetter(note){
     var noteNumber = note % 12;
@@ -123,13 +121,13 @@ function canvasStats(){
 
 // Draws the sheet music lines
 function drawStaff(){
-    for (let i = 2; i < 7; i++){
+    for(let i = 2; i < 7; i++){
         ctx.beginPath();
         ctx.moveTo(0, i*staffSpacing);
         ctx.lineTo(cw, i*staffSpacing);
         ctx.stroke();    
     }
-    for (let i = 8; i < 13; i++){
+    for(let i = 8; i < 13; i++){
         ctx.beginPath();
         ctx.moveTo(0, i*staffSpacing);
         ctx.lineTo(cw, i*staffSpacing);
@@ -149,51 +147,53 @@ function drawKeyboard(sharpNote){
     ctx.rect(0, yCordinate, cw, whiteKeyHeight);
     ctx.stroke();
 
-    for (let i = 0; i < numWhiteKeys; i++){
+    for(let i = 0; i < numWhiteKeys; i++){
         ctx.beginPath();
         ctx.lineWidth = "1";
         ctx.strokeStyle = "black";
         ctx.rect(i*xCoordinate, yCordinate, whiteKeyWidth, whiteKeyHeight);
         ctx.stroke();
     }
-    var position; // Compares i to sharpNote and if matches puts it in a new variable called position
-    for (let i = 0; i < numWhiteKeys - 1; i++){                
-        for (sharpNotePosition in sharpNote){
-            if (sharpNote[sharpNotePosition] == i){
-                position = i
+    var position = [];
+    // Compares i to sharpNote and if matches puts it in a new variable called position
+    for(let i = 0; i < numWhiteKeys - 1; i++){                
+        for(sharpNotePosition in sharpNote){
+            if(sharpNote[sharpNotePosition] == i){
+                position.push(i)
+                index = sharpNotePosition
             }
         }
         var j = i % 7 // Do not draw a key on the b# and e# as they do not exist, positions 2 and 6
-        if (j !== 2 && j !== 6){
+        if(j !== 2 && j !== 6 && !position.includes(i)){
             ctx.beginPath();
             ctx.fillStyle="black";
             ctx.lineWidth = "1";
             ctx.rect((i+0.75)*xCoordinate, yCordinate, blackKeyWidth, blackKeyHeight);
             ctx.fill();            
         }
-        else{ // Redraw held sharp key blue to show it is still held
-            ctx.beginPath();
-            ctx.fillStyle="blue";
-            ctx.lineWidth = "1";
-            ctx.rect((position+0.75)*xCoordinate, yCordinate, blackKeyWidth, blackKeyHeight);
-            ctx.fill();            
-            ///////////// this is broken because it is not an array
-            ///////////// bug where sharp key is overwritten if more than 1 pressed
-            //// ////// array.ifcontains
+        else if (position.includes(i)){ // Redraw held sharp key blue to show it is still held
+                ctx.beginPath();
+                ctx.fillStyle="blue";
+                ctx.lineWidth = "1";
+                ctx.rect((i+0.75)*xCoordinate, yCordinate, blackKeyWidth, blackKeyHeight);
+                ctx.fill();            
+                ///////////// this is broken because it is not an array
+                ///////////// bug where sharp key is overwritten if more than 1 pressed
+                //// ////// array.ifcontains    
         }
     }
 }
 
 // Change the colour of a key when pressed
 function noteOnColour(octave,noteNumber,notePressed,sharpNote){
-    if (majorKeyPos.includes(notePressed)){
+    if(majorKeyPos.includes(notePressed)){
         ctx.beginPath();                
         ctx.fillStyle="red";
         ctx.rect(((7*octave)+noteNumber)*xCoordinate, yCordinate, whiteKeyWidth, whiteKeyHeight);
         ctx.fill();
         drawKeyboard(sharpNote);
         noteHitCorrectly(notePressed,octave);
-    } else if (sharpKeyPos.includes(notePressed)){
+    }else if(sharpKeyPos.includes(notePressed)){
         let x = ((7*octave)+noteNumber)
         ctx.beginPath();                
         ctx.fillStyle="blue";
@@ -204,14 +204,14 @@ function noteOnColour(octave,noteNumber,notePressed,sharpNote){
 
 // Change the colour of a key when released
 function noteOffColour(octave,noteNumber,notePressed,sharpNote){
-    if (majorKeyPos.includes(notePressed)){
+    if(majorKeyPos.includes(notePressed)){
         ctx.beginPath();                
         ctx.fillStyle="white";
         ctx.rect(((7 * octave) + noteNumber) * xCoordinate, yCordinate, whiteKeyWidth, whiteKeyHeight);
         ctx.fill();
         drawKeyboard(sharpNote);
         removeHitNote(notePressed,octave);
-    } else if (sharpKeyPos.includes(notePressed)){
+    }else if(sharpKeyPos.includes(notePressed)){
         let x = ((7*octave)+noteNumber)
         ctx.beginPath();                
         ctx.fillStyle="black";
@@ -224,19 +224,19 @@ function noteOffColour(octave,noteNumber,notePressed,sharpNote){
 const trebleShtPos = ["B","A","G","F","E","D","C"]
 
 function noteHitCorrectly(notePressed,octave){
-    if (majorKeyPos.includes(notePressed)){
+    if(majorKeyPos.includes(notePressed)){
         trebleNumber = trebleShtPos.indexOf(notePressed)*0.5+4
-        if (octave === 1){
+        if(octave === 1){
             ctx.beginPath();                
             ctx.fillStyle="red";
             ctx.arc(hitNoteLine, trebleNumber*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
             ctx.fill();  
-        } else if (octave === 0){
+        }else if(octave === 0){
             ctx.beginPath();                
             ctx.fillStyle="red";
             ctx.arc(hitNoteLine, (trebleNumber+3.5)*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
             ctx.fill();  
-        } else if (octave === 2){
+        }else if(octave === 2){
             ctx.beginPath();                
             ctx.fillStyle="red";
             ctx.arc(hitNoteLine, (trebleNumber-3.5)*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
@@ -246,19 +246,19 @@ function noteHitCorrectly(notePressed,octave){
 }
 
 function removeHitNote(notePressed,octave){
-    if (majorKeyPos.includes(notePressed)){
+    if(majorKeyPos.includes(notePressed)){
         trebleNumber = trebleShtPos.indexOf(notePressed)*0.5+4
-        if (octave === 1){
+        if(octave === 1){
             ctx.beginPath();                
             ctx.fillStyle="white";
             ctx.arc(hitNoteLine, trebleNumber*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
             ctx.fill();  
-        } else if (octave === 0){
+        }else if(octave === 0){
             ctx.beginPath();                
             ctx.fillStyle="white";
             ctx.arc(hitNoteLine, (trebleNumber+3.5)*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
             ctx.fill();  
-        } else if (octave === 2){
+        }else if(octave === 2){
             ctx.beginPath();                
             ctx.fillStyle="white";
             ctx.arc(hitNoteLine, (trebleNumber-3.5)*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
