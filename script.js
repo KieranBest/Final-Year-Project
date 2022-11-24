@@ -50,11 +50,19 @@ function noteOn(note){
 
     if(majorKeyPos.includes(notePressed)){
         noteNumber = majorKeyPos.indexOf(notePressed)
+        console.log(noteNumber)
+        trebleNumber = trebleShtPos.indexOf(notePressed)*0.5+4
+        staffCurrentlyPressed.push(trebleNumber)
+        var uniqPressed = staffCurrentlyPressed.reduce(function(a,b){
+            if(a.indexOf(b)<0)a.push(b)
+            return a
+        },[])        
+        staffCurrentlyPressed=uniqPressed
     }else if(sharpKeyPos.includes(notePressed)){
         noteNumber = sharpKeyPos.indexOf(notePressed)
         sharpNote.push((7*octave)+noteNumber)
         }
-    noteOnColour(octave,noteNumber,notePressed,sharpNote);
+    noteOnColour(staffCurrentlyPressed,octave,noteNumber,notePressed,sharpNote);
 
     //console.log(findNoteLetter(note),", Octave:",octave, ", Note Number:",noteNumber);
     //console.log(sharpNote)
@@ -66,12 +74,20 @@ function noteOff(note){
 
     if(majorKeyPos.includes(notePressed)){
         var noteNumber = majorKeyPos.indexOf(notePressed)
+        trebleNumber = trebleShtPos.indexOf(notePressed)*0.5+4
+        for(let i=0;i<staffCurrentlyPressed.length; i++){
+            if(staffCurrentlyPressed[i] = trebleNumber){
+                staffCurrentlyPressed.splice(i,trebleNumber)
+                i--
+            }
+        }
+        console.log(staffCurrentlyPressed)
     }else if(sharpKeyPos.includes(notePressed)){
         var noteNumber = sharpKeyPos.indexOf(notePressed)
         sharpNote=sharpNote.filter(function(without){
             return without !== ((7*octave)+noteNumber)});
         }
-        noteOffColour(octave,noteNumber,notePressed,sharpNote); 
+    noteOffColour(staffCurrentlyPressed,octave,noteNumber,notePressed,sharpNote); 
 }
 
 // Input data taken to define which key pressed forkeyboard representation
@@ -171,22 +187,19 @@ function drawKeyboard(sharpNote){
                 ctx.lineWidth = "1";
                 ctx.rect((i+0.75)*xCoordinate, yCordinate, blackKeyWidth, blackKeyHeight);
                 ctx.fill();            
-                ///////////// this is broken because it is not an array
-                ///////////// bug where sharp key is overwritten if more than 1 pressed
-                //// ////// array.ifcontains    
         }
     }
 }
 
 // Change the colour of a key when pressed
-function noteOnColour(octave,noteNumber,notePressed,sharpNote){
+function noteOnColour(staffCurrentlyPressed,octave,noteNumber,notePressed,sharpNote){
     if(majorKeyPos.includes(notePressed)){
         ctx.beginPath();                
         ctx.fillStyle="red";
         ctx.rect(((7*octave)+noteNumber)*xCoordinate, yCordinate, whiteKeyWidth, whiteKeyHeight);
         ctx.fill();
         drawKeyboard(sharpNote);
-        staffHitCorrectly(notePressed,octave);
+        staffHitCorrectly(staffCurrentlyPressed,notePressed,octave);
     }else if(sharpKeyPos.includes(notePressed)){
         let x = ((7*octave)+noteNumber)
         ctx.beginPath();                
@@ -197,14 +210,14 @@ function noteOnColour(octave,noteNumber,notePressed,sharpNote){
 }
 
 // Change the colour of a key when released
-function noteOffColour(octave,noteNumber,notePressed,sharpNote){
+function noteOffColour(staffCurrentlyPressed,octave,noteNumber,notePressed,sharpNote){
     if(majorKeyPos.includes(notePressed)){
         ctx.beginPath();                
         ctx.fillStyle="white";
         ctx.rect(((7 * octave) + noteNumber) * xCoordinate, yCordinate, whiteKeyWidth, whiteKeyHeight);
         ctx.fill();
         drawKeyboard(sharpNote);
-        removeStaffHitCorrectly(notePressed,octave);
+        removeStaffHitCorrectly(staffCurrentlyPressed,notePressed,octave);
     }else if(sharpKeyPos.includes(notePressed)){
         let x = ((7*octave)+noteNumber)
         ctx.beginPath();                
@@ -216,55 +229,56 @@ function noteOffColour(octave,noteNumber,notePressed,sharpNote){
 }
 
 const trebleShtPos = ["B","A","G","F","E","D","C"]
-
-function staffHitCorrectly(notePressed,octave){
+staffCurrentlyPressed = []
+function staffHitCorrectly(staffCurrentlyPressed,notePressed,octave){
     if(majorKeyPos.includes(notePressed)){
         trebleNumber = trebleShtPos.indexOf(notePressed)*0.5+4
-        if(octave === 1){
+        for(currentlyPressed in staffCurrentlyPressed){
+            var pressed = 0
+            var octaveWeight = 0
+            pressed = parseFloat(staffCurrentlyPressed[currentlyPressed])
+            if(octave === 1){
+                octaveWeight = pressed
+            }else if(octave === 0){
+                octaveWeight = pressed+3.5
+            }else if(octave === 2){
+                octaveWeight = pressed-3.5
+            }   
+            console.log(staffCurrentlyPressed)
+            console.log(octaveWeight)
             ctx.beginPath();   
-            ctx.strokeStyle="white"             
             ctx.fillStyle="red";
-            ctx.arc(hitNoteLine, trebleNumber*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
-            ctx.fill();  
-            ctx.stroke()
-        }else if(octave === 0){
-            ctx.beginPath();   
-            ctx.strokeStyle="white"             
-            ctx.fillStyle="red";
-            ctx.arc(hitNoteLine, (trebleNumber+3.5)*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
-            ctx.fill();  
-            ctx.stroke()
-        }else if(octave === 2){
-            ctx.beginPath();   
-            ctx.strokeStyle="white"             
-            ctx.fillStyle="red";
-            ctx.arc(hitNoteLine, (trebleNumber-3.5)*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
-            ctx.fill();  
-            ctx.stroke()
+            ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI);
+            ctx.fill();       
         }
     }
 }
 
-function removeStaffHitCorrectly(notePressed,octave){
+function removeStaffHitCorrectly(staffCurrentlyPressed,notePressed,octave){
     if(majorKeyPos.includes(notePressed)){
-        trebleNumber = trebleShtPos.indexOf(notePressed)*0.5+4
         if(octave === 1){
-            ctx.beginPath();                
-            ctx.fillStyle="white";
-            ctx.arc(hitNoteLine, trebleNumber*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
-            ctx.fill();  
+            octaveWeight = trebleNumber
+            
         }else if(octave === 0){
-            ctx.beginPath();                
-            ctx.fillStyle="white";
-            ctx.arc(hitNoteLine, (trebleNumber+3.5)*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
-            ctx.fill();  
+            octaveWeight = trebleNumber+3.5
         }else if(octave === 2){
-            ctx.beginPath();                
-            ctx.fillStyle="white";
-            ctx.arc(hitNoteLine, (trebleNumber-3.5)*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
-            ctx.fill();  
+            octaveWeight = trebleNumber-3.5
         }
+        ctx.beginPath();   
+        ctx.fillStyle="white";
+        ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.6, 0, 2 * Math.PI);
+        ctx.fill();  
     }
     drawStaff();
-    staffHitCorrectly();
+
+    /*for(staffPressed in staffCurrentlyPressed){
+        ctx.beginPath();   
+        ctx.fillStyle="red";
+        ctx.arc(hitNoteLine, staffCurrentlyPressed[staffPressed]*staffSpacing , staffSpacing*0.5, 0, 2 * Math.PI);
+        ctx.fill();  
+
+
+
+        //need to get this bit to delete from staffcurrentlypressed
+    }*/
 }
