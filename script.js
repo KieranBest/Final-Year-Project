@@ -40,7 +40,8 @@ function handleInput(input){
 
 // Arrays needed forkey positions
 sharpNote=[-1]
-staffArray=[]
+staffPosArray=[]
+noteArray=[]
 const majorKeyPos = ["C","D","E","F","G","A","B"]
 const sharpKeyPos = ["C#","D#","E#","F#","G#","A#","B#"] //There are wrong keys due to the indexing needed
 
@@ -51,32 +52,35 @@ function noteOn(note){
 
     if(majorKeyPos.includes(notePressed)){
         noteNumber = majorKeyPos.indexOf(notePressed)
-        staffNumber = trebleShtPos.indexOf(notePressed)*0.5+4
-        staffArray.push(staffNumber)
+        staffNumber = staffShtPos.indexOf(notePressed)
+        staffPosArray.push(staffNumber)   
+        noteArray.push(note)   
     }else if(sharpKeyPos.includes(notePressed)){
         noteNumber = sharpKeyPos.indexOf(notePressed)
         sharpNote.push((7*octave)+noteNumber)
         }
-    noteOnColour(staffArray,staffNumber,octave,noteNumber,notePressed,sharpNote);
+    noteOnColour(note,staffNumber,octave,noteNumber,notePressed,sharpNote);
 }
 
 // When releasing a note
 function noteOff(note){   
     const octave = parseInt(note/12) - 4; // -4 because my keyboard automatically starts at pos 48
     const notePressed=findNoteLetter(note);
-
     if(majorKeyPos.includes(notePressed)){
         var noteNumber = majorKeyPos.indexOf(notePressed)
-        var staffNumber = trebleShtPos.indexOf(notePressed)*0.5+4
-        staffArray=staffArray.filter(function(without){
+        var staffNumber = staffShtPos.indexOf(notePressed)
+        staffPosArray=staffPosArray.filter(function(without){
             return without !== (staffNumber)
+        })
+        noteArray=noteArray.filter(function(without){
+            return without !== (note)
         })
     }else if(sharpKeyPos.includes(notePressed)){
         var noteNumber = sharpKeyPos.indexOf(notePressed)
         sharpNote=sharpNote.filter(function(without){
             return without !== ((7*octave)+noteNumber)});
         }
-    noteOffColour(staffArray,staffNumber,octave,noteNumber,notePressed,sharpNote); 
+    noteOffColour(note,noteArray,staffPosArray,staffNumber,octave,noteNumber,notePressed,sharpNote,note); 
 }
 
 // Input data taken to define which key pressed forkeyboard representation
@@ -181,14 +185,14 @@ function drawKeyboard(sharpNote){
 }
 
 // Change the colour of a key when pressed
-function noteOnColour(staffArray,staffNumber,octave,noteNumber,notePressed,sharpNote){
+function noteOnColour(note,staffNumber,octave,noteNumber,notePressed,sharpNote){
     if(majorKeyPos.includes(notePressed)){
         ctx.beginPath();                
         ctx.fillStyle="red";
         ctx.rect(((7*octave)+noteNumber)*xCoordinate, yCordinate, whiteKeyWidth, whiteKeyHeight);
         ctx.fill();
         drawKeyboard(sharpNote);
-        staffHitCorrectly(staffArray,staffNumber,notePressed,octave);
+        staffHitCorrectly(note,staffNumber,notePressed,octave);
     }else if(sharpKeyPos.includes(notePressed)){
         let x = ((7*octave)+noteNumber)
         ctx.beginPath();                
@@ -199,14 +203,14 @@ function noteOnColour(staffArray,staffNumber,octave,noteNumber,notePressed,sharp
 }
 
 // Change the colour of a key when released
-function noteOffColour(staffArray,staffNumber,octave,noteNumber,notePressed,sharpNote){
+function noteOffColour(note,noteArray,staffPosArray,staffNumber,octave,noteNumber,notePressed,sharpNote,note){
     if(majorKeyPos.includes(notePressed)){
         ctx.beginPath();                
         ctx.fillStyle="white";
         ctx.rect(((7 * octave) + noteNumber) * xCoordinate, yCordinate, whiteKeyWidth, whiteKeyHeight);
         ctx.fill();
         drawKeyboard(sharpNote);
-        removeStaffHitCorrectly(staffArray,staffNumber,notePressed,octave);
+        removeStaffHitCorrectly(note,noteArray,staffPosArray,staffNumber,notePressed,octave);
     }else if(sharpKeyPos.includes(notePressed)){
         let x = ((7*octave)+noteNumber)
         ctx.beginPath();                
@@ -217,56 +221,59 @@ function noteOffColour(staffArray,staffNumber,octave,noteNumber,notePressed,shar
     }
 }
 
-const trebleShtPos = ["B","A","G","F","E","D","C"]
-staffCurrentlyPressed = []
-function staffHitCorrectly(staffArray,staffNumber,notePressed,octave){
+const staffShtPos = ["B","A","G","F","E","D","C"]
+function staffHitCorrectly(staffNumber,notePressed,octave){
     if(majorKeyPos.includes(notePressed)){
         if(octave === 1){
-            octaveWeight = staffNumber
+            octaveWeight = (staffNumber*0.5+4)
         }else if(octave === 0){
-            octaveWeight = staffNumber+3.5
+            octaveWeight = (staffNumber*0.5+4)+3.5
         }else if(octave === 2){
-            octaveWeight = staffNumber-3.5
+            octaveWeight = (staffNumber*0.5+4)-3.5
         }   
         ctx.beginPath();   
         ctx.fillStyle="red";
         ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI);
-        ctx.fill();       
+        ctx.fill();      
     }  
 }
 
-function removeStaffHitCorrectly(staffArray,staffNumber,notePressed,octave){
+function removeStaffHitCorrectly(note,noteArray,staffNumber,notePressed,octave){
     if(majorKeyPos.includes(notePressed)){
         if(octave === 1){
-            octaveWeight = staffNumber
+            octaveWeight = (staffNumber*0.5+4)
         }else if(octave === 0){
-            octaveWeight = staffNumber+3.5
+            octaveWeight = (staffNumber*0.5+4)+3.5
         }else if(octave === 2){
-            octaveWeight = staffNumber-3.5
+            octaveWeight = (staffNumber*0.5+4)-3.5
         }
         ctx.beginPath();   
         ctx.fillStyle="white";
         ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.6, 0, 2 * Math.PI);
         ctx.fill();  
     }
-    drawStaff();
-    console.log(staffArray)
-    for(value in staffArray){
-        let staffValue = parseFloat(staffArray[value])
-        if(majorKeyPos.includes(notePressed)){
-            if(octave === 1){
-                octaveWeight = staffValue
-            }else if(octave === 0){
-                octaveWeight = staffValue+3.5
-            }else if(octave === 2){
-                octaveWeight = staffValue-3.5
-            }else octaveWeight = 0
-            console.log(octaveWeight)
-            ctx.beginPath();   
-            ctx.fillStyle="red";
-            ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI);
-            ctx.fill();       
-        }      
-    }
-    console.log(staffArray)
+
+    drawStaff()
+    for(values in noteArray){
+        console.log("note: "+note)
+        noteNumber = (note+2) % 12
+        console.log("noteNumber: "+noteNumber)
+        staffOctave =  Math.floor((note+2)/12) - 4
+        console.log("staffOctave:"+staffOctave)
+        let staffValue = parseFloat(noteArray[values])*0.5+4
+
+        if(staffOctave === 1){
+            octaveWeight = staffValue
+        }else if(staffOctave === 0){
+            octaveWeight = staffValue+3.5
+        }else if(staffOctave === 2){
+            octaveWeight = staffValue-3.5
+        }else octaveWeight = 0
+
+        console.log(octaveWeight-28)
+        ctx.beginPath();   
+        ctx.fillStyle="red";
+        ctx.arc(hitNoteLine, (octaveWeight-28)*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI);
+        ctx.fill();
+    }     
 }
