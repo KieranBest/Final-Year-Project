@@ -70,15 +70,11 @@ function noteOff(note){
     if(majorKeyPos.includes(noteReleased)){
         var noteNumber = majorKeyPos.indexOf(noteReleased)
         var removedStaffNumber = staffShtPos.indexOf(noteReleased) 
-        var removedStaffPosArray=staffPosArray.filter(function(without){
-            return without === (removedStaffNumber)
-        })
+        var removedStaffPosArray=removedStaffNumber
         staffPosArray=staffPosArray.filter(function(without){
             return without !== (removedStaffNumber)
         })
-        var removedNoteArray=noteArray.filter(function(without){
-            return without === (note)
-        })
+        var removedNoteArray=note
         noteArray=noteArray.filter(function(without){
             return without !== (note)
         })
@@ -228,9 +224,9 @@ function noteOffColour(removedNoteArray,removedStaffPosArray,note,noteArray,staf
     }
 }
 
+var octaveWeight
 function staffHitCorrectly(staffNumber,notePressed,octave){
     if(majorKeyPos.includes(notePressed)){
-        console.log(staffNumber)
         if(octave === 1){
             octaveWeight = (staffNumber*0.5+4)
         }else if(octave === 0){
@@ -245,20 +241,23 @@ function staffHitCorrectly(staffNumber,notePressed,octave){
     }  
 }
 
+var removedOctaveWeight
 function removeStaffHitCorrectly(removedNoteArray,removedStaffPosArray,note,noteArray,staffNumber,noteReleased,octave){
-        console.log(removedStaffPosArray)
-        removedStaffOctave = (removedNoteArray/12)-4
-        switch(removedStaffOctave){
-            case "1":
-            octaveWeight = (removedStaffPosArray*0.5+4)
-            case "0":
-            octaveWeight = (removedStaffPosArray*0.5+4)+3.5
-            case "2":
-            octaveWeight = (removedStaffPosArray*0.5+4)-3.5
+        removedStaffOctave = Math.floor((removedNoteArray/12)-4)
+        console.log(removedStaffOctave)
+        if(removedStaffOctave === 1){
+            removedOctaveWeight = (removedStaffPosArray*0.5+4)
+        }else if (removedStaffOctave === 0){
+                removedOctaveWeight = (removedStaffPosArray*0.5+4)+3.5
+        }else if (removedStaffOctave === 2){
+                removedOctaveWeight = (removedStaffPosArray*0.5+4)-3.5
         }
+        console.log(removedStaffPosArray)
+        console.log(removedOctaveWeight)
+
     ctx.beginPath();   
-    ctx.fillStyle="black";
-    ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.6, 0, 2 * Math.PI);
+    ctx.fillStyle="white";
+    ctx.arc(hitNoteLine, removedOctaveWeight*staffSpacing , staffSpacing*0.6, 0, 2 * Math.PI);
     ctx.fill();  
     drawStaff()
 
