@@ -39,6 +39,24 @@ function handleInput(input){
     }
 }
 
+// https://www.youtube.com/watch?v=dV6V2Ptx_CY
+// Compatibility issues, make sure its compatible across browsers
+window.AudioContext = window.AudioContext || window.webkitAudioContext
+let soundCTX
+
+const startButton = document.querySelector('button')
+const oscillators = {}
+
+startButton.addEventListener('click', () => {
+    soundCTX = new AudioContext()
+    startButton.style.display = 'none'
+})
+
+function midiToFreq(number){
+    const a = 440; //Hz
+    return (a/32) * (2 ** ((number - 9) / 12))
+}
+
 sharpNote=[-1]
 notesHeldList=[]
 staffPosArray=[]
@@ -59,7 +77,7 @@ function findNoteLetter(note){
 }
 
 // When pressing a note
-function noteOn(note){
+function noteOn(note, velocity){
     const octave = parseInt(note/12) - 4 // -4 because my keyboard automatically starts at pos 48, this will need to be changed when keyboard information is entered with numWhiteKeys
     const notePressed=findNoteLetter(note);
     if(majorKeyPos.includes(notePressed)){
@@ -75,12 +93,33 @@ function noteOn(note){
         notesHeldList.push(note)   
     }
     noteOnColour(staffNumber,octave,noteNumber,notePressed,sharpNote)
+    
+    const osc = soundCTX.createOscillator()
+
+    const oscGain = soundCTX.createGain()
+    oscGain.gain.value = 0.33
+
+    const velocityGainAmount = (1/127) * velocity
+    const velocityGain = soundCTX.createGain()
+    velocityGain.gain.value = velocityGainAmount
+
+    osc.type = 'sine' //sine, square, triangle, sawtooth
+    osc.frequency.value = midiToFreq(note)
+    
+    osc.connect(oscGain)
+    oscGain.connect(velocityGain)
+    velocityGain.connect(soundCTX.destination) // Connect the oscillator to speaker output
+
+    osc.gain = oscGain
+
+    oscillators[note.toString()] = osc
+    osc.start()
 }
 
 // When releasing a note
-function noteOff(noteValue){   
-    const octave = parseInt(noteValue/12) - 4; // -4 because my keyboard automatically starts at pos 48, this will need to be changed when numWhiteKeys is edited
-    const noteLetterReleased=findNoteLetter(noteValue);
+function noteOff(note){   
+    const octave = parseInt(note/12) - 4; // -4 because my keyboard automatically starts at pos 48, this will need to be changed when numWhiteKeys is edited
+    const noteLetterReleased=findNoteLetter(note);
     if(majorKeyPos.includes(noteLetterReleased)){
         var noteNumber = majorKeyPos.indexOf(noteLetterReleased)
         var releasedStaffNumber = staffShtMajorPos.indexOf(noteLetterReleased) 
@@ -88,9 +127,9 @@ function noteOff(noteValue){
         staffPosArray=staffPosArray.filter(function(without){
             return without !== (releasedStaffNumber)
         })
-        var releasedNoteArray=noteValue
+        var releasedNoteArray=note
         notesHeldList=notesHeldList.filter(function(without){
-            return without !== (noteValue)
+            return without !== (note)
         })
     }else if(sharpKeyPos.includes(noteLetterReleased)){
         var noteNumber = sharpKeyPos.indexOf(noteLetterReleased)
@@ -101,12 +140,25 @@ function noteOff(noteValue){
         staffPosArray=staffPosArray.filter(function(without){
             return without !== (releasedStaffNumber)
         })
-        var releasedNoteArray=noteValue
+        var releasedNoteArray=note
         notesHeldList=notesHeldList.filter(function(without){
-            return without !== (noteValue)
+            return without !== (note)
         })
     }
     noteOffColour(releasedNoteArray,releasedStaffPosArray,notesHeldList,octave,noteNumber,noteLetterReleased,sharpNote)
+
+    const osc = oscillators[note.toString()]
+    const oscGain = osc.gain
+
+    // This stops the clicking sound when releasing the note due to the sine wave
+    oscGain.gain.setValueAtTime(oscGain.gain.value, soundCTX.currentTime)
+    oscGain.gain.exponentialRampToValueAtTime(0.0001,soundCTX.currentTime + 0.03)
+    setTimeout(() => {
+        osc.stop()
+        osc.disconnect()
+    }, 20)
+
+    delete oscillators[note.toString()]
 }
 
 // Window starting gets the window statistics needed before creating keyboard
