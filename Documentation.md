@@ -170,7 +170,7 @@ Yuksel, B.F. et al., 2016. Learn piano with BACh: An adaptive learning interface
 ### Appendices
 
 > Figure 1: ‘P.I.A.N.O.’
->> /images/P.I.A.N.O..png
+>> ![‘P.I.A.N.O.’](/images/P.I.A.N.O..png)
  
 > Figure 2: Note Visualisation in ‘P.I.A.N.O.’
 >> ![Note Visualisation in ‘P.I.A.N.O.’](/images/P.I.A.N.O.2.png)
