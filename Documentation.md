@@ -153,30 +153,36 @@ Evaluation for this project will be done through comparison of the initial speci
 
 ### References
 
-Educational App Store, 2022. Best Apps to Learn Music. 
-Graesser, A.C. et al., 2012. Intelligent tutoring systems. APA educational psychology handbook, 3:(Application to learning and teaching), pp. 451-473.
+[Educational App Store](https://www.educationalappstore.com/app-lists/best-apps-music-learning) 
+
+[Synthesia Game](https://synthesiagame.com/) 
+
+Graesser, A.C. et al.(2012) Intelligent tutoring systems. APA educational psychology handbook, 3:(Application to learning and teaching), pp. 451-473.
+
 Lowe, J., 2001. Computer-base education: Is it a panacea?. Journal of Research on Technology in Education, 34(2), pp. 169-171.
+
 Rogers, K. et al., 2014. P.I.A.N.O.: Faster Piano Learning with Interactive Projection. Proceedings of the Ninth ACM International Conference on Interactive Tabletops and Surfaces, pp. 149-158.
+
 Skinner, B., 2012. The sceice of learning and the art of teaching.. Reading in Educational Psychology., Volume 66, p. 301.
-Synthesia Game, 2022. Synthesia. 
+
 Yuksel, B.F. et al., 2016. Learn piano with BACh: An adaptive learning interface that adjusts task difficulty based on brain state. Proceedings of the 2016 chi conference on human factors in computing systems, pp. 5372-5384.
 
 ### Appendices
 
 > Figure 1: ‘P.I.A.N.O.’
-> ![‘P.I.A.N.O.’](/images/P.I.A.N.O..png)
+>> /images/P.I.A.N.O..png
  
->Figure 2: Note Visualisation in ‘P.I.A.N.O.’
-> ![Note Visualisation in ‘P.I.A.N.O.’](/images/P.I.A.N.O.2.png)
+> Figure 2: Note Visualisation in ‘P.I.A.N.O.’
+>> ![Note Visualisation in ‘P.I.A.N.O.’](/images/P.I.A.N.O.2.png)
 
->Figure 3: Learn Piano with ‘BACh’
-> ![Learn Piano with ‘BACh’](/images/BACh.png)
+> Figure 3: Learn Piano with ‘BACh’
+>> ![Learn Piano with ‘BACh’](/images/BACh.png)
 
 > Figure 4: Finger Number Hints in ‘Synthesia’
-> ![Finger Number Hints in ‘Synthesia’](/images/Synthesia.png)
+>> ![Finger Number Hints in ‘Synthesia’](/images/Synthesia.png)
  
 > Allan’s Help 1
-> [Allan’s Help 1](/images/AllansHelp.jpg)
+>> [Allan’s Help 1](/images/AllansHelp.jpg)
 
 > Allan’s Help 2
-> [Allan’s Help 2](/images/AllansHelp2.jpg)
+>> [Allan’s Help 2](/images/AllansHelp2.jpg)
