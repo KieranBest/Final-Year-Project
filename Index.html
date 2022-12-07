@@ -5,16 +5,31 @@
     <link id="favicon" rel="icon" type="image/png" href="images/icon.png">
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
+    <style>
+    canvas {
+        image-rendering: pixelated;
+        object-fit: cover;
+        height: 100%;
+        max-height: 100%;
+        max-width: 100%;
+    }
+    h1 {
+        font-size: 4vw;
+    }
+
+
+    </style>
 </head>
 <body>
     <section id="page">
         <header>
             <title>Let's Play!</title>
             <h1>Learn How to Play Piano with your MIDI Keyboard</h1>
-            <h2>Let's Start!</h2>
         </header>
     </section>
-    <button>First Button</button>
+    <button id="StartButton">Start Button</button>
+    <button id="PauseButton">Pause Button</button>
+
     <canvas>
         
     </canvas>

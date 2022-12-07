@@ -44,13 +44,24 @@ function handleInput(input){
 window.AudioContext = window.AudioContext || window.webkitAudioContext
 let soundCTX
 
-const startButton = document.querySelector('button')
+const startButton = document.getElementById('StartButton')
 const oscillators = {}
 
 startButton.addEventListener('click', () => {
     soundCTX = new AudioContext()
-    startButton.style.display = 'none'
+    startButton.style.visibility = 'hidden'
+    pauseButton.style.visibility = 'visible'
+    toggleGame()
 })
+const pauseButton = document.getElementById('PauseButton')
+pauseButton.style.visibility = 'hidden'
+
+pauseButton.addEventListener('click', () => {
+    pauseButton.style.visibility = 'hidden'
+    startButton.style.visibility = 'visible'
+    toggleGame()
+})
+
 
 function midiToFreq(number){
     const a = 440; //Hz
@@ -60,6 +71,8 @@ function midiToFreq(number){
 sharpNote=[-1]
 notesHeldList=[]
 staffPosArray=[]
+majorTimeStamp=[-1]
+sharpTimeStamp=[-1]
 const majorKeyPos = ["C","D","E","F","G","A","B"]
 const sharpKeyPos = ["C#","D#","E#","F#","G#","A#","B#"] // There are wrong keys due to the indexing needed
 const staffShtMajorPos = ["B","A","G","F","E","D","C"] // These are the order needed for the staff
@@ -84,16 +97,20 @@ function noteOn(note, velocity){
         noteNumber = majorKeyPos.indexOf(notePressed)
         staffNumber = staffShtMajorPos.indexOf(notePressed)
         staffPosArray.push(staffNumber)   
-        notesHeldList.push(note)   
+        notesHeldList.push(note)
+        let timeStamp = new Date(Date.now())
+        majorTimeStamp.push(timeStamp.getSeconds())
+        
     }else if(sharpKeyPos.includes(notePressed)){
         noteNumber = sharpKeyPos.indexOf(notePressed)
         sharpNote.push((7*octave)+noteNumber)        
         staffNumber = staffShtSharpPos.indexOf(notePressed)
         staffPosArray.push(staffNumber)   
-        notesHeldList.push(note)   
+        notesHeldList.push(note)
+        let timeStamp = new Date(Date.now())
+        sharpTimeStamp.push(timeStamp.getSeconds())
     }
     noteOnColour(staffNumber,octave,noteNumber,notePressed,sharpNote)
-    
     const osc = soundCTX.createOscillator()
 
     const oscGain = soundCTX.createGain()
@@ -124,25 +141,33 @@ function noteOff(note){
         var noteNumber = majorKeyPos.indexOf(noteLetterReleased)
         var releasedStaffNumber = staffShtMajorPos.indexOf(noteLetterReleased) 
         var releasedStaffPosArray=releasedStaffNumber
-        staffPosArray=staffPosArray.filter(function(without){
+        var index = notesHeldList.findIndex(release => release === note)
+        staffPosArray = staffPosArray.filter(function(without){
             return without !== (releasedStaffNumber)
         })
         var releasedNoteArray=note
-        notesHeldList=notesHeldList.filter(function(without){
+        notesHeldList = notesHeldList.filter(function(without){
             return without !== (note)
         })
+        majorTimeStamp = majorTimeStamp.filter(function(without){
+            return without !== majorTimeStamp.splice(index)
+        })
+
     }else if(sharpKeyPos.includes(noteLetterReleased)){
         var noteNumber = sharpKeyPos.indexOf(noteLetterReleased)
         sharpNote=sharpNote.filter(function(without){
             return without !== ((7*octave)+noteNumber)})
         var releasedStaffNumber = staffShtSharpPos.indexOf(noteLetterReleased) 
         var releasedStaffPosArray=releasedStaffNumber
-        staffPosArray=staffPosArray.filter(function(without){
+        staffPosArray = staffPosArray.filter(function(without){
             return without !== (releasedStaffNumber)
         })
         var releasedNoteArray=note
-        notesHeldList=notesHeldList.filter(function(without){
+        notesHeldList = notesHeldList.filter(function(without){
             return without !== (note)
+        })
+        sharpTimeStamp = sharpTimeStamp.filter(function(without){
+            return without !== sharpTimeStamp.splice(index)
         })
     }
     noteOffColour(releasedNoteArray,releasedStaffPosArray,notesHeldList,octave,noteNumber,noteLetterReleased,sharpNote)
@@ -193,7 +218,7 @@ function canvasStats(){
     yCordinate = (ch/7)*3-10
     staffHeight = (ch/7)*3
     staffSpacing = (ch/7)/6
-    hitNoteLine = cw*0.95
+    hitNoteLine = cw*0.05
     downLineDistance = staffSpacing*13
 }
 
@@ -261,14 +286,14 @@ function noteOnColour(staffNumber,octave,noteNumber,notePressed,sharpNote){
         ctx.rect(((7*octave)+noteNumber)*xCoordinate, yCordinate, whiteKeyWidth, whiteKeyHeight)
         ctx.fill()
         drawKeyboard(sharpNote)
-        staffHitCorrectly(staffNumber,notePressed,octave)
+        staffNoteHit(staffNumber,notePressed,octave)
     }else if(sharpKeyPos.includes(notePressed)){
         let x = ((7*octave)+noteNumber)
         ctx.beginPath()
         ctx.fillStyle="blue"
         ctx.rect((x+0.75)*xCoordinate, yCordinate, blackKeyWidth, blackKeyHeight)
         ctx.fill()
-        staffHitCorrectly(staffNumber,notePressed,octave)
+        staffNoteHit(staffNumber,notePressed,octave)
     }
 }
 
@@ -280,19 +305,19 @@ function noteOffColour(removedNoteArray,removedStaffPosArray,notesHeldList,octav
         ctx.rect(((7 * octave) + noteNumber) * xCoordinate, yCordinate, whiteKeyWidth, whiteKeyHeight)
         ctx.fill()
         drawKeyboard(sharpNote)
-        removeStaffHitCorrectly(removedNoteArray,removedStaffPosArray,notesHeldList)
+        removeStaffNoteHit(removedNoteArray,removedStaffPosArray,notesHeldList)
     }else if(sharpKeyPos.includes(noteReleased)){
         let x = ((7*octave)+noteNumber)
         ctx.beginPath()
         ctx.fillStyle="black"
         ctx.rect((x+0.75) * xCoordinate, yCordinate, blackKeyWidth, blackKeyHeight)
         ctx.fill()
-        removeStaffHitCorrectly(removedNoteArray,removedStaffPosArray,notesHeldList)
+        removeStaffNoteHit(removedNoteArray,removedStaffPosArray,notesHeldList)
     }
 }
 
 // Draw on the staff when a note is pushed
-function staffHitCorrectly(staffNumber,notePressed,octave){
+function staffNoteHit(staffNumber,notePressed,octave){
     if(majorKeyPos.includes(notePressed)){
         if(octave === 1){
             octaveWeight = (staffNumber*0.5+4)
@@ -323,7 +348,7 @@ function staffHitCorrectly(staffNumber,notePressed,octave){
 
 // When notes are released, removes them from the staff
 // Notes that are held whilst another key is released are kept visible on the staff
-function removeStaffHitCorrectly(removedNoteArray,removedStaffPosArray,heldNoteList){
+function removeStaffNoteHit(removedNoteArray,removedStaffPosArray,heldNoteList){
     removedStaffOctave = Math.floor((removedNoteArray/12)-4)
     if(removedStaffOctave === 1){
         removedOctaveWeight = (removedStaffPosArray*0.5+4)
@@ -372,4 +397,113 @@ function removeStaffHitCorrectly(removedNoteArray,removedStaffPosArray,heldNoteL
             }
         } 
     } 
+}
+
+// Note animation
+// Start and stop the game
+let toggle=false
+const toggleGame = async() => {
+    if(!toggle){
+        toggle = true
+        for(let i =0; i<=totalAssets;i++){
+            noteGenerator()
+            movePlayableNotes()
+            await sleep(3000)
+        }
+    }
+    else{
+        toggle = false
+    }
+}
+
+const sleep = async (milliseconds) => {
+    await new Promise(resolve => {
+        return setTimeout(resolve, milliseconds)
+    })
+}
+
+
+//const noteImage = new Image(135,137) //pixel size
+//noteImage.src = 'images/noteImage.png'
+
+// if want max amount of notes played use this
+//let assetLoadCount = 0
+const totalAssets = 0
+const sleepTimer = 3000
+
+function noteGenerator(){ // temporary fix to generating notes
+    generationValues = [2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13]
+    const random = Math.floor(Math.random()*generationValues.length)
+    generatedValues.push(generationValues[random])
+}
+generatedValues = new Array(totalAssets)
+let index = 0
+
+
+function ifHitNoteCorrectly(staffNumber,notePressed,octave){
+    if(majorKeyPos.includes(notePressed)){
+        if(octave === 1){
+            octaveWeight = (staffNumber*0.5+4)
+        }else if(octave === 0){
+            octaveWeight = (staffNumber*0.5+4)+3.5
+        }else if(octave === 2){
+            octaveWeight = (staffNumber*0.5+4)-3.5
+        }  
+    }
+    else if(sharpKeyPos.includes(notePressed)){
+        if(octave === 1){
+            octaveWeight = (staffNumber*0.5+4)
+        }else if(octave === 0){
+            octaveWeight = (staffNumber*0.5+4)+3.5
+        }else if(octave === 2){
+            octaveWeight = (staffNumber*0.5+4)-3.5
+        }   
+    }
+    requestAnimationFrame(movePlayableNotes)
+}
+
+// Moves the notes across
+let noteXpos=window.innerWidth
+function movePlayableNotes(staffNumber,notePressed,octave){
+    if(toggle){
+        for(let i=0; i< generatedValues.length; i++){
+            ctx.beginPath()
+            ctx.fillStyle="white"
+            ctx.arc(noteXpos+1, generatedValues[i]*staffSpacing, staffSpacing*0.5, 0, 2 * Math.PI)
+            ctx.fill()
+
+            drawStaff()
+
+            ctx.beginPath()
+            ctx.fillStyle="blue"
+            ctx.arc(noteXpos, generatedValues[i]*staffSpacing, staffSpacing*0.4, 0, 2 * Math.PI)
+            ctx.fill()
+        }
+        noteXpos--
+
+
+        if(noteXpos<(-(staffSpacing*0.4))){//set by image size
+            generatedValues = generatedValues.filter(function(without){
+                return without !== generatedValues[0]
+            })
+            noteGenerator()
+            noteXpos=canvas.width
+        }
+        ifHitNoteCorrectly(staffNumber,notePressed,octave)
+        //console.log(Date.now()/1000)
+
+        //if note and time are in array
+        //stop
+        //else
+    }
+    else{
+        for(values in generatedValues){
+            ctx.beginPath()
+            ctx.fillStyle="white"
+            ctx.arc(noteXpos, values*staffSpacing, staffSpacing*0.5, 0, 2 * Math.PI)
+            ctx.fill()
+        }
+        drawStaff()
+        noteXpos=window.innerWidth
+    }
 }
