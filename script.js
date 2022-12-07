@@ -1,5 +1,4 @@
-// When the Midi device is first connected it will 
-// display device features if successful
+// When the Midi device is first connected it will display device features if successful
 if(navigator.requestMIDIAccess){
     navigator.requestMIDIAccess().then(success, failure)
 }
@@ -43,6 +42,8 @@ function handleInput(input){
 // Compatibility issues, make sure its compatible across browsers
 window.AudioContext = window.AudioContext || window.webkitAudioContext
 let soundCTX
+
+
 
 const startButton = document.getElementById('StartButton')
 const oscillators = {}
@@ -405,7 +406,7 @@ let toggle=false
 const toggleGame = async() => {
     if(!toggle){
         toggle = true
-        for(let i =0; i<=totalAssets;i++){
+        for(let i =0; i<=totalNotes;i++){
             noteGenerator()
             movePlayableNotes()
             await sleep(3000)
@@ -427,18 +428,19 @@ const sleep = async (milliseconds) => {
 //noteImage.src = 'images/noteImage.png'
 
 // if want max amount of notes played use this
-//let assetLoadCount = 0
-const totalAssets = 0
+const totalNotes = 1
 const sleepTimer = 3000
 
 function noteGenerator(){ // temporary fix to generating notes
     generationValues = [2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13]
     const random = Math.floor(Math.random()*generationValues.length)
     generatedValues.push(generationValues[random])
-}
-generatedValues = new Array(totalAssets)
-let index = 0
+    generatedXPosValues.push(window.innerWidth)
 
+}
+generatedValues = []
+let index = 0
+generatedXPosValues = []
 
 function ifHitNoteCorrectly(staffNumber,notePressed,octave){
     if(majorKeyPos.includes(notePressed)){
@@ -459,35 +461,38 @@ function ifHitNoteCorrectly(staffNumber,notePressed,octave){
             octaveWeight = (staffNumber*0.5+4)-3.5
         }   
     }
-    requestAnimationFrame(movePlayableNotes)
 }
 
 // Moves the notes across
-let noteXpos=window.innerWidth
+
 function movePlayableNotes(staffNumber,notePressed,octave){
     if(toggle){
         for(let i=0; i< generatedValues.length; i++){
-            ctx.beginPath()
-            ctx.fillStyle="white"
-            ctx.arc(noteXpos+1, generatedValues[i]*staffSpacing, staffSpacing*0.5, 0, 2 * Math.PI)
-            ctx.fill()
+            if(generatedValues[i]!==undefined){
+                console.log(i+"generatedXPosValues = "+ generatedXPosValues[i])
+                ctx.beginPath()
+                ctx.fillStyle="white"
+                ctx.arc(generatedXPosValues[i]+1, generatedValues[i]*staffSpacing, staffSpacing*0.5, 0, 2 * Math.PI)
+                ctx.fill()
 
-            drawStaff()
+                drawStaff()
 
-            ctx.beginPath()
-            ctx.fillStyle="blue"
-            ctx.arc(noteXpos, generatedValues[i]*staffSpacing, staffSpacing*0.4, 0, 2 * Math.PI)
-            ctx.fill()
-        }
-        noteXpos--
-
-
-        if(noteXpos<(-(staffSpacing*0.4))){//set by image size
-            generatedValues = generatedValues.filter(function(without){
-                return without !== generatedValues[0]
-            })
-            noteGenerator()
-            noteXpos=canvas.width
+                ctx.beginPath()
+                ctx.fillStyle="blue"
+                ctx.arc(generatedXPosValues[i], generatedValues[i]*staffSpacing, staffSpacing*0.4, 0, 2 * Math.PI)
+                ctx.fill()
+            
+                generatedXPosValues[i]=generatedXPosValues[i]-1
+            }
+            if(generatedXPosValues[i]<-(staffSpacing*0.4)){
+                generatedValues = generatedValues.filter(function(without){
+                    return without !== generatedValues[0]
+                })
+                generatedXPosValues = generatedXPosValues.filter(function(without){
+                    return without !== generatedXPosValues[0]
+                })
+                noteGenerator()
+            }
         }
         ifHitNoteCorrectly(staffNumber,notePressed,octave)
         //console.log(Date.now()/1000)
@@ -495,15 +500,17 @@ function movePlayableNotes(staffNumber,notePressed,octave){
         //if note and time are in array
         //stop
         //else
+        requestAnimationFrame(movePlayableNotes)
+
     }
     else{
         for(values in generatedValues){
             ctx.beginPath()
             ctx.fillStyle="white"
-            ctx.arc(noteXpos, values*staffSpacing, staffSpacing*0.5, 0, 2 * Math.PI)
+            ctx.arc(generatedXPosValues[values], generatedValues[values]*staffSpacing, staffSpacing*0.5, 0, 2 * Math.PI)
             ctx.fill()
+            generatedXPosValues[values]=window.innerWidth
         }
         drawStaff()
-        noteXpos=window.innerWidth
     }
 }
