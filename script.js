@@ -43,8 +43,6 @@ function handleInput(input){
 window.AudioContext = window.AudioContext || window.webkitAudioContext
 let soundCTX
 
-
-
 const startButton = document.getElementById('StartButton')
 const oscillators = {}
 
@@ -217,7 +215,7 @@ function canvasStats(){
     blackKeyHeight = whiteKeyHeight*0.6
     xCoordinate = cw/numWhiteKeys
     yCordinate = (ch/7)*3-10
-    staffHeight = (ch/7)*3
+    staffHeight = (ch/7)*2.5
     staffSpacing = (ch/7)/6
     hitNoteLine = cw*0.05
     downLineDistance = staffSpacing*13
@@ -243,7 +241,7 @@ function drawStaff(){
     ctx.stroke()
 }
 
-// Draws the displayed keyboard, sharpNote is a held sharp key
+// Draws the displayed keyboard, sharpNote is a held sharp keyA
 function drawKeyboard(sharpNote){
     for(let i = 0; i < numWhiteKeys; i++){
         ctx.beginPath()
@@ -360,7 +358,7 @@ function removeStaffNoteHit(removedNoteArray,removedStaffPosArray,heldNoteList){
     }
     ctx.beginPath()
     ctx.fillStyle="white"
-    ctx.arc(hitNoteLine, removedOctaveWeight*staffSpacing , staffSpacing*0.6, 0, 2 * Math.PI)
+    ctx.fillRect(0,0,hitNoteLine,staffHeight)
     ctx.fill()
     drawStaff()
     if(heldNoteList !== null){ // If a note is still held display it 
@@ -406,43 +404,89 @@ let toggle=false
 const toggleGame = async() => {
     if(!toggle){
         toggle = true
-        for(let i =0; i<=totalNotes;i++){
-            noteGenerator()
-            movePlayableNotes()
-            await sleep(3000)
-        }
+        noteLoadCount()
     }
     else{
         toggle = false
+        noteCount = 0
+        animating_Notes.x = window.innerWidth
     }
 }
 
-const sleep = async (milliseconds) => {
-    await new Promise(resolve => {
-        return setTimeout(resolve, milliseconds)
-    })
-}
-
-
-//const noteImage = new Image(135,137) //pixel size
-//noteImage.src = 'images/noteImage.png'
-
-// if want max amount of notes played use this
-const totalNotes = 1
-const sleepTimer = 3000
+const noteImage = new Image(135,137) //pixel size
+noteImage.src = 'images/noteImage.svg'
 
 function noteGenerator(){ // temporary fix to generating notes
     generationValues = [2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13]
-    const random = Math.floor(Math.random()*generationValues.length)
-    generatedValues.push(generationValues[random])
-    generatedXPosValues.push(window.innerWidth)
-
+    let randomValue = Math.floor(Math.random()*generationValues.length)
+    return generationValues[randomValue]
 }
-generatedValues = []
-let index = 0
-generatedXPosValues = []
 
-function ifHitNoteCorrectly(staffNumber,notePressed,octave){
+let noteCount = 0
+const totalNotes = 1
+
+function noteLoadCount(){
+    noteCount++
+    if(noteCount <= totalNotes){
+        movePlayableNotes()
+    }
+}
+
+let difficultySpeed = 1
+
+class animatingNotes{
+    constructor (x,y){
+        this.x = x
+        this.y = y
+    }
+    update(){
+        if(this.y === undefined){
+            this.y = staffSpacing * noteGenerator()
+            console.log(this.y)
+        }
+        this.x -= difficultySpeed
+        if(this.x<hitNoteLine-(0.5*staffSpacing)){
+            this.x = window.innerWidth
+            ctx.fillStyle="white"
+            ctx.arc(hitNoteLine-(0.4*staffSpacing), this.y+(0.5*staffSpacing) , staffSpacing*0.6, 0, 2 * Math.PI)
+            ctx.fill()
+            this.y = staffSpacing * noteGenerator()
+            console.log(this.y)
+        }
+    }
+    display(){
+        ctx.drawImage(noteImage,this.x,this.y,staffSpacing,staffSpacing)
+    }
+} 
+
+let animating_Notes1 = new animatingNotes(window.innerWidth)
+let animating_Notes2 = new animatingNotes(window.innerWidth)
+let animating_Notes3 = new animatingNotes(window.innerWidth)
+
+function movePlayableNotes(staffNumber,notePressed,octave){
+    if(toggle){
+        ctx.fillStyle = "white"
+        ctx.fillRect(hitNoteLine,0,canvas.width,staffHeight)
+        staffNoteHit(staffNumber,notePressed,octave)
+        drawStaff()
+        animating_Notes1.update()
+        animating_Notes1.display()
+        animating_Notes2.update()
+        animating_Notes2.display()
+        animating_Notes3.update()
+        animating_Notes3.display()
+    
+        requestAnimationFrame(movePlayableNotes)
+    }
+    else{
+        ctx.fillStyle = "white"
+        ctx.fillRect(hitNoteLine,0,canvas.width,staffHeight)
+        staffNoteHit(staffNumber,notePressed,octave)
+        drawStaff()
+    }
+}
+
+/*function ifHitNoteCorrectly(staffNumber,notePressed,octave){
     if(majorKeyPos.includes(notePressed)){
         if(octave === 1){
             octaveWeight = (staffNumber*0.5+4)
@@ -461,56 +505,9 @@ function ifHitNoteCorrectly(staffNumber,notePressed,octave){
             octaveWeight = (staffNumber*0.5+4)-3.5
         }   
     }
-}
+}*/
 
-// Moves the notes across
-
-function movePlayableNotes(staffNumber,notePressed,octave){
-    if(toggle){
-        for(let i=0; i< generatedValues.length; i++){
-            if(generatedValues[i]!==undefined){
-                console.log(i+"generatedXPosValues = "+ generatedXPosValues[i])
-                ctx.beginPath()
-                ctx.fillStyle="white"
-                ctx.arc(generatedXPosValues[i]+1, generatedValues[i]*staffSpacing, staffSpacing*0.5, 0, 2 * Math.PI)
-                ctx.fill()
-
-                drawStaff()
-
-                ctx.beginPath()
-                ctx.fillStyle="blue"
-                ctx.arc(generatedXPosValues[i], generatedValues[i]*staffSpacing, staffSpacing*0.4, 0, 2 * Math.PI)
-                ctx.fill()
-            
-                generatedXPosValues[i]=generatedXPosValues[i]-1
-            }
-            if(generatedXPosValues[i]<-(staffSpacing*0.4)){
-                generatedValues = generatedValues.filter(function(without){
-                    return without !== generatedValues[0]
-                })
-                generatedXPosValues = generatedXPosValues.filter(function(without){
-                    return without !== generatedXPosValues[0]
-                })
-                noteGenerator()
-            }
-        }
-        ifHitNoteCorrectly(staffNumber,notePressed,octave)
-        //console.log(Date.now()/1000)
-
-        //if note and time are in array
-        //stop
-        //else
-        requestAnimationFrame(movePlayableNotes)
-
-    }
-    else{
-        for(values in generatedValues){
-            ctx.beginPath()
-            ctx.fillStyle="white"
-            ctx.arc(generatedXPosValues[values], generatedValues[values]*staffSpacing, staffSpacing*0.5, 0, 2 * Math.PI)
-            ctx.fill()
-            generatedXPosValues[values]=window.innerWidth
-        }
-        drawStaff()
-    }
-}
+// see if answer is in
+// https://www.youtube.com/watch?v=9Sxo7P3F3m0&t=322s
+// https://www.kirupa.com/animations/ensuring_consistent_animation_speeds.htm
+// https://www.google.com/search?q=requestanimationframe+javascript+speed+up+when+more+animations+why&rlz=1C1ONGR_en-GBGB985GB985&sxsrf=ALiCzsaJ7Ysi1sjTnJwYC4nUrE1j0aEnBA%3A1670445035417&ei=6_eQY_SLGZPMgQawiIrIBA&ved=0ahUKEwi0rc_XrOj7AhUTZsAKHTCEAkkQ4dUDCA8&uact=5&oq=requestanimationframe+javascript+speed+up+when+more+animations+why&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzoKCAAQRxDWBBCwA0oECEEYAEoECEYYAFCxBljnD2CFE2gBcAF4AIABUIgBtwKSAQE0mAEAoAEByAEIwAEB&sclient=gws-wiz-serp

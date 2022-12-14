@@ -1,16 +1,12 @@
 # Creating a Responsive and Dynamic Piano Education Tool
-
 ## Kieran Best
-
 ## Individual Project U10834
-
 ## Canterbury Christ Church University
-
 ## 2022/23
-
+------
 
 ### Introduction
-The aim of this project is to create an application that teachers users to how to read and play sheet music on a piano. The application will then create new sheet music to test the user and not allow them to memorise a pattern. The application will keep score on whether the user is hitting the note on time or not. It will then adjust the speed according to this.
+The aim of this project is to create an application that teaches users to how to read and play sheet music on a piano. The application will keep score on whether the user is hitting the note on time or not and adjust the speed and difficulty based on this.
 
 ### Literature Review
 
@@ -35,6 +31,16 @@ Lowe explained that within CBE also includes:
 - CBI delivered by CD-ROM. 
 
 These were developed by basic learning principles where Skinner (2012) investigated the development of reinforcing “theory to human learning”.
+
+
+
+
+
+https://reader.elsevier.com/reader/sd/pii/S0360131513001711?token=24C89623FC3B8AEA2DDECC9BF0BCDC0D0757224491754AA7845152774B657CA880E57A1AB0519302CDF4E7EE00CDF212&originRegion=eu-west-1&originCreation=20221211213321
+
+
+
+
 
 #### Similar Applications
 
@@ -69,7 +75,7 @@ Create a Minimum Viable Product (MVP) and be able to produce it to potential use
 - Display that a key has been pressed on the terminal - 1
 - Display graphical shapes - 1
 - Keyboard input manipulates shapes in some way - 2
-- Display key pressed - 1
+- Display what Key been Pressed - 1
 - Create keyboard - 1
 - Keyboard input shows what key has been pressed on graphical keyboard  - 2
 -  Display multiple keys pressed on keyboard - 3
@@ -81,9 +87,10 @@ Create a Minimum Viable Product (MVP) and be able to produce it to potential use
 - Produce specific key tone on key press - 2
 - Note moves across stave and repeats - 3
 - Note repeats to a different line/note - 2
-- Ability to change speed of note - 1
-- Press key at specific time to raise count - 2
 - Display more than one note at a time - 1
+- Press key at specific time to raise count - 2
+- Ability to change speed of note - 1
+
 
 #### Sprint Planning
 
@@ -96,7 +103,7 @@ Create a Minimum Viable Product (MVP) and be able to produce it to potential use
 - As a user the application must clearly define if I’ve pressed the correct key or not.
 - As a user the application must be a plug in and play application, and not require me to install multiple drivers to run.
 - As a user the application must develop my understanding by progressing to a harder difficulty.
-- As a user the application must be visually appealing and not 
+- As a user the application must be visually appealing 
 
 #### Design
 
@@ -153,9 +160,7 @@ Evaluation for this project will be done through comparison of the initial speci
 
 ### References
 
-[Educational App Store](https://www.educationalappstore.com/app-lists/best-apps-music-learning) 
-
-[Synthesia Game](https://synthesiagame.com/) 
+Educational App Store (2022) [Best Apps to Learn Music](https://www.educationalappstore.com/app-lists/best-apps-music-learning) 
 
 Graesser, A.C. et al.(2012) Intelligent tutoring systems. APA educational psychology handbook, 3:(Application to learning and teaching), pp. 451-473.
 
@@ -164,6 +169,8 @@ Lowe, J., 2001. Computer-base education: Is it a panacea?. Journal of Research o
 Rogers, K. et al., 2014. P.I.A.N.O.: Faster Piano Learning with Interactive Projection. Proceedings of the Ninth ACM International Conference on Interactive Tabletops and Surfaces, pp. 149-158.
 
 Skinner, B., 2012. The sceice of learning and the art of teaching.. Reading in Educational Psychology., Volume 66, p. 301.
+
+Synthesia (2022) [Synthesia Game](https://synthesiagame.com/) 
 
 Yuksel, B.F. et al., 2016. Learn piano with BACh: An adaptive learning interface that adjusts task difficulty based on brain state. Proceedings of the 2016 chi conference on human factors in computing systems, pp. 5372-5384.
 
