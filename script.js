@@ -408,14 +408,6 @@ const toggleGame = async() => {
     }
     else{
         toggle = false
-        animating_Notes1.x = window.innerWidth
-        animating_Notes2.x = window.innerWidth
-        animating_Notes3.x = window.innerWidth
-        animating_Notes4.x = window.innerWidth
-        animating_Notes5.x = window.innerWidth
-        animating_Notes6.x = window.innerWidth
-        animating_Notes7.x = window.innerWidth
-        animating_Notes8.x = window.innerWidth
     }
 }
 
@@ -431,22 +423,24 @@ function noteGenerator(){ // temporary fix to generating notes
 
 // Difficulty variables
 let difficultySpeed = 1
-let difficultyLevel = 2
-let timeDelay = 1000
+let difficultyLevel = 1
+const msPerFrame = 1000/60
+
+
 
 // Class for animated notes
 class animatingNotes{
-    constructor (x,y,y1,y2,y3,y4,yValues){
+    constructor (x,y,y1,y2,y3,y4){
+        this.x = x
         this.y = y
         this.y1 = y1
         this.y2 = y2
         this.y3 = y3
         this.y4 = y4
         this.yValues = []
-        this.x = x
     }
     update(){ // Updates and changes each animated notes x variable according to speed
-        if(this.y === undefined){
+        if(this.y === undefined || this.y == 0){
             this.y = staffSpacing * noteGenerator()
             this.y1 = staffSpacing * noteGenerator()
             this.y2 = staffSpacing * noteGenerator()
@@ -456,11 +450,10 @@ class animatingNotes{
         }
         if(this.x<hitNoteLine-(0.5*staffSpacing)){ // If note moves far to the left it will delete and create a autocreate a new y value
             this.x = window.innerWidth
-            let yValue=[this.yValues[0],this.yValues[1],this.yValues[2],this.yValues[3],this.yValues[4]]
 
             ctx.fillStyle="white"
             for(let difficulty = 0; difficulty < difficultyLevel; difficulty++){
-                ctx.arc(hitNoteLine-(0.4*staffSpacing), yValue[difficulty]+(0.5*staffSpacing) , staffSpacing*0.6, 0, 2 * Math.PI)
+                ctx.arc(hitNoteLine-(0.4*staffSpacing), this.yValues[difficulty]+(0.5*staffSpacing) , staffSpacing*0.6, 0, 2 * Math.PI)
             }
             ctx.fill()
             this.y = staffSpacing * noteGenerator()
@@ -469,14 +462,18 @@ class animatingNotes{
             this.y3 = staffSpacing * noteGenerator()
             this.y4 = staffSpacing * noteGenerator()
             this.yValues = [this.y, this.y1, this.y2, this.y3, this.y4]
+
+
+
+            console.log(new Date().getTime()/1000)
+            // 1291.4696
         }
         this.x -= difficultySpeed
 
     }
     display(){ // Displays the notes based on the x and y values created in the update function
-        let yValue=[this.yValues[0],this.yValues[1],this.yValues[2],this.yValues[3],this.yValues[4]]
         for(let difficulty = 0; difficulty < difficultyLevel; difficulty++){
-            ctx.drawImage(noteImage,this.x, yValue[difficulty], staffSpacing,staffSpacing)
+            ctx.drawImage(noteImage,this.x, this.yValues[difficulty], staffSpacing,staffSpacing)
         }              
     }
 } 
@@ -490,31 +487,45 @@ let animating_Notes6 = new animatingNotes(window.innerWidth)
 let animating_Notes7 = new animatingNotes(window.innerWidth)
 let animating_Notes8 = new animatingNotes(window.innerWidth)
 
+let lastloop = performance.now()
+let a=0
+let averageFPS = 0
 function movePlayableNotes(staffNumber,notePressed,octave){
     if(toggle){
-        ctx.fillStyle = "white"
-        ctx.fillRect(hitNoteLine,0,canvas.width,staffHeight)
-        staffNoteHit(staffNumber,notePressed,octave)
-        drawStaff()
-        // updates x and y values and then displays them whilst removing the old values from visibility
-        animating_Notes1.update()
-        animating_Notes1.display()
-        setTimeout((s) => animating_Notes2.update(), timeDelay)
-        animating_Notes2.display()
-        setTimeout((s) => animating_Notes3.update(), 2*timeDelay)
-        animating_Notes3.display()
-        setTimeout((s) => animating_Notes4.update(), 3*timeDelay)
-        animating_Notes4.display()
-        setTimeout((s) => animating_Notes5.update(), 4*timeDelay)
-        animating_Notes5.display()
-        setTimeout((s) => animating_Notes6.update(), 5*timeDelay)
-        animating_Notes6.display()
-        setTimeout((s) => animating_Notes7.update(), 6*timeDelay)
-        animating_Notes7.display()
-        setTimeout((s) => animating_Notes8.update(), 7*timeDelay)
-        animating_Notes8.display()
+            a++
+        if(a>20){
+            var thisloop = performance.now()
+            var fps = Math.round(1000/(thisloop-lastloop))
+            averageFPS = averageFPS+fps
+            lastloop = thisloop
+        }
+        if(a>100){
+            let timeDelay = (window.innerWidth-(hitNoteLine-(0.5*staffSpacing))/(averageFPS/a)*1000)
 
-        requestAnimationFrame(movePlayableNotes) // Repeats this function to create an animation
+            ctx.fillStyle = "white"
+            ctx.fillRect(hitNoteLine,0,canvas.width,staffHeight)
+            staffNoteHit(staffNumber,notePressed,octave)
+            drawStaff()
+            // updates x and y values and then displays them whilst removing the old values from visibility
+            animating_Notes1.update()
+            animating_Notes1.display()
+            setTimeout((s) => animating_Notes2.update(), 1*timeDelay)
+            animating_Notes2.display()
+            setTimeout((s) => animating_Notes3.update(), 2*timeDelay)
+            animating_Notes3.display()
+            setTimeout((s) => animating_Notes4.update(), 3*timeDelay)
+            animating_Notes4.display()
+            setTimeout((s) => animating_Notes5.update(), 4*timeDelay)
+            animating_Notes5.display()
+            setTimeout((s) => animating_Notes6.update(), 5*timeDelay)
+            animating_Notes6.display()
+            setTimeout((s) => animating_Notes7.update(), 6*timeDelay)
+            animating_Notes7.display()
+            setTimeout((s) => animating_Notes8.update(), 7*timeDelay)
+            animating_Notes8.display()
+        }
+            requestAnimationFrame(movePlayableNotes) // Repeats this function to create an animation
+        
     }
     else{
         ctx.fillStyle = "white"
@@ -523,28 +534,3 @@ function movePlayableNotes(staffNumber,notePressed,octave){
     }
 }
 
-/*function ifHitNoteCorrectly(staffNumber,notePressed,octave){
-    if(majorKeyPos.includes(notePressed)){
-        if(octave === 1){
-            octaveWeight = (staffNumber*0.5+4)
-        }else if(octave === 0){
-            octaveWeight = (staffNumber*0.5+4)+3.5
-        }else if(octave === 2){
-            octaveWeight = (staffNumber*0.5+4)-3.5
-        }  
-    }
-    else if(sharpKeyPos.includes(notePressed)){
-        if(octave === 1){
-            octaveWeight = (staffNumber*0.5+4)
-        }else if(octave === 0){
-            octaveWeight = (staffNumber*0.5+4)+3.5
-        }else if(octave === 2){
-            octaveWeight = (staffNumber*0.5+4)-3.5
-        }   
-    }
-}*/
-
-// see if answer is in
-// https://www.youtube.com/watch?v=9Sxo7P3F3m0&t=322s
-// https://www.kirupa.com/animations/ensuring_consistent_animation_speeds.htm
-// https://www.google.com/search?q=requestanimationframe+javascript+speed+up+when+more+animations+why&rlz=1C1ONGR_en-GBGB985GB985&sxsrf=ALiCzsaJ7Ysi1sjTnJwYC4nUrE1j0aEnBA%3A1670445035417&ei=6_eQY_SLGZPMgQawiIrIBA&ved=0ahUKEwi0rc_XrOj7AhUTZsAKHTCEAkkQ4dUDCA8&uact=5&oq=requestanimationframe+javascript+speed+up+when+more+animations+why&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzoKCAAQRxDWBBCwA0oECEEYAEoECEYYAFCxBljnD2CFE2gBcAF4AIABUIgBtwKSAQE0mAEAoAEByAEIwAEB&sclient=gws-wiz-serp
