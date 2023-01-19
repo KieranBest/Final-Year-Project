@@ -162,18 +162,17 @@ Evaluation for this project will be done through comparison of the initial speci
 
 Educational App Store (2022) [Best Apps to Learn Music](https://www.educationalappstore.com/app-lists/best-apps-music-learning) 
 
-Graesser, A.C. et al.(2012) ‘Intelligent tutoring systems’, APA educational psychology handbook, pp. 451-473.
+Graesser, A.C. et al.(2012) Intelligent tutoring systems. APA educational psychology handbook, 3:(Application to learning and teaching), pp. 451-473.
 
-Lowe, J. (2001) 'Computer-base education: Is it a panacea?', Journal of Research on Technology in Education, 34(2), pp. 169-171.
+Lowe, J., 2001. Computer-base education: Is it a panacea?. Journal of Research on Technology in Education, 34(2), pp. 169-171.
 
-Rogers, K. et al. (2014) 'P.I.A.N.O.: Faster Piano Learning with Interactive Projection', Proceedings of the Ninth ACM International Conference on Interactive Tabletops and Surfaces, pp. 149-158.
+Rogers, K. et al., 2014. P.I.A.N.O.: Faster Piano Learning with Interactive Projection. Proceedings of the Ninth ACM International Conference on Interactive Tabletops and Surfaces, pp. 149-158.
 
-Skinner, B. (2012) ‘The science of learning and the art of teaching’, Educational Psychology, 66, pp. 301.
+Skinner, B., 2012. The sceice of learning and the art of teaching.. Reading in Educational Psychology., Volume 66, p. 301.
 
 Synthesia (2022) [Synthesia Game](https://synthesiagame.com/) 
 
-Yuksel, B.F. et al. (2016) ‘Learn piano with BACh: An adaptive learning interface that adjusts task difficulty based on brain state’, Proceedings of the 2016 chi conference on human factors in computing systems, pp. 5372-5384.
-
+Yuksel, B.F. et al., 2016. Learn piano with BACh: An adaptive learning interface that adjusts task difficulty based on brain state. Proceedings of the 2016 chi conference on human factors in computing systems, pp. 5372-5384.
 
 ### Appendices
 
