@@ -1,6 +1,7 @@
-// When the Midi device is first connected it will display device features if successful
+// When the Midi device is first connected it will ask for permission to use MIDI device
+// and then display device features if successful
 if(navigator.requestMIDIAccess){
-    navigator.requestMIDIAccess().then(success, failure)
+    navigator.requestMIDIAccess({sysex: false}).then(success, failure)
 }
 function success(midiAccess){
     midiAccess.addEventListener('statechange',updateDevices)
@@ -82,6 +83,7 @@ let overwriteStaffValue // Value needed to multiply by for the staff display whe
 let overwriteStaffLetter // Note letter needed for the staff display when releasing a key whilst still holding a key
 let pressed = new Boolean(false)
 let score = 0
+let keyPressed = new Boolean(false)
 
 // Input data taken to define which key pressed forkeyboard representation
 const noteLetter = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
@@ -421,14 +423,15 @@ const noteImage = new Image(135,137) //pixel size
 noteImage.src = 'images/noteImage.svg'
 
 function noteGenerator(){ // temporary fix to generating notes
-    generationValues = [1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,10.5]
+    generationValues = [1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10]
     let randomValue = Math.floor(Math.random()*generationValues.length)
     return generationValues[randomValue]
 }
 
 // Difficulty variables
-let difficultySpeed = 1
+let difficultySpeed = 3
 let difficultyLevel = 1
+let hitDifficulty = 0.05 //percentage of screen
 
 // Class for animated notes
 class animatingNotes{
@@ -442,38 +445,47 @@ class animatingNotes{
         this.yValues = []
     }
     update(){ // Updates and changes each animated notes x variable according to speed
-        if(this.y === undefined || this.y == 0){
-            this.y = staffSpacing * noteGenerator()
-            this.y1 = staffSpacing * noteGenerator()
-            this.y2 = staffSpacing * noteGenerator()
-            this.y3 = staffSpacing * noteGenerator()
-            this.y4 = staffSpacing * noteGenerator()
-            this.yValues = [this.y, this.y1, this.y2, this.y3, this.y4]
+        if(toggle){
+            if(this.y === undefined || this.y == 0){
+                this.y = staffSpacing * noteGenerator()
+                this.y1 = staffSpacing * noteGenerator()
+                this.y2 = staffSpacing * noteGenerator()
+                this.y3 = staffSpacing * noteGenerator()
+                this.y4 = staffSpacing * noteGenerator()
+                this.yValues = [this.y, this.y1, this.y2, this.y3, this.y4]
+            }
+            if(this.x<hitNoteLine-(0.5*staffSpacing)){ // If note moves far to the left it will delete and create a autocreate a new y value
+                this.x = window.innerWidth
+
+                ctx.fillStyle="white"
+                for(let difficulty = 0; difficulty < difficultyLevel; difficulty++){
+                    ctx.arc(hitNoteLine-(0.4*staffSpacing), this.yValues[difficulty]+(0.5*staffSpacing) , staffSpacing*0.6, 0, 2 * Math.PI)
+                }
+                ctx.fill()
+                this.y = staffSpacing * noteGenerator()
+                this.y1 = staffSpacing * noteGenerator()
+                this.y2 = staffSpacing * noteGenerator()
+                this.y3 = staffSpacing * noteGenerator()
+                this.y4 = staffSpacing * noteGenerator()
+                this.yValues = [this.y, this.y1, this.y2, this.y3, this.y4]
+                keyPressed = false
+            }            
+            this.x -= difficultySpeed
+            // scoring
+            if(pressed == true && this.x < hitNoteLine+(window.innerWidth*hitDifficulty)){
+                if(!keyPressed){
+                    if ((this.y/staffSpacing)+0.5 == octaveWeight){
+                        score++
+                        console.log("score = " + score)
+                        keyPressed = true
+                    }    
+                }
+            }
         }
-        if(this.x<hitNoteLine-(0.5*staffSpacing)){ // If note moves far to the left it will delete and create a autocreate a new y value
+        else{
+            cancelAnimationFrame(movePlayableNotes)
             this.x = window.innerWidth
-
-            ctx.fillStyle="white"
-            for(let difficulty = 0; difficulty < difficultyLevel; difficulty++){
-                ctx.arc(hitNoteLine-(0.4*staffSpacing), this.yValues[difficulty]+(0.5*staffSpacing) , staffSpacing*0.6, 0, 2 * Math.PI)
-            }
-            ctx.fill()
-            this.y = staffSpacing * noteGenerator()
-            this.y1 = staffSpacing * noteGenerator()
-            this.y2 = staffSpacing * noteGenerator()
-            this.y3 = staffSpacing * noteGenerator()
-            this.y4 = staffSpacing * noteGenerator()
-            this.yValues = [this.y, this.y1, this.y2, this.y3, this.y4]
         }
-        this.x -= difficultySpeed
-       
-        if(pressed == true && this.x < hitNoteLine+(window.innerWidth*0.1)){
-            if ((this.y/staffSpacing)+0.5 == octaveWeight){
-                score++
-                console.log("score = " + score)
-            }
-        }
-
     }
     display(){ // Displays the notes based on the x and y values created in the update function
         for(let difficulty = 0; difficulty < difficultyLevel; difficulty++){
@@ -483,28 +495,36 @@ class animatingNotes{
 } 
 
 let animating_Notes1 = new animatingNotes(window.innerWidth)
-// let animating_Notes2 = new animatingNotes(window.innerWidth)
-// let animating_Notes3 = new animatingNotes(window.innerWidth)
-// let animating_Notes4 = new animatingNotes(window.innerWidth)
-// let animating_Notes5 = new animatingNotes(window.innerWidth)
-// let animating_Notes6 = new animatingNotes(window.innerWidth)
-// let animating_Notes7 = new animatingNotes(window.innerWidth)
-// let animating_Notes8 = new animatingNotes(window.innerWidth)
+let animating_Notes2 = new animatingNotes(window.innerWidth)
+let animating_Notes3 = new animatingNotes(window.innerWidth)
+let animating_Notes4 = new animatingNotes(window.innerWidth)
+let animating_Notes5 = new animatingNotes(window.innerWidth)
+let animating_Notes6 = new animatingNotes(window.innerWidth)
+let animating_Notes7 = new animatingNotes(window.innerWidth)
+let animating_Notes8 = new animatingNotes(window.innerWidth)
 
 let lastloop = performance.now()
 let a=0
 let averageFPS = 0
+let timeDelay = 0;
 function movePlayableNotes(staffNumber,notePressed,octave){
     if(toggle){
+        if(a<1000){
             a++
-        if(a>20){
+        }
+        if(a>20 && a<1000){
             var thisloop = performance.now()
             var fps = Math.round(1000/(thisloop-lastloop))
             averageFPS = averageFPS+fps
             lastloop = thisloop
         }
         if(a>100){
-            let timeDelay = (window.innerWidth-(hitNoteLine-(0.5*staffSpacing))/(averageFPS/a)*1000)
+            if(toggle){
+                timeDelay = (window.innerWidth-(hitNoteLine-(0.5*staffSpacing))/(averageFPS/a)*1000)/difficultySpeed
+            }
+            else{
+                timeDelay = 0
+            }
 
             ctx.fillStyle = "white"
             ctx.fillRect(hitNoteLine,0,canvas.width,staffHeight)
@@ -513,30 +533,27 @@ function movePlayableNotes(staffNumber,notePressed,octave){
             // updates x and y values and then displays them whilst removing the old values from visibility
             animating_Notes1.update()
             animating_Notes1.display()
-            // setTimeout((s) => animating_Notes2.update(), 1*timeDelay)
-            // animating_Notes2.display()
-            // setTimeout((s) => animating_Notes3.update(), 2*timeDelay)
-            // animating_Notes3.display()
-            // setTimeout((s) => animating_Notes4.update(), 3*timeDelay)
-            // animating_Notes4.display()
-            // setTimeout((s) => animating_Notes5.update(), 4*timeDelay)
-            // animating_Notes5.display()
-            // setTimeout((s) => animating_Notes6.update(), 5*timeDelay)
-            // animating_Notes6.display()
-            // setTimeout((s) => animating_Notes7.update(), 6*timeDelay)
-            // animating_Notes7.display()
-            // setTimeout((s) => animating_Notes8.update(), 7*timeDelay)
-            // animating_Notes8.display()
+            setTimeout((s) => animating_Notes2.update(), 1*timeDelay)
+            animating_Notes2.display()
+            setTimeout((s) => animating_Notes3.update(), 2*timeDelay)
+            animating_Notes3.display()
+            setTimeout((s) => animating_Notes4.update(), 3*timeDelay)
+            animating_Notes4.display()
+            setTimeout((s) => animating_Notes5.update(), 4*timeDelay)
+            animating_Notes5.display()
+            setTimeout((s) => animating_Notes6.update(), 5*timeDelay)
+            animating_Notes6.display()
+            setTimeout((s) => animating_Notes7.update(), 6*timeDelay)
+            animating_Notes7.display()
+            setTimeout((s) => animating_Notes8.update(), 7*timeDelay)
+            animating_Notes8.display()
         }
         requestAnimationFrame(movePlayableNotes) // Repeats this function to create an animation
     }
     else{
-        ctx.fillStyle = "white"
-        ctx.fillRect(hitNoteLine,0,canvas.width,staffHeight)
-        drawStaff()
+        // ctx.fillStyle = "white"
+        // ctx.fillRect(hitNoteLine,0,canvas.width,staffHeight)
+        // drawStaff()
+        
     }
-}
-
-function correctNotePressed(){
-    console.log("well done")
 }
