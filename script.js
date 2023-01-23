@@ -190,6 +190,7 @@ function noteOff(note){
     delete oscillators[note.toString()]
 
     pressed = false;
+    keyPressed = false
 }
 
 // Window starting gets the window statistics needed before creating keyboard
@@ -429,17 +430,6 @@ function noteGenerator(valueGenerator, randomGeneratorValue){
     return valueGenerator [randomValue]
 }
 
-let difficultyLevel = 1
-let bassGenerator = 0
-const DynamicDifficulty = {
-    1:{
-        speed: 1,
-        hitDifficulty: 0.05,
-        recurringNotes:2,
-        numberOfNotes: 1,
-        trebleGeneratorSize: 3,
-    }
-}
 
 // Class for animated notes
 class animatingNotes{
@@ -453,20 +443,27 @@ class animatingNotes{
     }
     update(){ // Updates and changes each animated notes x variable according to speed
         if(toggle){
-
-
             if(this.y === undefined || this.y == 0){
                 this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
                 this.yValues = [this.y, this.y1, this.y2, this.y3]
             }
             if(this.x<hitNoteLine-(0.5*staffSpacing)){ // If note moves far to the left it will delete and create a autocreate a new y value
                 this.x = window.innerWidth
-
                 ctx.fillStyle="white"
                 for(let difficulty = 0; difficulty < DynamicDifficulty[difficultyLevel].numberOfNotes; difficulty++){
                     ctx.arc(hitNoteLine-(0.4*staffSpacing), this.yValues[difficulty]+(0.5*staffSpacing) , staffSpacing*0.6, 0, 2 * Math.PI)
                 }
                 ctx.fill()
+
+                if(score == DynamicDifficulty[difficultyLevel].requiredScoreToProgress){
+                    difficultyLevel++
+                    score = 0
+                }
+                else if(score == DynamicDifficulty[difficultyLevel].requiredScoreToRegress){
+                    difficultyLevel--
+                    score = 0
+                }
+    
                 switch(DynamicDifficulty[difficultyLevel].numberOfNotes){
                     case 1:
                         this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
@@ -485,17 +482,23 @@ class animatingNotes{
                         this.y3 = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
                 }
                 this.yValues = [this.y, this.y1, this.y2, this.y3]
-                keyPressed = false
             }            
             this.x -= DynamicDifficulty[difficultyLevel].speed
             // scoring
-            if(pressed == true && this.x < hitNoteLine+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitDifficulty)){
-                if(!keyPressed){
-                    if ((this.y/staffSpacing)+0.5 == octaveWeight){
-                        score++
-                        console.log("score = " + score)
-                        keyPressed = true
-                    }    
+            if(pressed == true){
+                if(this.x <= hitNoteLine+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitDifficulty)){
+                    if(!keyPressed){
+                        if ((this.y/staffSpacing)+0.5 == octaveWeight){
+                            score++
+                            console.log("score = " + score)
+                            keyPressed = true
+                        } 
+                        else{
+                            score--
+                            console.log("score = " + score)
+                            keyPressed = true
+                        }  
+                    }
                 }
             }
         }
