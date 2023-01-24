@@ -1,42 +1,55 @@
 let difficultyLevel = 1
 let bassGenerator = 0
 const DynamicDifficulty = {
-    1:{
+    // Treble cleff
+    1:{ // random 4 notes
         speed: 1,
-        hitDifficulty: 0.1,
+        hitDifficulty: 0.07,
         recurringNotes:2,
         numberOfNotes: 1,
-        trebleGeneratorSize: 3,
+        trebleGeneratorSize: 4,
         requiredScoreToProgress: 5,
     },
-    2:{
+    2:{ // roll up and down 7 notes to teach moving fingers correctly
         speed: 1,
-        hitDifficulty: 0.1,
-        recurringNotes:4,
-        numberOfNotes: 1,
-        trebleGeneratorSize: 3,
-        requiredScoreToProgress: 10,
-        requiredScoreToRegress: -10
-    },
-    3:{
-        speed: 1,
-        hitDifficulty: 0.1,
+        hitDifficulty: 0.07,
         recurringNotes:4,
         numberOfNotes: 1,
         trebleGeneratorSize: 7,
-        requiredScoreToProgress: 15,
-        requiredScoreToRegress: -15
+        requiredScoreToProgress: 20,
+        requiredScoreToRegress: -10,
+        specificNotes: true,
+        down: true
     },
-    4:{
+    3:{ // random notes in octave
         speed: 1,
-        hitDifficulty: 0.1,
-        recurringNotes:8,
+        hitDifficulty: 0.07,
+        recurringNotes:4,
+        numberOfNotes: 1,
+        trebleGeneratorSize: 7,
+        requiredScoreToProgress: 20,
+        requiredScoreToRegress: -15,
+    },
+    4:{ // roll up and down including sharps somehow
+        speed: 1,
+        hitDifficulty: 0.07,
+        recurringNotes:4,
         numberOfNotes: 1,
         trebleGeneratorSize: 7,
         requiredScoreToProgress: 20,
         requiredScoreToRegress: -20
     },
-    5:{ // include sharps somehow
+    5:{ // 3 note chords
+        speed: 1,
+        hitDifficulty: 0.07,
+        recurringNotes:4,
+        numberOfNotes: 1,
+        trebleGeneratorSize: 7,
+        requiredScoreToProgress: 20,
+        requiredScoreToRegress: -20
+    },
+    // Bass cleff
+    6:{  // random 4 notes
         speed: 1,
         hitDifficulty: 0.1,
         recurringNotes:8,

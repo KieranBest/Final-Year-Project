@@ -430,16 +430,17 @@ function noteGenerator(valueGenerator, randomGeneratorValue){
     return valueGenerator [randomValue]
 }
 
-
+let cycleNotes = 1
 // Class for animated notes
 class animatingNotes{
-    constructor (x,y,y1,y2,y3){
+    constructor (x,y,y1,y2,y3,clicked){
         this.x = x
         this.y = y
         this.y1 = y1
         this.y2 = y2
         this.y3 = y3
         this.yValues = []
+        this.clicked = clicked
     }
     update(){ // Updates and changes each animated notes x variable according to speed
         if(toggle){
@@ -447,7 +448,34 @@ class animatingNotes{
                 this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
                 this.yValues = [this.y, this.y1, this.y2, this.y3]
             }
+            
+            // scoring
+            if(pressed){
+                if(this.x <= hitNoteLine+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitDifficulty)){
+                    if(!keyPressed){
+                        if ((this.y/staffSpacing)+0.5 == octaveWeight){
+                            score++
+                            keyPressed = true
+                            this.clicked = true
+                            console.log("score = " + score)
+                        } 
+                        else{
+                            score--
+                            keyPressed = true
+                            console.log("score = " + score)
+                        }  
+                    }
+                }
+            }          
+            // Note Loop Around
             if(this.x<hitNoteLine-(0.5*staffSpacing)){ // If note moves far to the left it will delete and create a autocreate a new y value
+                if(!this.clicked){
+                    score--
+                    console.log("score = " + score)
+                }
+                else{
+                    this.clicked = false
+                }
                 this.x = window.innerWidth
                 ctx.fillStyle="white"
                 for(let difficulty = 0; difficulty < DynamicDifficulty[difficultyLevel].numberOfNotes; difficulty++){
@@ -481,27 +509,27 @@ class animatingNotes{
                         this.y2 = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
                         this.y3 = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
                 }
-                this.yValues = [this.y, this.y1, this.y2, this.y3]
-            }            
-            this.x -= DynamicDifficulty[difficultyLevel].speed
-            // scoring
-            if(pressed == true){
-                if(this.x <= hitNoteLine+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitDifficulty)){
-                    if(!keyPressed){
-                        if ((this.y/staffSpacing)+0.5 == octaveWeight){
-                            score++
-                            console.log("score = " + score)
-                            keyPressed = true
+
+                if(difficultyLevel == 2){
+                    this.y = staffSpacing * cycleNotes
+                    if(DynamicDifficulty[2].down == true){ // Scrolls up and down through the octave
+                        cycleNotes=cycleNotes+0.5
+                        if(cycleNotes>4){
+                            DynamicDifficulty[2].down = false
                         } 
-                        else{
-                            score--
-                            console.log("score = " + score)
-                            keyPressed = true
+                    }
+                    else if (DynamicDifficulty[2].down == false){
+                        cycleNotes=cycleNotes-0.5
+                        if(cycleNotes<1.5){
+                            DynamicDifficulty[2].down = true
                         }  
                     }
-                }
-            }
-        }
+                }            
+                this.yValues = [this.y, this.y1, this.y2, this.y3]
+            }   
+            this.x -= DynamicDifficulty[difficultyLevel].speed
+
+        }    
         else{
             cancelAnimationFrame(movePlayableNotes)
             this.x = window.innerWidth
