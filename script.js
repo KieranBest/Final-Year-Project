@@ -524,7 +524,28 @@ class animatingNotes{
                             DynamicDifficulty[2].down = true
                         }  
                     }
-                }            
+                } 
+                else if(difficultyLevel == 4){
+                    this.y = staffSpacing * cycleNotes
+                    if(DynamicDifficulty[4].down == true){ // Scrolls up and down through the octave
+                        if(!DynamicDifficulty[4].sharp){
+                            DynamicDifficulty[4].sharp = true
+                        }
+                        else{
+                            DynamicDifficulty[4].sharp = false
+                            cycleNotes=cycleNotes+0.5
+                            if(cycleNotes>4){
+                                DynamicDifficulty[4].down = false
+                            } 
+                        }
+                    }
+                    else if (DynamicDifficulty[4].down == false){
+                        cycleNotes=cycleNotes-0.5
+                        if(cycleNotes<1.5){
+                            DynamicDifficulty[4].down = true
+                        }  
+                    }
+                }           
                 this.yValues = [this.y, this.y1, this.y2, this.y3]
             }   
             this.x -= DynamicDifficulty[difficultyLevel].speed

@@ -52,6 +52,14 @@ Going back to learning in a zone of proximal development, Yuksel et al. (2016) c
  
 The most similar application to what I propose is ‘Synthesia’. An educational tool used with a MIDI keyboard for learning how to play piano by using of a note visualisation like that of ‘P.I.A.N.O.’. It contains a mass library of songs for the user to decide. And it also includes teaching where users hands should be to allow them full reach of keys. It also contains a feature “Finger Number Hints” in which users fingers are visually demonstrated (Figure 4) (Synthesia Game, 2022). Whilst this is almost identical to my specification, this application does not adapt to users’ current ability and skill. 
 
+
+#### Level progression
+
+Dynamic Difficulty Adjustment
+
+https://www.hindawi.com/journals/ahci/2018/5681652/
+
+
 ### Requirements and Analysis
 
 #### Methodology
@@ -90,6 +98,23 @@ Create a Minimum Viable Product (MVP) and be able to produce it to potential use
 - Display more than one note at a time - 1
 - Press key at specific time to raise count - 2
 - Ability to change speed of note - 1
+
+Milestone 2 Objective
+
+To create a level system that will slowly introduce users to how to play a keyboard.
+
+- Create Level System
+- Create Level 1
+- Create Level 2
+- Create Level 3
+- Create Level 4
+- Create Level 5
+- Create Level 6
+- Create Level 7
+- Create Level 8
+- Create Level 9
+- Create Level 10
+- Create Level 11
 
 
 #### Sprint Planning
