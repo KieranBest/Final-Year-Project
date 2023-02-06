@@ -421,7 +421,10 @@ const toggleGame = async() => {
 
 // https://www.youtube.com/watch?v=9Sxo7P3F3m0&t=322s
 const noteImage = new Image(135,137) //pixel size
+const sharpImage = new Image(135,137) //pixel size
+
 noteImage.src = 'images/noteImage.svg'
+sharpImage.src= 'images/sharp.png'
 
 trebleValues = [1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6]
 bassValues = [6.5,7,7.5,8,8.5,9,9.5,10]
@@ -431,6 +434,7 @@ function noteGenerator(valueGenerator, randomGeneratorValue){
 }
 
 let cycleNotes = 1
+let sharpNoteCycle = 7
 // Class for animated notes
 class animatingNotes{
     constructor (x,y,y1,y2,y3,clicked){
@@ -441,14 +445,13 @@ class animatingNotes{
         this.y3 = y3
         this.yValues = []
         this.clicked = clicked
+        this.image = new Image(135,137) //pixel size
     }
     update(){ // Updates and changes each animated notes x variable according to speed
-        if(toggle){
-            if(this.y === undefined || this.y == 0){
-                this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
-                this.yValues = [this.y, this.y1, this.y2, this.y3]
+        if(toggle){      
+            if(this.x == null){
+                this.x = window.innerWidth
             }
-            
             // scoring
             if(pressed){
                 if(this.x <= hitNoteLine+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitDifficulty)){
@@ -457,21 +460,24 @@ class animatingNotes{
                             score++
                             keyPressed = true
                             this.clicked = true
-                            console.log("score = " + score)
+                            // console.log("score = " + score)
                         } 
                         else{
                             score--
                             keyPressed = true
-                            console.log("score = " + score)
+                            // console.log("score = " + score)
                         }  
                     }
                 }
             }          
             // Note Loop Around
             if(this.x<hitNoteLine-(0.5*staffSpacing)){ // If note moves far to the left it will delete and create a autocreate a new y value
+                repeatQuantity++
                 if(!this.clicked){
-                    score--
-                    console.log("score = " + score)
+                    if(repeatQuantity > 2){
+                        score--
+                        // console.log("score = " + score)
+                    }
                 }
                 else{
                     this.clicked = false
@@ -492,60 +498,78 @@ class animatingNotes{
                     score = 0
                 }
     
-                switch(DynamicDifficulty[difficultyLevel].numberOfNotes){
+                switch(difficultyLevel){
                     case 1:
                         this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
+                        this.image = noteImage
                         break
                     case 2: 
-                        this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
-                        this.y1 = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
+                        this.y = staffSpacing * cycleNotes
+                        if(DynamicDifficulty[2].down == true){ // Scrolls up and down through the octave
+                            cycleNotes=cycleNotes+0.5
+                            if(cycleNotes>3.5){
+                                DynamicDifficulty[2].down = false
+                            } 
+                        }
+                        else if (DynamicDifficulty[2].down == false){
+                            cycleNotes=cycleNotes-0.5
+                            if(cycleNotes<1.5){
+                                DynamicDifficulty[2].down = true
+                            }  
+                        }
+                        this.image = noteImage
+                        break
                     case 3:
                         this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
-                        this.y1 = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
-                        this.y2 = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
+                        this.image = noteImage
+                        break
                     case 4:
-                        this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
-                        this.y1 = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
-                        this.y2 = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
-                        this.y3 = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
-                }
+                        this.y = staffSpacing * cycleNotes
+                        if(DynamicDifficulty[4].down == true){ // Scrolls up and down through the octave
+                            if(noteLetter[sharpNoteCycle].includes("#")){
+                                this.image = sharpImage
+                                console.log(noteLetter[sharpNoteCycle])
+                                sharpNoteCycle--
+                            }
+                            else{
+                                this.image = noteImage
+                                console.log(noteLetter[sharpNoteCycle])
 
-                if(difficultyLevel == 2){
-                    this.y = staffSpacing * cycleNotes
-                    if(DynamicDifficulty[2].down == true){ // Scrolls up and down through the octave
-                        cycleNotes=cycleNotes+0.5
-                        if(cycleNotes>4){
-                            DynamicDifficulty[2].down = false
-                        } 
-                    }
-                    else if (DynamicDifficulty[2].down == false){
-                        cycleNotes=cycleNotes-0.5
-                        if(cycleNotes<1.5){
-                            DynamicDifficulty[2].down = true
-                        }  
-                    }
-                } 
-                else if(difficultyLevel == 4){
-                    this.y = staffSpacing * cycleNotes
-                    if(DynamicDifficulty[4].down == true){ // Scrolls up and down through the octave
-                        if(!DynamicDifficulty[4].sharp){
-                            DynamicDifficulty[4].sharp = true
-                        }
-                        else{
-                            DynamicDifficulty[4].sharp = false
-                            cycleNotes=cycleNotes+0.5
-                            if(cycleNotes>4){
+                                sharpNoteCycle--
+                                cycleNotes=cycleNotes+0.5
+                            }
+                            if(sharpNoteCycle < 0){
+                                sharpNoteCycle = 11
+                            }
+                            if(noteLetter[sharpNoteCycle] == "G"){
                                 DynamicDifficulty[4].down = false
                             } 
                         }
+                        else if (DynamicDifficulty[4].down == false){
+                            if(noteLetter[sharpNoteCycle].includes("#")){
+                                console.log(noteLetter[sharpNoteCycle])
+                                this.image = sharpImage
+                                sharpNoteCycle++
+                                cycleNotes=cycleNotes-0.5
+                            }
+                            else{
+                                console.log(noteLetter[sharpNoteCycle])
+                                this.image = noteImage
+                                sharpNoteCycle++
+                                if(sharpNoteCycle > 11){
+                                    sharpNoteCycle = 0
+                                }    
+                                if(!noteLetter[sharpNoteCycle].includes("#")){
+                                    cycleNotes=cycleNotes-0.5
+                                }
+                            }
+                            if(noteLetter[sharpNoteCycle] == "G"){
+                                DynamicDifficulty[4].down = true
+                            } 
+
+                        }
+                        break
                     }
-                    else if (DynamicDifficulty[4].down == false){
-                        cycleNotes=cycleNotes-0.5
-                        if(cycleNotes<1.5){
-                            DynamicDifficulty[4].down = true
-                        }  
-                    }
-                }           
                 this.yValues = [this.y, this.y1, this.y2, this.y3]
             }   
             this.x -= DynamicDifficulty[difficultyLevel].speed
@@ -558,7 +582,7 @@ class animatingNotes{
     }
     display(){ // Displays the notes based on the x and y values created in the update function
         for(let difficulty = 0; difficulty < DynamicDifficulty[difficultyLevel].numberOfNotes; difficulty++){
-            ctx.drawImage(noteImage,this.x, this.yValues[difficulty], staffSpacing,staffSpacing)
+            ctx.drawImage(this.image,this.x, this.yValues[difficulty], staffSpacing,staffSpacing)
         }              
     }
 } 
@@ -576,7 +600,8 @@ let animating_Notes8 = new animatingNotes(window.innerWidth)
 let lastloop = performance.now()
 let a=0
 let averageFPS = 0
-let timeDelay = 0;
+let timeDelay = 0
+let repeatQuantity = 0
 function movePlayableNotes(staffNumber,notePressed,octave){
     if(toggle){
         if(a<1000){
@@ -638,6 +663,7 @@ function movePlayableNotes(staffNumber,notePressed,octave){
                     break
             }
         }
+        
         requestAnimationFrame(movePlayableNotes) // Repeats this function to create an animation
     }
     else{
