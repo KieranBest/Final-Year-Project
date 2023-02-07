@@ -4,7 +4,7 @@ const DynamicDifficulty = {
     // Treble cleff
     1:{ // random 4 notes
         speed: 1,
-        hitDifficulty: 0.07,
+        hitScreenPercentage: 0.07,
         recurringNotes:2,
         numberOfNotes: 1,
         trebleGeneratorSize: 4,
@@ -12,7 +12,7 @@ const DynamicDifficulty = {
     },
     2:{ // roll up and down 7 notes to teach moving fingers correctly
         speed: 1,
-        hitDifficulty: 0.07,
+        hitScreenPercentage: 0.07,
         recurringNotes:4,
         numberOfNotes: 1,
         trebleGeneratorSize: 7,
@@ -22,7 +22,7 @@ const DynamicDifficulty = {
     },
     3:{ // random notes in octave
         speed: 1,
-        hitDifficulty: 0.07,
+        hitScreenPercentage: 0.07,
         recurringNotes:4,
         numberOfNotes: 1,
         trebleGeneratorSize: 7,
@@ -31,7 +31,7 @@ const DynamicDifficulty = {
     },
     4:{ // roll up and down including sharps somehow
         speed: 1,
-        hitDifficulty: 0.07,
+        hitScreenPercentage: 0.07,
         recurringNotes:4,
         numberOfNotes: 1,
         trebleGeneratorSize: 7,
@@ -42,7 +42,7 @@ const DynamicDifficulty = {
     },
     5:{ // 3 note chords
         speed: 1,
-        hitDifficulty: 0.07,
+        hitScreenPercentage: 0.07,
         recurringNotes:4,
         numberOfNotes: 1,
         trebleGeneratorSize: 7,
@@ -52,7 +52,7 @@ const DynamicDifficulty = {
     // Bass cleff
     6:{  // random 4 notes
         speed: 1,
-        hitDifficulty: 0.1,
+        hitScreenPercentage: 0.1,
         recurringNotes:8,
         numberOfNotes: 1,
         // generatorType: bassValues

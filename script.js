@@ -72,7 +72,6 @@ sharpNote=[-1]
 notesHeldList=[]
 staffPosArray=[]
 majorTimeStamp=[-1]
-sharpTimeStamp=[-1]
 const majorKeyPos = ["C","D","E","F","G","A","B"]
 const sharpKeyPos = ["C#","D#","E#","F#","G#","A#","B#"] // There are wrong keys due to the indexing needed
 const staffShtMajorPos = ["B","A","G","F","E","D","C"] // These are the order needed for the staff
@@ -84,6 +83,7 @@ let overwriteStaffLetter // Note letter needed for the staff display when releas
 let pressed = new Boolean(false)
 let score = 0
 let keyPressed = new Boolean(false)
+let majorPressed = new Boolean(false)
 
 // Input data taken to define which key pressed forkeyboard representation
 const noteLetter = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
@@ -101,16 +101,13 @@ function noteOn(note, velocity){
         staffNumber = staffShtMajorPos.indexOf(notePressed)
         staffPosArray.push(staffNumber)   
         notesHeldList.push(note)
-        let timeStamp = new Date(Date.now())
-        majorTimeStamp.push(timeStamp.getSeconds())
+        majorPressed = true
     }else if(sharpKeyPos.includes(notePressed)){
         noteNumber = sharpKeyPos.indexOf(notePressed)
         sharpNote.push((7*octave)+noteNumber)        
         staffNumber = staffShtSharpPos.indexOf(notePressed)
         staffPosArray.push(staffNumber)   
         notesHeldList.push(note)
-        let timeStamp = new Date(Date.now())
-        sharpTimeStamp.push(timeStamp.getSeconds())
     }
     noteOnColour(staffNumber,octave,noteNumber,notePressed,sharpNote)
     const osc = soundCTX.createOscillator()
@@ -145,7 +142,6 @@ function noteOff(note){
         var noteNumber = majorKeyPos.indexOf(noteLetterReleased)
         var releasedStaffNumber = staffShtMajorPos.indexOf(noteLetterReleased) 
         var releasedStaffPosArray=releasedStaffNumber
-        var index = notesHeldList.findIndex(release => release === note)
         staffPosArray = staffPosArray.filter(function(without){
             return without !== (releasedStaffNumber)
         })
@@ -153,10 +149,7 @@ function noteOff(note){
         notesHeldList = notesHeldList.filter(function(without){
             return without !== (note)
         })
-        majorTimeStamp = majorTimeStamp.filter(function(without){
-            return without !== majorTimeStamp.splice(index)
-        })
-
+        majorPressed=false
     }else if(sharpKeyPos.includes(noteLetterReleased)){
         var noteNumber = sharpKeyPos.indexOf(noteLetterReleased)
         sharpNote=sharpNote.filter(function(without){
@@ -169,9 +162,6 @@ function noteOff(note){
         var releasedNoteArray=note
         notesHeldList = notesHeldList.filter(function(without){
             return without !== (note)
-        })
-        sharpTimeStamp = sharpTimeStamp.filter(function(without){
-            return without !== sharpTimeStamp.splice(index)
         })
     }
     noteOffColour(releasedNoteArray,releasedStaffPosArray,notesHeldList,octave,noteNumber,noteLetterReleased,sharpNote)
@@ -437,7 +427,7 @@ let cycleNotes = 1
 let sharpNoteCycle = 7
 // Class for animated notes
 class animatingNotes{
-    constructor (x,y,y1,y2,y3,clicked){
+    constructor (x,y,y1,y2,y3,clicked,major){
         this.x = x
         this.y = y
         this.y1 = y1
@@ -446,6 +436,7 @@ class animatingNotes{
         this.yValues = []
         this.clicked = clicked
         this.image = new Image(135,137) //pixel size
+        this.major = major
     }
     update(){ // Updates and changes each animated notes x variable according to speed
         if(toggle){      
@@ -454,19 +445,16 @@ class animatingNotes{
             }
             // scoring
             if(pressed){
-                if(this.x <= hitNoteLine+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitDifficulty)){
+                if(this.x <= hitNoteLine+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)){
                     if(!keyPressed){
                         if ((this.y/staffSpacing)+0.5 == octaveWeight){
-                            score++
-                            keyPressed = true
-                            this.clicked = true
-                            // console.log("score = " + score)
+                            if(this.major == majorPressed){
+                                score++
+                                keyPressed = true
+                                this.clicked = true
+                                console.log("score = " + score)
+                            }
                         } 
-                        else{
-                            score--
-                            keyPressed = true
-                            // console.log("score = " + score)
-                        }  
                     }
                 }
             }          
@@ -476,7 +464,7 @@ class animatingNotes{
                 if(!this.clicked){
                     if(repeatQuantity > 2){
                         score--
-                        // console.log("score = " + score)
+                        console.log("score = " + score)
                     }
                 }
                 else{
@@ -528,13 +516,12 @@ class animatingNotes{
                         if(DynamicDifficulty[4].down == true){ // Scrolls up and down through the octave
                             if(noteLetter[sharpNoteCycle].includes("#")){
                                 this.image = sharpImage
-                                console.log(noteLetter[sharpNoteCycle])
+                                this.major = false
                                 sharpNoteCycle--
                             }
                             else{
                                 this.image = noteImage
-                                console.log(noteLetter[sharpNoteCycle])
-
+                                this.major = true
                                 sharpNoteCycle--
                                 cycleNotes=cycleNotes+0.5
                             }
@@ -547,14 +534,14 @@ class animatingNotes{
                         }
                         else if (DynamicDifficulty[4].down == false){
                             if(noteLetter[sharpNoteCycle].includes("#")){
-                                console.log(noteLetter[sharpNoteCycle])
                                 this.image = sharpImage
+                                this.major = false
                                 sharpNoteCycle++
                                 cycleNotes=cycleNotes-0.5
                             }
                             else{
-                                console.log(noteLetter[sharpNoteCycle])
                                 this.image = noteImage
+                                this.major = true
                                 sharpNoteCycle++
                                 if(sharpNoteCycle > 11){
                                     sharpNoteCycle = 0
