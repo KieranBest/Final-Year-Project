@@ -82,25 +82,25 @@ Whilst there similar applications to the proposed, none have the exact features.
 
 > Figure 1: ‘P.I.A.N.O.’
 >> ![‘P.I.A.N.O.’](/images/P.I.A.N.O..png)
->> (Rogers et al., 2014)
+> (Rogers et al., 2014)
 
 As Rogers et al. (2014) explains, the mapping of the keys provides users with a way to learn how to read sheet music. This can often be the cause of putting off most people from learning how to play an instrument. Other benefits include teaching users where to place their hands to allow them to reach all the keys.  As well as “a note visualisation based on roll notation” which will teach timing (Rogers et al., 2014). The downfall for this application however, is even though it teaches hand placement for reading music, it does not teach how to read sheet music.
 
 > Figure 2: Note Visualisation in ‘P.I.A.N.O.’
 >> ![Note Visualisation in ‘P.I.A.N.O.’](/images/P.I.A.N.O.2.png)
->> (Rogers et al., 2014)
+> (Rogers et al., 2014)
 
 Going back to learning in a zone of proximal development, Yuksel et al. (2016) created 'BACh'. An application where users’ cognitive workload dictates the applications difficulty. 'BACh' measures cognitive workload using a fNIRS sensor which is not in the scope of my project.
 
 > Figure 3: Learn Piano with ‘BACh’
 >> ![Learn Piano with ‘BACh’](/images/BACh.png)
->> (Yuksel et al., 2016)
+> (Yuksel et al., 2016)
  
 The most similar application to what I propose is ‘Synthesia’. An educational tool used with a MIDI keyboard for learning how to play piano by using of a note visualisation like that of ‘P.I.A.N.O.’. It contains a mass library of songs for the user to decide. And it also includes teaching where users hands should be to allow them full reach of keys. It also contains a feature “Finger Number Hints” in which users fingers are visually demonstrated (Synthesia Game, 2022). Whilst this is almost identical to my specification, this application does not adapt to users’ current ability and skill. 
 
 > Figure 4: Finger Number Hints in ‘Synthesia’
 >> ![Finger Number Hints in ‘Synthesia’](/images/Synthesia.png)
->> (Synthesia Game, 2022)
+> (Synthesia Game, 2022)
  
 <div id='Requirements-and-Analysis'/>
 
