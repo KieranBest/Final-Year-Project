@@ -81,7 +81,7 @@ let removedOctaveWeight // Weight needed for the released key for the staff
 let overwriteStaffValue // Value needed to multiply by for the staff display when holding for example C and C#
 let overwriteStaffLetter // Note letter needed for the staff display when releasing a key whilst still holding a key
 let pressed = new Boolean(false)
-let score = 0
+let score = 0 
 let keyPressed = new Boolean(false)
 let majorPressed = new Boolean(false)
 
@@ -217,6 +217,7 @@ function canvasStats(){
     staffSpacing = (ch/7)/6
     hitNoteLine = cw*0.05
     downLineDistance = staffSpacing*13
+    img = new Image(whiteKeyWidth/2,staffSpacing*5)
 }
 
 // Draws the staff sheet
@@ -236,6 +237,11 @@ function drawStaff(){
     ctx.beginPath()
     ctx.moveTo(hitNoteLine, staffSpacing)
     ctx.lineTo(hitNoteLine, downLineDistance)
+    ctx.stroke()
+// Hit Space Marker
+    ctx.beginPath()
+    ctx.moveTo(hitNoteLine+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage), staffSpacing)
+    ctx.lineTo(hitNoteLine+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage), downLineDistance)
     ctx.stroke()
 }
 
@@ -413,7 +419,7 @@ const toggleGame = async() => {
 const noteImage = new Image(135,137) //pixel size
 const sharpImage = new Image(135,137) //pixel size
 
-noteImage.src = 'images/noteImage.svg'
+noteImage.src = 'images/noteImage.png'
 sharpImage.src= 'images/sharp.png'
 
 trebleValues = [1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6]
@@ -425,24 +431,26 @@ function noteGenerator(valueGenerator, randomGeneratorValue){
 
 let cycleNotes = 1
 let sharpNoteCycle = 7
+let chordCycle = 1
 // Class for animated notes
 class animatingNotes{
-    constructor (x,y,y1,y2,y3,clicked,major){
+    constructor (x,y,y1,y2,clicked,major,major1,major2){
         this.x = x
         this.y = y
         this.y1 = y1
         this.y2 = y2
-        this.y3 = y3
         this.yValues = []
         this.clicked = clicked
         this.image = new Image(135,137) //pixel size
+        this.image1 = new Image(135,137) //pixel size
+        this.image2 = new Image(135,137) //pixel size
+        this.images = []
         this.major = major
+        this.major1 = major1
+        this.major2 = major2
     }
     update(){ // Updates and changes each animated notes x variable according to speed
         if(toggle){      
-            if(this.x == null){
-                this.x = window.innerWidth
-            }
             // scoring
             if(pressed){
                 if(this.x <= hitNoteLine+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)){
@@ -454,45 +462,51 @@ class animatingNotes{
                                 this.clicked = true
                                 console.log("score = " + score)
                             }
+                            else{
+                                keyPressed = true
+                                score--
+                                this.clicked = true
+                                console.log("score = " + score)
+                            }
                         } 
+                        else{
+                            keyPressed = true
+                            score--
+                            this.clicked = true
+                            console.log("score = " + score)
+                        }
                     }
                 }
             }          
             // Note Loop Around
-            if(this.x<hitNoteLine-(0.5*staffSpacing)){ // If note moves far to the left it will delete and create a autocreate a new y value
-                repeatQuantity++
-                if(!this.clicked){
-                    if(repeatQuantity > 2){
-                        score--
-                        console.log("score = " + score)
-                    }
+            if(this.x<hitNoteLine){ // If note moves far to the left it will delete and autocreate a new y value
+                if(!this.clicked && !keyPressed){
+                    score--
+                    console.log("score = " + score)
                 }
                 else{
                     this.clicked = false
                 }
                 this.x = window.innerWidth
-                ctx.fillStyle="white"
-                for(let difficulty = 0; difficulty < DynamicDifficulty[difficultyLevel].numberOfNotes; difficulty++){
-                    ctx.arc(hitNoteLine-(0.4*staffSpacing), this.yValues[difficulty]+(0.5*staffSpacing) , staffSpacing*0.6, 0, 2 * Math.PI)
-                }
-                ctx.fill()
-
                 if(score == DynamicDifficulty[difficultyLevel].requiredScoreToProgress){
                     difficultyLevel++
                     score = 0
+                    console.log("Level: " + difficultyLevel)
                 }
                 else if(score == DynamicDifficulty[difficultyLevel].requiredScoreToRegress){
                     difficultyLevel--
                     score = 0
+                    console.log("Level: " + difficultyLevel)
                 }
-    
                 switch(difficultyLevel){
                     case 1:
                         this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
                         this.image = noteImage
+                        this.major = true
                         break
                     case 2: 
                         this.y = staffSpacing * cycleNotes
+                        this.major = true
                         if(DynamicDifficulty[2].down == true){ // Scrolls up and down through the octave
                             cycleNotes=cycleNotes+0.5
                             if(cycleNotes>3.5){
@@ -510,6 +524,7 @@ class animatingNotes{
                     case 3:
                         this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
                         this.image = noteImage
+                        this.major = true
                         break
                     case 4:
                         this.y = staffSpacing * cycleNotes
@@ -556,23 +571,81 @@ class animatingNotes{
 
                         }
                         break
-                    }
-                this.yValues = [this.y, this.y1, this.y2, this.y3]
-            }   
-            this.x -= DynamicDifficulty[difficultyLevel].speed
-
-        }    
-        else{
+                    case 5:
+                        let sharpValue
+                        if(Math.random()>DynamicDifficulty[5].sharpChance){
+                            this.image = noteImage
+                            this.major = true
+                            this.y = trebleValues[Math.floor(Math.random() * 7)+1] * staffSpacing
+                        }
+                        else{
+                            this.image = sharpImage
+                            this.major = false
+                            sharpValue = Math.floor(Math.random() * 7)+1
+                            if(sharpValue == 2 || sharpValue == 3.5){
+                                sharpValue ++
+                                this.y = trebleValues[sharpValue] * staffSpacing
+                            }
+                        }
+                        this.y1 = null
+                        this.y2 = null
+                        break
+                    case 6:
+                        // y Note
+                        if(trebleChords[chordCycle][1][1] == "major"){
+                            this.image = noteImage
+                            this.major = true
+                        }
+                        else if(trebleChords[chordCycle][1][1] == "sharp"){
+                            this.image = sharpImage
+                            this.major = false
+                        }
+                        this.y = trebleChords[chordCycle][1][0] * staffSpacing
+                        // y1 Note
+                        if(trebleChords[chordCycle][2][1] == "major"){
+                            this.image1 = noteImage
+                            this.major = true
+                        }
+                        else if(trebleChords[chordCycle][2][1] == "sharp"){
+                            this.image1 = sharpImage
+                            this.major = false
+                        }
+                        this.y1 = trebleChords[chordCycle][2][0] * staffSpacing
+                        // y2 Note
+                        if(trebleChords[chordCycle][3][1] == "major"){
+                            this.image2 = noteImage
+                            this.major = true
+                        }
+                        else if(trebleChords[chordCycle][3][1] == "sharp"){
+                            this.image2 = sharpImage
+                            this.major = false
+                        }
+                        this.y2 = trebleChords[chordCycle][3][0] * staffSpacing
+                        chordCycle++
+                        if(chordCycle > 12){
+                            chordCycle = 1
+                        }
+                        break
+                    case 7:
+                        
+                        break
+                    }   
+                }   
+                this.x -= DynamicDifficulty[difficultyLevel].speed
+            }    
+            else{
             cancelAnimationFrame(movePlayableNotes)
             this.x = window.innerWidth
         }
     }
     display(){ // Displays the notes based on the x and y values created in the update function
-        for(let difficulty = 0; difficulty < DynamicDifficulty[difficultyLevel].numberOfNotes; difficulty++){
-            ctx.drawImage(this.image,this.x, this.yValues[difficulty], staffSpacing,staffSpacing)
-        }              
-    }
-} 
+        ctx.drawImage(this.image,this.x, this.y, staffSpacing,staffSpacing)
+        if(this.y1 != null && this.y2 != null){
+            ctx.drawImage(this.image1,this.x, this.y1, staffSpacing,staffSpacing)
+            ctx.drawImage(this.image2,this.x, this.y2, staffSpacing,staffSpacing)
+        }
+    }              
+}
 
 let animating_Notes1 = new animatingNotes(window.innerWidth)
 let animating_Notes2 = new animatingNotes(window.innerWidth)
