@@ -30,6 +30,7 @@
 	5. [Conclusion](#Conclusion)
 5. [References](#References)
 6. [Appendices](#Appendices)
+	1. [Meeting Notes](#Meeting-Notes)
 
 <div id='Introduction'/>
 
@@ -304,8 +305,61 @@ Yuksel, B.F. et al. (2016) Learn piano with BACh: An adaptive learning interface
 
 ### Appendices
 
+<div id='Meeting-Notes'/>
+
+#### Meeting Notes
+
+##### Friday 14th October
+Meeting with supervisor to confer about project scope and initial starting point:
+- Understand basic MIDI Input example (https://github.com/superLimitBreak/webMidiTools/blob/master/webMidiLog.html)
+- Gain understanding in HTML5 canvas
+
+##### Friday 21st October
+Meeting with supervisor to gain insight into oscillator type as well speaking about key press event registering. Also created a rough order of objectives for the required features:
+- Input from keybord to terminal
+- Draw graphical shapes
+- Keyboard input manipulates shapes in some way
+- Convert key pressed intp human readble form
+- Algorithum to draw graphcally draw keyboard with shapes
+- Keyboard input updates graphicsal keyboard with keys pressed (multiple keys if needed)
+- Keyboard resizeable to canvas
+- Draw sheet stave? Trebble cleff?
+- Draw note on stave when key pressed
+- Produce tone on key press (note on and note off)
+- Actual note played on key press
+- Note moves across stave (repeat)
+- Note repeats on differnt notes/lines?
+- Can change speed of notes (recompile?)
+- Press key at right time, raise show count
+- Display more than one note at a time
+
 > Allan’s Help 1
 >> [Allan’s Help 1](/images/AllansHelp.jpg)
 
 > Allan’s Help 2
 >> [Allan’s Help 2](/images/AllansHelp2.jpg)
+
+##### Friday 4th November
+Meeting with supervisor to discuss progress and making visible keyboard and staff dynamic and adapt automatically to the change of the screen size.
+
+##### Friday 18th November
+
+
+
+
+
+##### Friday 2nd December
+Meeting with supervisor to discuss mark scheme, and introduce a JavaScript method called "requestAnimationFrame()" used to create moving animations. 
+http://www.javascriptkit.com/javatutors/requestanimationframe.shtml
+https://github.com/calaldees/paratrooper/blob/1dc2ddf1c47ab4728c78d8947ec04d57a00a500d/index.html#L984
+
+##### Friday 16th December
+Meeting with stakeholder to discuss project and attain valuable feedback as to the progress of the current prototype. Discuss potential features and come up with steps for the next milestone. New objective for the following milestone was to create the level system was the following description:
+-
+-
+-
+-
+-
+
+##### Friday 27th December
+Feedback from poster presentation allowed potential users to give direct feedback with potential features, will discuss with stakeholder to attain approval for prospective features.
