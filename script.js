@@ -433,8 +433,9 @@ let currentActualHitTime = new timeStamp
 let differenceHitTime = new timeStamp
 
 let cycleNotes = 1
-let bassCycle = 6.5
+let bassCycle = 10
 let sharpNoteCycle = 7
+let bassSharpCycle = 0
 let chordCycle = 1
 let levelProgression = 0
 let noteProgression = 0
@@ -624,11 +625,10 @@ class animatingNotes{
                             if(noteLetter[sharpNoteCycle] == "G"){
                                 DynamicDifficulty[4].down = true
                             } 
-
                         }
                         break
                     case 5: // random notes including sharps
-                        let sharpValue
+                        let trebleSharpValue
                         if(Math.random()>DynamicDifficulty[5].sharpChance){
                             this.image = noteImage
                             this.major = true
@@ -637,11 +637,11 @@ class animatingNotes{
                         else{
                             this.image = sharpImage
                             this.major = false
-                            sharpValue = Math.floor(Math.random() * 7)+1
-                            if(sharpValue == 2 || sharpValue == 3.5){
-                                sharpValue ++
-                                this.y = trebleValues[sharpValue] * staffSpacing
+                            trebleSharpValue = Math.floor(Math.random() * 7)+1
+                            if(trebleSharpValue == 2 || trebleSharpValue == 3.5){
+                                trebleSharpValue ++
                             }
+                            this.y = trebleValues[trebleSharpValue] * staffSpacing
                         }
                         this.y1 = null
                         this.y2 = null
@@ -722,16 +722,16 @@ class animatingNotes{
                     case 9: // roll up and down 7 notes to teach moving fingers correctly
                         this.y = staffSpacing * bassCycle
                         this.major = true
-                        if(DynamicDifficulty[2].down == true){ // Scrolls up and down through the octave
-                            bassCycle=bassCycle+0.5
-                            if(bassCycle>9){
-                                DynamicDifficulty[9].down = false
+                        if(DynamicDifficulty[9].down == false){ // Scrolls up and down through the octave
+                            bassCycle=bassCycle-0.5
+                            if(bassCycle<7.5){
+                                DynamicDifficulty[9].down = true
                             } 
                         }
-                        else if (DynamicDifficulty[2].down == false){
-                            bassCycle=bassCycle-0.5
-                            if(bassCycle<7){
-                                DynamicDifficulty[9].down = true
+                        else if (DynamicDifficulty[9].down == true){
+                            bassCycle=bassCycle+0.5
+                            if(bassCycle>9.5){
+                                DynamicDifficulty[9].down = false
                             }  
                         }
                         this.image = noteImage
@@ -740,6 +740,138 @@ class animatingNotes{
                         this.y = staffSpacing * noteGenerator(bassValues,DynamicDifficulty[difficultyLevel].bassGeneratorSize)
                         this.image = noteImage
                         this.major = true
+                        break
+                    case 11: // roll up and down including sharps
+                        this.y = staffSpacing * bassCycle
+                        if(DynamicDifficulty[11].down == false){ // Scrolls up and down through the octave
+                            if(noteLetter[bassSharpCycle].includes("#")){
+                                this.image = sharpImage
+                                this.major = false
+                                bassSharpCycle++
+                                bassCycle=bassCycle-0.5
+                            }
+                            else{
+                                this.image = noteImage
+                                this.major = true
+                                bassSharpCycle++
+                            
+                                if(bassSharpCycle > 11){
+                                    bassSharpCycle = 0
+                                }
+                                if(!noteLetter[bassSharpCycle].includes("#")){
+                                    bassCycle=bassCycle-0.5
+                                }
+                            }
+                            if(noteLetter[bassSharpCycle] == "C"){
+                                DynamicDifficulty[11].down = true
+                            } 
+                        }
+                        else if (DynamicDifficulty[11].down == true){
+                            if(noteLetter[bassSharpCycle].includes("#")){
+                                this.image = sharpImage
+                                this.major = false
+                                bassSharpCycle--
+                            }
+                            else{
+                                this.image = noteImage
+                                this.major = true
+                                bassSharpCycle--
+                                bassCycle=bassCycle+0.5
+                            }
+                            if(bassSharpCycle < 0){
+                                bassSharpCycle = 11
+                            }
+                            if(noteLetter[bassSharpCycle] == "C"){
+                                DynamicDifficulty[11].down = false
+                            } 
+                        }
+                        break
+                    case 12: // random notes including sharps
+                        let bassSharpValue
+                        if(Math.random()>DynamicDifficulty[12].sharpChance){
+                            this.image = noteImage
+                            this.major = true
+                            this.y = bassValues[Math.floor(Math.random() * 7)+1] * staffSpacing
+                        }
+                        else{
+                            this.image = sharpImage
+                            this.major = false
+                            bassSharpValue = Math.floor(Math.random() * 7)+1
+                            if(bassSharpValue == 1 || bassSharpValue == 5){
+                                bassSharpValue --
+                            }
+                            this.y = bassValues[bassSharpValue] * staffSpacing
+                        }                            
+                        this.y1 = null
+                        this.y2 = null
+                        break
+                    case 13: // 3 note chords
+                        // y Note
+                        if(bassChords[chordCycle][1][1] == "major"){
+                            this.image = noteImage
+                            this.major = true
+                        }
+                        else if(bassChords[chordCycle][1][1] == "sharp"){
+                            this.image = sharpImage
+                            this.major = false
+                        }
+                        this.y = bassChords[chordCycle][1][0] * staffSpacing
+                        // y1 Note
+                        if(bassChords[chordCycle][2][1] == "major"){
+                            this.image1 = noteImage
+                            this.major = true
+                        }
+                        else if(bassChords[chordCycle][2][1] == "sharp"){
+                            this.image1 = sharpImage
+                            this.major = false
+                        }
+                        this.y1 = bassChords[chordCycle][2][0] * staffSpacing
+                        // y2 Note
+                        if(bassChords[chordCycle][3][1] == "major"){
+                            this.image2 = noteImage
+                            this.major = true
+                        }
+                        else if(bassChords[chordCycle][3][1] == "sharp"){
+                            this.image2 = sharpImage
+                            this.major = false
+                        }
+                        this.y2 = bassChords[chordCycle][3][0] * staffSpacing
+                        chordCycle++
+                        if(chordCycle > 12){
+                            chordCycle = 1
+                        }
+                        break
+                    case 14: // 3 note chords in different order
+                        if(bassChords[chordCycle][1][1] == "major"){
+                            this.image = noteImage
+                            this.major = true
+                        }
+                        else if(bassChords[chordCycle][1][1] == "sharp"){
+                            this.image = sharpImage
+                            this.major = false
+                        }
+                        this.y = bassChords[chordCycle][1][0] * staffSpacing
+                        // y1 Note
+                        if(bassChords[chordCycle][2][1] == "major"){
+                            this.image1 = noteImage
+                            this.major = true
+                        }
+                        else if(bassChords[chordCycle][2][1] == "sharp"){
+                            this.image1 = sharpImage
+                            this.major = false
+                        }
+                        this.y1 = bassChords[chordCycle][2][0] * staffSpacing
+                        // y2 Note
+                        if(bassChords[chordCycle][3][1] == "major"){
+                            this.image2 = noteImage
+                            this.major = true
+                        }
+                        else if(bassChords[chordCycle][3][1] == "sharp"){
+                            this.image2 = sharpImage
+                            this.major = false
+                        }
+                        this.y2 = bassChords[chordCycle][3][0] * staffSpacing
+                        chordCycle = Math.floor(Math.random()*12)+1
                         break
                 }   
             }   

@@ -1,4 +1,4 @@
-let difficultyLevel = 1
+let difficultyLevel = 13
 let bassGenerator = 0
 const DynamicDifficulty = {
     // Treble cleff
@@ -79,7 +79,7 @@ const DynamicDifficulty = {
         numberOfNotes: 1,
         requiredScoreToProgress: 25, // up and down twice
         requiredScoreToRegress: -10,
-        down: true
+        down: false
     },
     10:{ // random majors in octave
         speed: 1,
@@ -97,7 +97,7 @@ const DynamicDifficulty = {
         numberOfNotes: 1,
         requiredScoreToProgress: 22, 
         requiredScoreToRegress: -20,
-        down: true,
+        down: false,
         sharp:false
     },
     12:{ // random notes including sharps
