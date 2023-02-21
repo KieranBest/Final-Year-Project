@@ -5,9 +5,7 @@ if(navigator.requestMIDIAccess){
 }
 function success(midiAccess){
     midiAccess.addEventListener('statechange',updateDevices)
-
     const inputs = midiAccess.inputs;
-
     inputs.forEach((input) => {
         input.addEventListener('midimessage', handleInput)
     })
@@ -24,7 +22,6 @@ function handleInput(input){
     const command = input.data[0]
     const note = input.data[1]
     const velocity = input.data[2]
-
     switch(command){
         case 144: //noteOn
             if(velocity>0){
@@ -43,10 +40,8 @@ function handleInput(input){
 // Compatibility issues, make sure its compatible across browsers
 window.AudioContext = window.AudioContext || window.webkitAudioContext
 let soundCTX
-
 const startButton = document.getElementById('StartButton')
 const oscillators = {}
-
 startButton.addEventListener('click', () => {
     soundCTX = new AudioContext()
     startButton.style.visibility = 'hidden'
@@ -55,13 +50,11 @@ startButton.addEventListener('click', () => {
 })
 const pauseButton = document.getElementById('PauseButton')
 pauseButton.style.visibility = 'hidden'
-
 pauseButton.addEventListener('click', () => {
     pauseButton.style.visibility = 'hidden'
     startButton.style.visibility = 'visible'
     toggleGame()
 })
-
 
 function midiToFreq(number){
     const a = 440; //Hz
@@ -111,26 +104,19 @@ function noteOn(note, velocity){
     }
     noteOnColour(staffNumber,octave,noteNumber,notePressed,sharpNote)
     const osc = soundCTX.createOscillator()
-
     const oscGain = soundCTX.createGain()
     oscGain.gain.value = 0.33
-
     const velocityGainAmount = (1/127) * velocity
     const velocityGain = soundCTX.createGain()
     velocityGain.gain.value = velocityGainAmount
-
     osc.type = 'sine' //sine, square, triangle, sawtooth
     osc.frequency.value = midiToFreq(note)
-    
     osc.connect(oscGain)
     oscGain.connect(velocityGain)
     velocityGain.connect(soundCTX.destination) // Connect the oscillator to speaker output
-
     osc.gain = oscGain
-
     oscillators[note.toString()] = osc
     osc.start()
-
     pressed = true
 }
 
@@ -165,10 +151,8 @@ function noteOff(note){
         })
     }
     noteOffColour(releasedNoteArray,releasedStaffPosArray,notesHeldList,octave,noteNumber,noteLetterReleased,sharpNote)
-
     const osc = oscillators[note.toString()]
     const oscGain = osc.gain
-
     // This stops the clicking sound when releasing the note due to the sine wave
     oscGain.gain.setValueAtTime(oscGain.gain.value, soundCTX.currentTime)
     oscGain.gain.exponentialRampToValueAtTime(0.0001,soundCTX.currentTime + 0.03)
@@ -176,9 +160,7 @@ function noteOff(note){
         osc.stop()
         osc.disconnect()
     }, 20)
-
     delete oscillators[note.toString()]
-
     pressed = false;
     keyPressed = false
 }
@@ -238,7 +220,7 @@ function drawStaff(){
     ctx.moveTo(leftBoundary, staffSpacing)
     ctx.lineTo(leftBoundary, downLineDistance)
     ctx.stroke()
-// Hit Space Marker
+// Left Boundary Marker
     ctx.beginPath()
     ctx.moveTo(leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage), staffSpacing)
     ctx.lineTo(leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage), downLineDistance)
@@ -418,10 +400,10 @@ const toggleGame = async() => {
 // https://www.youtube.com/watch?v=9Sxo7P3F3m0&t=322s
 const noteImage = new Image(135,137) //pixel size
 const sharpImage = new Image(135,137) //pixel size
-
 noteImage.src = 'images/noteImage.png'
 sharpImage.src= 'images/sharp.png'
 
+// Generates a random value based on whether a treble or bass note is needed
 trebleValues = [1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6]
 bassValues = [6.5,7,7.5,8,8.5,9,9.5,10]
 function noteGenerator(valueGenerator, randomGeneratorValue){
@@ -429,6 +411,7 @@ function noteGenerator(valueGenerator, randomGeneratorValue){
     return valueGenerator [randomValue]
 }
 
+// Creates accessible and understandable time signatures for the actual hit time and expected hit time
 function createTime(x,n){
     while(x.toString().length < n){
         x = "0" + x
@@ -450,6 +433,7 @@ let currentActualHitTime = new timeStamp
 let differenceHitTime = new timeStamp
 
 let cycleNotes = 1
+let bassCycle = 6.5
 let sharpNoteCycle = 7
 let chordCycle = 1
 let levelProgression = 0
@@ -480,7 +464,7 @@ class animatingNotes{
             if(this.x <= leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)){
                 if(this.recordedExpected == false){
                     this.recordedExpected = true
-                    const time = new Date()
+                    const time = new Date() // Creates a time that the note will reach the desired hit point
                     currentExpectedHitTime.h = createTime(time.getHours(), 2)
                     currentExpectedHitTime.m = createTime(time.getMinutes(), 2)
                     currentExpectedHitTime.s = createTime(time.getSeconds(), 2)
@@ -489,11 +473,11 @@ class animatingNotes{
                     currentExpectedHitTime.time = time.getTime()
                 }
             }
-            // scoring
+            // Scoring
             if(pressed){
                 if(this.x <= leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)){
                     if(!keyPressed){
-                        const time = new Date()
+                        const time = new Date() // Creates a time that the user pressed a note
                         if ((this.y/staffSpacing)+0.5 == octaveWeight){
                             if(this.major == majorPressed){
                                 score++
@@ -532,13 +516,14 @@ class animatingNotes{
             // Note Loop Around
             if(this.x<leftBoundary){ // If note moves far to the left it will delete and autocreate a new y value
                 this.recordedExpected = false
-                const noteNumberProgression = {
+                const noteNumberProgression = { // Data storage
                     currentLevel: difficultyLevel,
                     expectedHitTime: currentExpectedHitTime.full,
                     actualHitTime: currentActualHitTime.full,
                     differenceInHitTime: currentActualHitTime.time-currentExpectedHitTime.time,
                     correctNote: correctNoteHit
                 }
+                // Resets timing details for data storage
                 currentExpectedHitTime.full = null
                 currentActualHitTime.full = null
                 differenceHitTime.full = null
@@ -570,12 +555,12 @@ class animatingNotes{
                     score = 0
                 }
                 switch(difficultyLevel){
-                    case 1:
+                    case 1: // random 4 notes
                         this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
                         this.image = noteImage
                         this.major = true
                         break
-                    case 2: 
+                    case 2: // roll up and down 7 notes to teach moving fingers correctly
                         this.y = staffSpacing * cycleNotes
                         this.major = true
                         if(DynamicDifficulty[2].down == true){ // Scrolls up and down through the octave
@@ -592,12 +577,12 @@ class animatingNotes{
                         }
                         this.image = noteImage
                         break
-                    case 3:
+                    case 3: // random majors in octave
                         this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
                         this.image = noteImage
                         this.major = true
                         break
-                    case 4:
+                    case 4: // roll up and down including sharps somehow
                         this.y = staffSpacing * cycleNotes
                         if(DynamicDifficulty[4].down == true){ // Scrolls up and down through the octave
                             if(noteLetter[sharpNoteCycle].includes("#")){
@@ -642,7 +627,7 @@ class animatingNotes{
 
                         }
                         break
-                    case 5:
+                    case 5: // random notes including sharps
                         let sharpValue
                         if(Math.random()>DynamicDifficulty[5].sharpChance){
                             this.image = noteImage
@@ -661,7 +646,7 @@ class animatingNotes{
                         this.y1 = null
                         this.y2 = null
                         break
-                    case 6:
+                    case 6: // 3 note chords
                         // y Note
                         if(trebleChords[chordCycle][1][1] == "major"){
                             this.image = noteImage
@@ -697,7 +682,7 @@ class animatingNotes{
                             chordCycle = 1
                         }
                         break
-                    case 7:
+                    case 7: // 3 note chords
                         if(trebleChords[chordCycle][1][1] == "major"){
                             this.image = noteImage
                             this.major = true
@@ -729,6 +714,33 @@ class animatingNotes{
                         this.y2 = trebleChords[chordCycle][3][0] * staffSpacing
                         chordCycle = Math.floor(Math.random()*12)+1
                         break
+                    case 8: // random 4 notes
+                        this.y = staffSpacing * noteGenerator(bassValues,DynamicDifficulty[difficultyLevel].bassGeneratorSize)
+                        this.image = noteImage
+                        this.major = true
+                        break
+                    case 9: // roll up and down 7 notes to teach moving fingers correctly
+                        this.y = staffSpacing * bassCycle
+                        this.major = true
+                        if(DynamicDifficulty[2].down == true){ // Scrolls up and down through the octave
+                            bassCycle=bassCycle+0.5
+                            if(bassCycle>9){
+                                DynamicDifficulty[9].down = false
+                            } 
+                        }
+                        else if (DynamicDifficulty[2].down == false){
+                            bassCycle=bassCycle-0.5
+                            if(bassCycle<7){
+                                DynamicDifficulty[9].down = true
+                            }  
+                        }
+                        this.image = noteImage
+                        break
+                    case 10: // random majors in octave
+                        this.y = staffSpacing * noteGenerator(bassValues,DynamicDifficulty[difficultyLevel].bassGeneratorSize)
+                        this.image = noteImage
+                        this.major = true
+                        break
                 }   
             }   
             this.x -= DynamicDifficulty[difficultyLevel].speed
@@ -755,7 +767,6 @@ let animating_Notes5 = new animatingNotes(window.innerWidth)
 let animating_Notes6 = new animatingNotes(window.innerWidth)
 let animating_Notes7 = new animatingNotes(window.innerWidth)
 let animating_Notes8 = new animatingNotes(window.innerWidth)
-
 
 let lastloop = performance.now()
 let a=0
