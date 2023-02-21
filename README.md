@@ -311,7 +311,7 @@ Yuksel, B.F. et al. (2016) Learn piano with BACh: An adaptive learning interface
 
 ##### Friday 14th October
 Meeting with supervisor to confer about project scope and initial starting point:
-- Understand basic MIDI Input example (https://github.com/superLimitBreak/webMidiTools/blob/master/webMidiLog.html)
+- Understand basic MIDI Input [example](https://github.com/superLimitBreak/webMidiTools/blob/master/webMidiLog.html)
 - Gain understanding in HTML5 canvas
 
 ##### Friday 21st October
@@ -334,32 +334,41 @@ Meeting with supervisor to gain insight into oscillator type as well speaking ab
 - Display more than one note at a time
 
 > Allan’s Help 1
->> [Allan’s Help 1](/images/AllansHelp.jpg)
+>> ![Allan’s Help 1](/images/AllansHelp.jpg)
 
 > Allan’s Help 2
->> [Allan’s Help 2](/images/AllansHelp2.jpg)
+>> ![Allan’s Help 2](/images/AllansHelp2.jpg)
 
 ##### Friday 4th November
 Meeting with supervisor to discuss progress and making visible keyboard and staff dynamic and adapt automatically to the change of the screen size.
 
 ##### Friday 18th November
-
-
-
-
+Meeting with supervisor to discuss documentation and areas needed for improvement such as:
+- Conciseness of writing
+- Objectives
+- Format of document
 
 ##### Friday 2nd December
 Meeting with supervisor to discuss mark scheme, and introduce a JavaScript method called "requestAnimationFrame()" used to create moving animations. 
-http://www.javascriptkit.com/javatutors/requestanimationframe.shtml
-https://github.com/calaldees/paratrooper/blob/1dc2ddf1c47ab4728c78d8947ec04d57a00a500d/index.html#L984
+[Request Animation Frame](http://www.javascriptkit.com/javatutors/requestanimationframe.shtml)
+[Supervisor Example](https://github.com/calaldees/paratrooper/blob/1dc2ddf1c47ab4728c78d8947ec04d57a00a500d/index.html#L984)
 
 ##### Friday 16th December
-Meeting with stakeholder to discuss project and attain valuable feedback as to the progress of the current prototype. Discuss potential features and come up with steps for the next milestone. New objective for the following milestone was to create the level system was the following description:
--
--
--
--
--
+Meeting with stakeholder to discuss project and attain valuable feedback as to the progress of the current prototype. Discuss potential features and come up with steps for the next milestone. New objective for the following milestone was to create the level system with the following descriptions:
+- Dominant Hand, Without Moving Hands
+- Dominant Hand, Move Hand Across 1 Octave
+- Dominant Hand, Introduce Sharps and Flats in the Octave
+- Dominant Hand, Introduce 3 Note Chords
+- Swap to Less Dominant Hand, Without Moving Hand
+- Less Dominant Hand, Move Hand Across 1 Octave
+- Less Dominant Hand, Introduce Sharps and Flats in the Octave
+- Less Dominant Hand, Introduce 3 Note Chords
+- Play Across Both Hands
+- Play Across Both Hands, Introducing New Chords
+- Play Across Both Hands
 
-##### Friday 27th December
+##### Friday 27th January
 Feedback from poster presentation allowed potential users to give direct feedback with potential features, will discuss with stakeholder to attain approval for prospective features.
+
+##### Wednesday 8th February
+Meeting with supervisor to provide guidance to implement feature that collects user data as this will be very beneficial for milestone 3.

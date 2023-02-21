@@ -1,4 +1,4 @@
-let difficultyLevel = 6
+let difficultyLevel = 1
 let bassGenerator = 0
 const DynamicDifficulty = {
     // Treble cleff
@@ -33,7 +33,6 @@ const DynamicDifficulty = {
         hitScreenPercentage: 0.05,
         recurringNotes:4,
         numberOfNotes: 1,
-        trebleGeneratorSize: 7,
         requiredScoreToProgress: 22, 
         requiredScoreToRegress: -20,
         down: true,
@@ -44,7 +43,6 @@ const DynamicDifficulty = {
         hitScreenPercentage: 0.05,
         recurringNotes:4,
         numberOfNotes: 1,
-        trebleGeneratorSize: 7,
         sharpChance: 0.33,
         requiredScoreToProgress: 20,
         requiredScoreToRegress: -20
@@ -54,7 +52,6 @@ const DynamicDifficulty = {
         hitScreenPercentage: 0.05,
         recurringNotes:2,
         numberOfNotes: 3,
-        trebleGeneratorSize: 7,
         requiredScoreToProgress: 20,
         requiredScoreToRegress: -5
     },
@@ -63,7 +60,6 @@ const DynamicDifficulty = {
         hitScreenPercentage: 0.05,
         recurringNotes:4,
         numberOfNotes: 3,
-        trebleGeneratorSize: 7,
         requiredScoreToProgress: 20,
         requiredScoreToRegress: -20
     },

@@ -215,7 +215,7 @@ function canvasStats(){
     yCordinate = (ch/7)*3-10
     staffHeight = (ch/7)*2.5
     staffSpacing = (ch/7)/6
-    hitNoteLine = cw*0.05
+    leftBoundary = cw*0.05
     downLineDistance = staffSpacing*13
     img = new Image(whiteKeyWidth/2,staffSpacing*5)
 }
@@ -235,13 +235,13 @@ function drawStaff(){
         ctx.stroke()
     }
     ctx.beginPath()
-    ctx.moveTo(hitNoteLine, staffSpacing)
-    ctx.lineTo(hitNoteLine, downLineDistance)
+    ctx.moveTo(leftBoundary, staffSpacing)
+    ctx.lineTo(leftBoundary, downLineDistance)
     ctx.stroke()
 // Hit Space Marker
     ctx.beginPath()
-    ctx.moveTo(hitNoteLine+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage), staffSpacing)
-    ctx.lineTo(hitNoteLine+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage), downLineDistance)
+    ctx.moveTo(leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage), staffSpacing)
+    ctx.lineTo(leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage), downLineDistance)
     ctx.stroke()
 }
 
@@ -331,7 +331,7 @@ function staffNoteHit(staffNumber,notePressed,octave){
         }  
         ctx.beginPath()
         ctx.fillStyle="red"
-        ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
+        ctx.arc(leftBoundary, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
         ctx.fill()
     }
     else if(sharpKeyPos.includes(notePressed)){
@@ -344,7 +344,7 @@ function staffNoteHit(staffNumber,notePressed,octave){
         }   
         ctx.beginPath()
         ctx.fillStyle="blue"
-        ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
+        ctx.arc(leftBoundary, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
         ctx.fill()
     }
 }
@@ -362,7 +362,7 @@ function removeStaffNoteHit(removedNoteArray,removedStaffPosArray,heldNoteList){
     }
     ctx.beginPath()
     ctx.fillStyle="white"
-    ctx.fillRect(0,0,hitNoteLine,staffHeight)
+    ctx.fillRect(0,0,leftBoundary,staffHeight)
     ctx.fill()
     drawStaff()
     if(heldNoteList !== null){ // If a note is still held display it 
@@ -380,7 +380,7 @@ function removeStaffNoteHit(removedNoteArray,removedStaffPosArray,heldNoteList){
                 }else octaveWeight = 0
                 ctx.beginPath()
                 ctx.fillStyle="red"
-                ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
+                ctx.arc(leftBoundary, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
                 ctx.fill()
             }else if(sharpKeyPos.includes(findNoteLetter(heldNoteList[values]))) {
                 staffOctave =  parseInt(heldNoteList[values]/12) - 4
@@ -395,7 +395,7 @@ function removeStaffNoteHit(removedNoteArray,removedStaffPosArray,heldNoteList){
                 }else octaveWeight = 0
                 ctx.beginPath()
                 ctx.fillStyle="blue"
-                ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
+                ctx.arc(leftBoundary, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
                 ctx.fill()
             }
         } 
@@ -429,9 +429,34 @@ function noteGenerator(valueGenerator, randomGeneratorValue){
     return valueGenerator [randomValue]
 }
 
+function createTime(x,n){
+    while(x.toString().length < n){
+        x = "0" + x
+    }
+    return x
+}
+class timeStamp{
+    constructor(h,m,s,ms,full,time){
+        this.h = h
+        this.m = m
+        this.s = s
+        this.ms = ms
+        this.full = full
+        this.time = time
+    }
+}
+let currentExpectedHitTime = new timeStamp
+let currentActualHitTime = new timeStamp
+let differenceHitTime = new timeStamp
+
 let cycleNotes = 1
 let sharpNoteCycle = 7
 let chordCycle = 1
+let levelProgression = 0
+let noteProgression = 0
+let correctNoteHit = new Boolean(false)
+let userProgression= {}
+let gameProgression = {}
 // Class for animated notes
 class animatingNotes{
     constructor (x,y,y1,y2,clicked,major,major1,major2){
@@ -448,25 +473,41 @@ class animatingNotes{
         this.major = major
         this.major1 = major1
         this.major2 = major2
+        this.recordedExpected = new Boolean(false)
     }
     update(){ // Updates and changes each animated notes x variable according to speed
         if(toggle){      
+            if(this.x <= leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)){
+                if(this.recordedExpected == false){
+                    this.recordedExpected = true
+                    const time = new Date()
+                    currentExpectedHitTime.h = createTime(time.getHours(), 2)
+                    currentExpectedHitTime.m = createTime(time.getMinutes(), 2)
+                    currentExpectedHitTime.s = createTime(time.getSeconds(), 2)
+                    currentExpectedHitTime.ms = createTime(time.getMilliseconds(), 3)
+                    currentExpectedHitTime.full = currentExpectedHitTime.h + ":" + currentExpectedHitTime.m + ":" + currentExpectedHitTime.s + ":" + currentExpectedHitTime.ms
+                    currentExpectedHitTime.time = time.getTime()
+                }
+            }
             // scoring
             if(pressed){
-                if(this.x <= hitNoteLine+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)){
+                if(this.x <= leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)){
                     if(!keyPressed){
+                        const time = new Date()
                         if ((this.y/staffSpacing)+0.5 == octaveWeight){
                             if(this.major == majorPressed){
                                 score++
                                 keyPressed = true
                                 this.clicked = true
                                 console.log("score = " + score)
+                                correctNoteHit = true
                             }
                             else{
                                 keyPressed = true
                                 score--
                                 this.clicked = true
                                 console.log("score = " + score)
+                                correctNoteHit = false
                             }
                         } 
                         else{
@@ -474,12 +515,35 @@ class animatingNotes{
                             score--
                             this.clicked = true
                             console.log("score = " + score)
+                            correctNoteHit = false
                         }
+                        currentActualHitTime.h = createTime(time.getHours(), 2)
+                        currentActualHitTime.m = createTime(time.getMinutes(), 2)
+                        currentActualHitTime.s = createTime(time.getSeconds(), 2)
+                        currentActualHitTime.ms = createTime(time.getMilliseconds(), 3)
+                        currentActualHitTime.full = currentActualHitTime.h + ":" + currentActualHitTime.m + ":" + currentActualHitTime.s + ":" + currentActualHitTime.ms
+                        currentActualHitTime.time = time.getTime()
                     }
                 }
-            }          
+            }        
+            if(this.x == leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)){
+                console.log(currentExpectedHitTime)
+            }  
             // Note Loop Around
-            if(this.x<hitNoteLine){ // If note moves far to the left it will delete and autocreate a new y value
+            if(this.x<leftBoundary){ // If note moves far to the left it will delete and autocreate a new y value
+                this.recordedExpected = false
+                const noteNumberProgression = {
+                    currentLevel: difficultyLevel,
+                    expectedHitTime: currentExpectedHitTime.full,
+                    actualHitTime: currentActualHitTime.full,
+                    differenceInHitTime: currentActualHitTime.time-currentExpectedHitTime.time,
+                    correctNote: correctNoteHit
+                }
+                currentExpectedHitTime.full = null
+                currentActualHitTime.full = null
+                differenceHitTime.full = null
+                userProgression[noteProgression]=noteNumberProgression
+                noteProgression++
                 if(!this.clicked && !keyPressed){
                     score--
                     console.log("score = " + score)
@@ -490,13 +554,20 @@ class animatingNotes{
                 this.x = window.innerWidth
                 if(score == DynamicDifficulty[difficultyLevel].requiredScoreToProgress){
                     difficultyLevel++
+                    gameProgression[levelProgression]=userProgression
+                    console.log(gameProgression)
+                    levelProgression++
+                    noteProgression = 0
+                    userProgression = {}
                     score = 0
-                    console.log("Level: " + difficultyLevel)
                 }
                 else if(score == DynamicDifficulty[difficultyLevel].requiredScoreToRegress){
                     difficultyLevel--
+                    gameProgression[levelProgression]=userProgression
+                    levelProgression++
+                    noteProgression = 0
+                    userProgression = {}
                     score = 0
-                    console.log("Level: " + difficultyLevel)
                 }
                 switch(difficultyLevel){
                     case 1:
@@ -627,13 +698,42 @@ class animatingNotes{
                         }
                         break
                     case 7:
-                        
+                        if(trebleChords[chordCycle][1][1] == "major"){
+                            this.image = noteImage
+                            this.major = true
+                        }
+                        else if(trebleChords[chordCycle][1][1] == "sharp"){
+                            this.image = sharpImage
+                            this.major = false
+                        }
+                        this.y = trebleChords[chordCycle][1][0] * staffSpacing
+                        // y1 Note
+                        if(trebleChords[chordCycle][2][1] == "major"){
+                            this.image1 = noteImage
+                            this.major = true
+                        }
+                        else if(trebleChords[chordCycle][2][1] == "sharp"){
+                            this.image1 = sharpImage
+                            this.major = false
+                        }
+                        this.y1 = trebleChords[chordCycle][2][0] * staffSpacing
+                        // y2 Note
+                        if(trebleChords[chordCycle][3][1] == "major"){
+                            this.image2 = noteImage
+                            this.major = true
+                        }
+                        else if(trebleChords[chordCycle][3][1] == "sharp"){
+                            this.image2 = sharpImage
+                            this.major = false
+                        }
+                        this.y2 = trebleChords[chordCycle][3][0] * staffSpacing
+                        chordCycle = Math.floor(Math.random()*12)+1
                         break
-                    }   
                 }   
-                this.x -= DynamicDifficulty[difficultyLevel].speed
-            }    
-            else{
+            }   
+            this.x -= DynamicDifficulty[difficultyLevel].speed
+        }    
+        else{
             cancelAnimationFrame(movePlayableNotes)
             this.x = window.innerWidth
         }
@@ -675,16 +775,16 @@ function movePlayableNotes(staffNumber,notePressed,octave){
         }
         if(a>100){
             if(toggle){
-                timeDelay = (window.innerWidth-(hitNoteLine-(0.5*staffSpacing))/(averageFPS/a)*1000)/DynamicDifficulty[difficultyLevel].speed
+                timeDelay = (window.innerWidth-(leftBoundary-(0.5*staffSpacing))/(averageFPS/a)*1000)/DynamicDifficulty[difficultyLevel].speed
             }
             else{
                 timeDelay = 0
             }
-
             ctx.fillStyle = "white"
-            ctx.fillRect(hitNoteLine,0,canvas.width,staffHeight)
+            ctx.fillRect(leftBoundary,0,canvas.width,staffHeight)
             staffNoteHit(staffNumber,notePressed,octave)
             drawStaff()
+        }
             // updates x and y values and then displays them whilst removing the old values from visibility
             switch(DynamicDifficulty[difficultyLevel].recurringNotes){
                 case 2:
@@ -721,15 +821,13 @@ function movePlayableNotes(staffNumber,notePressed,octave){
                     setTimeout((s) => animating_Notes8.update(), 7*timeDelay)
                     animating_Notes8.display()
                     break
-            }
         }
         
         requestAnimationFrame(movePlayableNotes) // Repeats this function to create an animation
     }
     else{
         ctx.fillStyle = "white"
-        ctx.fillRect(hitNoteLine,0,canvas.width,staffHeight)
+        ctx.fillRect(leftBoundary,0,canvas.width,staffHeight)
         drawStaff()
     }
 }
-
