@@ -251,6 +251,12 @@ What is needed to run this application?
 >
 >> Trying to create a successful flow for the notes across the screen has proved harder than intially thought, the while monitoring the fps it appears to alter slightly when new notes are added to the screen, therefore creating an average fps based on 1000 frames seems to have fixed the problem. 
 
+> 21st February
+>
+>> When saving user data for statistical analysis it has become apparent that when changing level the notes on the previous level are still displayed but are recorded as the next level. For example, when progressing from a single note level to a chord level, the single notes are recorded in the chord levels statistics.
+>>
+>> Scoring does not currently work with chords, it can only handle one note at a time. 
+
 <div id='Findings'/>
 
 #### Findings

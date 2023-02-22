@@ -349,6 +349,14 @@ function removeStaffNoteHit(removedNoteArray,removedStaffPosArray,heldNoteList){
     drawStaff()
     if(heldNoteList !== null){ // If a note is still held display it 
         for(values in heldNoteList){
+            console.log(heldNoteList[values])
+
+
+
+
+
+
+
             if(majorKeyPos.includes(findNoteLetter(heldNoteList[values]))){
                 staffOctave =  parseInt(heldNoteList[values]/12) - 4
                 overwriteStaffLetter = findNoteLetter(heldNoteList[values])
@@ -480,6 +488,16 @@ class animatingNotes{
                     if(!keyPressed){
                         const time = new Date() // Creates a time that the user pressed a note
                         if ((this.y/staffSpacing)+0.5 == octaveWeight){
+                            console.log(octaveWeight)
+
+
+                            // trying to enable scoring for chords
+                            // looking at heldNoteList to obtain values for all notes held
+                            // change else if to (if heldNoteList.length>1)
+                            // look at line 352
+
+
+
                             if(this.major == majorPressed){
                                 score++
                                 keyPressed = true
@@ -495,6 +513,9 @@ class animatingNotes{
                                 correctNoteHit = false
                             }
                         } 
+                        else if(((this.y/staffSpacing)+0.5 == octaveWeight) && ((this.y/staffSpacing)+0.5 == octaveWeight) && ((this.y/staffSpacing)+0.5 == octaveWeight)){
+
+                        }
                         else{
                             keyPressed = true
                             score--
@@ -715,6 +736,8 @@ class animatingNotes{
                         chordCycle = Math.floor(Math.random()*12)+1
                         break
                     case 8: // random 4 notes
+                        this.y1 = null
+                        this.y2 = null
                         this.y = staffSpacing * noteGenerator(bassValues,DynamicDifficulty[difficultyLevel].bassGeneratorSize)
                         this.image = noteImage
                         this.major = true
