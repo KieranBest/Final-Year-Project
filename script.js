@@ -121,7 +121,9 @@ function noteOn(note, velocity){
 }
 
 // When releasing a note
-function noteOff(note){   
+function noteOff(note){    
+    const time = new Date()
+    noteOffTime.time = time.getTime()
     const octave = parseInt(note/12) - 4; // -4 because my keyboard automatically starts at pos 48, this will need to be changed when numWhiteKeys is edited
     const noteLetterReleased=findNoteLetter(note);
     if(majorKeyPos.includes(noteLetterReleased)){
@@ -426,19 +428,6 @@ function createTime(x,n){
     }
     return x
 }
-class timeStamp{
-    constructor(h,m,s,ms,full,time){
-        this.h = h
-        this.m = m
-        this.s = s
-        this.ms = ms
-        this.full = full
-        this.time = time
-    }
-}
-let currentExpectedHitTime = new timeStamp
-let currentActualHitTime = new timeStamp
-let differenceHitTime = new timeStamp
 
 let cycleNotes = 1
 let bassCycle = 10
@@ -450,6 +439,10 @@ let noteProgression = 0
 let correctNoteHit = new Boolean(false)
 let userProgression= {}
 let gameProgression = {}
+let quantityOfNotes = 0
+let numberOfNotesInLevel = 0
+let numberOfNotesInGame = 0
+let resetValues = new Boolean(true)
 // Class for animated notes
 class animatingNotes{
     constructor (x,y,y1,y2,clicked,major,major1,major2){
@@ -473,12 +466,18 @@ class animatingNotes{
             if(this.x <= leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)){
                 if(this.recordedExpected == false){
                     this.recordedExpected = true
+                    if(numberOfNotesInGame == 2 && resetValues == true){ // Needs to be reset so it does not record when the first 2 notes are generated
+                        resetValues = false
+                        numberOfNotesInGame = 0
+                        numberOfNotesInLevel = 0   
+                    }
+                    numberOfNotesInGame++
+                    numberOfNotesInLevel++
                     const time = new Date() // Creates a time that the note will reach the desired hit point
                     currentExpectedHitTime.h = createTime(time.getHours(), 2)
                     currentExpectedHitTime.m = createTime(time.getMinutes(), 2)
                     currentExpectedHitTime.s = createTime(time.getSeconds(), 2)
                     currentExpectedHitTime.ms = createTime(time.getMilliseconds(), 3)
-                    currentExpectedHitTime.full = currentExpectedHitTime.h + ":" + currentExpectedHitTime.m + ":" + currentExpectedHitTime.s + ":" + currentExpectedHitTime.ms
                     currentExpectedHitTime.time = time.getTime()
                 }
             }
@@ -488,7 +487,7 @@ class animatingNotes{
                     if(!keyPressed){
                         const time = new Date() // Creates a time that the user pressed a note
                         if ((this.y/staffSpacing)+0.5 == octaveWeight){
-                            console.log(octaveWeight)
+                            //console.log(octaveWeight)
 
 
                             // trying to enable scoring for chords
@@ -527,30 +526,46 @@ class animatingNotes{
                         currentActualHitTime.m = createTime(time.getMinutes(), 2)
                         currentActualHitTime.s = createTime(time.getSeconds(), 2)
                         currentActualHitTime.ms = createTime(time.getMilliseconds(), 3)
-                        currentActualHitTime.full = currentActualHitTime.h + ":" + currentActualHitTime.m + ":" + currentActualHitTime.s + ":" + currentActualHitTime.ms
                         currentActualHitTime.time = time.getTime()
                     }
                 }
             }        
-            if(this.x == leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)){
-                console.log(currentExpectedHitTime)
-            }  
             // Note Loop Around
             if(this.x<leftBoundary){ // If note moves far to the left it will delete and autocreate a new y value
                 this.recordedExpected = false
-                const noteNumberProgression = { // Data storage
-                    currentLevel: difficultyLevel,
-                    expectedHitTime: currentExpectedHitTime.full,
-                    actualHitTime: currentActualHitTime.full,
-                    differenceInHitTime: currentActualHitTime.time-currentExpectedHitTime.time,
-                    correctNote: correctNoteHit
+                let leftOrRight
+                let gapBetweenNotes = 0
+                if(resetValues == false){ 
+                    if(this.y < 6.5){
+                        leftOrRight =  "left"
+                    }
+                    else{
+                        leftOrRight =  "right"
+                    }
+                    if(noteProgression > 0){ // Otherwise gapBetweenPreviousNote will error
+                        gapBetweenNotes = userProgression[noteProgression-1].noteRequired-((this.y/staffSpacing)+0.5)
+                    }    
+                    const noteNumberProgression = { // Capturing data for statistical analysis
+                        expectedHitTime: currentExpectedHitTime,
+                        actualHitTime: currentActualHitTime,
+                        differenceInHitTime: currentActualHitTime.time-currentExpectedHitTime.time,
+                        noteoff: noteOffTime,
+                        timeHeldNote: noteOffTime.time - currentActualHitTime.time,
+                        correctNote: correctNoteHit,
+                        major1: this.major,
+                        major2: this.major1,
+                        major3:this.major2,
+                        hand: leftOrRight,
+                        noteEntered: octaveWeight,
+                        noteRequired: (this.y/staffSpacing)+0.5,
+                        noteGap: octaveWeight-((this.y/staffSpacing)+0.5),
+                        gapBetweenPreviousNote: gapBetweenNotes,
+                        numberOfNotesInGame: numberOfNotesInGame,
+                    }
+                    // Resets timing details for data storage
+                    userProgression[noteProgression]=noteNumberProgression
+                    noteProgression++
                 }
-                // Resets timing details for data storage
-                currentExpectedHitTime.full = null
-                currentActualHitTime.full = null
-                differenceHitTime.full = null
-                userProgression[noteProgression]=noteNumberProgression
-                noteProgression++
                 if(!this.clicked && !keyPressed){
                     score--
                     console.log("score = " + score)
@@ -560,13 +575,22 @@ class animatingNotes{
                 }
                 this.x = window.innerWidth
                 if(score == DynamicDifficulty[difficultyLevel].requiredScoreToProgress){
+                    gameProgression[levelProgression]={
+                        currentLevel: difficultyLevel,
+                        numberOfNotes: DynamicDifficulty[difficultyLevel].numberOfNotes,
+                        recurringNotes: DynamicDifficulty[difficultyLevel].recurringNotes,
+                        hitScreenPercentage: DynamicDifficulty[difficultyLevel].hitScreenPercentage,
+                        requiredScoreToProgress: DynamicDifficulty[difficultyLevel].requiredScoreToProgress,
+                        requiredScoreToRegress: DynamicDifficulty[difficultyLevel].requiredScoreToRegress,    
+                        userProgression
+                    }
                     difficultyLevel++
-                    gameProgression[levelProgression]=userProgression
                     console.log(gameProgression)
                     levelProgression++
                     noteProgression = 0
                     userProgression = {}
                     score = 0
+                    numberOfNotesInLevel = 0
                 }
                 else if(score == DynamicDifficulty[difficultyLevel].requiredScoreToRegress){
                     difficultyLevel--
@@ -575,6 +599,7 @@ class animatingNotes{
                     noteProgression = 0
                     userProgression = {}
                     score = 0
+                    numberOfNotesInLevel = 0
                 }
                 switch(difficultyLevel){
                     case 1: // random 4 notes

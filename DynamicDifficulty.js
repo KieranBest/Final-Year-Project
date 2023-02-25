@@ -1,4 +1,4 @@
-let difficultyLevel = 6
+let difficultyLevel = 1
 let bassGenerator = 0
 const DynamicDifficulty = {
     // Treble cleff

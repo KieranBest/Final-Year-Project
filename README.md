@@ -1,47 +1,56 @@
-# Creating a Responsive and Dynamic Piano Education Tool
-## Kieran Best
-## Individual Project U10834
-## Canterbury Christ Church University
-## 2022/23
-------
+Creating a Responsive and Dynamic Piano Education Tool 
+
+Kieran Best
+
+Individual Project U10834
+
+Canterbury Christ Church University
+
+2022/23
+
+
 
 ### Table Of Contents
-1. [Introduction](#Introduction)
-2. [Literature Review](#Literature-Review)
-	1. [How Do We Learn](#How-Do-We-Learn?)
-	2. [Similar Applications](#Similar-Applications)
-3. [Requirements and Analysis](#Requirements-and-Analysis)
-	1. [Methodology](#Methodology)
-	2. [Objectives](#Objectives)
-	3. [User Stories](#User-Stories)
-	4. [Conditional Flow Diagram](#Conditional-Flow-Diagram)
-	5. [Level Progression](#Level-Progression)
-	6. [Design](#Design)
-	7. [Accessibility](#Accessibility)
-	8. [Functional Requirements](#Functional-Requirements)
-	9. [Use Cases](#Use-Cases)
-	10. [Wireframe Design](#Wireframe-Design)
-	11. [Finalised Design](#Finalised-Design)
-4. [Results](#Results)
-	1. [Challenges](#Challenges)
-	2. [Findings](#Findings)
-	3. [Goals Achieved](#Goals-Achieved)
-	4. [Further Work](#Further-Work)
-	5. [Conclusion](#Conclusion)
-5. [References](#References)
-6. [Appendices](#Appendices)
-	1. [Meeting Notes](#Meeting-Notes)
-
-<div id='Introduction'/>
+- [Table Of Contents](#table-of-contents)
+- [Introduction](#introduction)
+- [Literature Review](#literature-review)
+	- [How Do We Learn?](#how-do-we-learn)
+	- [Similar Applications](#similar-applications)
+- [Requirements and Analysis](#requirements-and-analysis)
+	- [Methodology](#methodology)
+	- [Objectives](#objectives)
+	- [User Stories](#user-stories)
+	- [Conditional Flow Diagram](#conditional-flow-diagram)
+	- [Level Progression](#level-progression)
+	- [Design](#design)
+	- [Accessibility - Colour contrast, fonts, layout, hovering, background, text shadow](#accessibility---colour-contrast-fonts-layout-hovering-background-text-shadow)
+	- [Functional Requirements](#functional-requirements)
+	- [Use Cases](#use-cases)
+	- [Wireframe Design](#wireframe-design)
+- [Finalised Design](#finalised-design)
+- [Results](#results)
+	- [Challenges](#challenges)
+	- [Findings](#findings)
+	- [Goals Achieved](#goals-achieved)
+	- [Further Work](#further-work)
+	- [Conclusion](#conclusion)
+- [References](#references)
+- [Appendices](#appendices)
+	- [Meeting Notes](#meeting-notes)
+		- [Friday 14th October](#friday-14th-october)
+		- [Friday 21st October](#friday-21st-october)
+		- [Friday 4th November](#friday-4th-november)
+		- [Friday 18th November](#friday-18th-november)
+		- [Friday 2nd December](#friday-2nd-december)
+		- [Friday 16th December](#friday-16th-december)
+		- [Friday 27th January](#friday-27th-january)
+		- [Wednesday 8th February](#wednesday-8th-february)
+		- [Wednesday 22nd February](#wednesday-22nd-february)
 
 ### Introduction
 The aim of this project is to create an application that teaches users to how to read and play sheet music on a piano. The application will keep score on whether the user is hitting the note on time or not and adjust the speed and difficulty based on this.
 
-<div id='Literature-Review'/>
-
 ### Literature Review
-
-<div id='How-Do-We-Learn?'/>
 
 #### How Do We Learn?
 
@@ -73,41 +82,44 @@ https://reader.elsevier.com/reader/sd/pii/S0360131513001711?token=24C89623FC3B8A
 
 
 
-<div id='Similar-Applications'/>
-
 #### Similar Applications
 
 Whilst there similar applications to the proposed, none have the exact features. ‘Simply Guitar’ and ‘Harmony City’ (Educational App Store, 2022) will teach you how to play a song. ‘Tenuto’, ‘Piano Notes Fun’ and ‘Note Trainer Pro’ which will teach you how to read music. These are all based on recordings and do not offer an interactive experience. This can be be detrimental to the users learning experience as explained previously. 
 
 ‘P.I.A.N.O.’ has a interactive projection placed on to the keyboard to enable users to understand what key to push. 
 
-> Figure 1: ‘P.I.A.N.O.’
->> ![‘P.I.A.N.O.’](/images/P.I.A.N.O..png)
-> (Rogers et al., 2014)
+> **Figure 1: ‘P.I.A.N.O.’**
+> 
+> ![‘P.I.A.N.O.’](/images/P.I.A.N.O..png)
+>
+> *(Rogers et al., 2014)*
 
 As Rogers et al. (2014) explains, the mapping of the keys provides users with a way to learn how to read sheet music. This can often be the cause of putting off most people from learning how to play an instrument. Other benefits include teaching users where to place their hands to allow them to reach all the keys.  As well as “a note visualisation based on roll notation” which will teach timing (Rogers et al., 2014). The downfall for this application however, is even though it teaches hand placement for reading music, it does not teach how to read sheet music.
 
-> Figure 2: Note Visualisation in ‘P.I.A.N.O.’
->> ![Note Visualisation in ‘P.I.A.N.O.’](/images/P.I.A.N.O.2.png)
-> (Rogers et al., 2014)
+> **Figure 2: Note Visualisation in ‘P.I.A.N.O.’**
+>
+> ![Note Visualisation in ‘P.I.A.N.O.’](/images/P.I.A.N.O.2.png)
+>
+> *(Rogers et al., 2014)*
 
 Going back to learning in a zone of proximal development, Yuksel et al. (2016) created 'BACh'. An application where users’ cognitive workload dictates the applications difficulty. 'BACh' measures cognitive workload using a fNIRS sensor which is not in the scope of my project.
 
-> Figure 3: Learn Piano with ‘BACh’
->> ![Learn Piano with ‘BACh’](/images/BACh.png)
-> (Yuksel et al., 2016)
+> **Figure 3: Learn Piano with ‘BACh’**
+>
+> ![Learn Piano with ‘BACh’](/images/BACh.png)
+>
+> *(Yuksel et al., 2016)*
  
 The most similar application to what I propose is ‘Synthesia’. An educational tool used with a MIDI keyboard for learning how to play piano by using of a note visualisation like that of ‘P.I.A.N.O.’. It contains a mass library of songs for the user to decide. And it also includes teaching where users hands should be to allow them full reach of keys. It also contains a feature “Finger Number Hints” in which users fingers are visually demonstrated (Synthesia Game, 2022). Whilst this is almost identical to my specification, this application does not adapt to users’ current ability and skill. 
 
-> Figure 4: Finger Number Hints in ‘Synthesia’
->> ![Finger Number Hints in ‘Synthesia’](/images/Synthesia.png)
-> (Synthesia Game, 2022)
- 
-<div id='Requirements-and-Analysis'/>
+> **Figure 4: Finger Number Hints in ‘Synthesia’**
+>
+> ![Finger Number Hints in ‘Synthesia’](/images/Synthesia.png)
+>
+> *(Synthesia Game, 2022)*
+
 
 ### Requirements and Analysis
-
-<div id='Methodology'/>
 
 #### Methodology
 
@@ -120,8 +132,6 @@ The most similar application to what I propose is ‘Synthesia’. An educationa
 It will show logical steps in its production process whilst also giving clear deadlines for each sprint. It will be created using JavaScript, HTML5 and CSS.
 
 Milestones will be divided into 2 weekly sprints and tasks will be assigned weights. Sprints will be based on the weights to determine how many tasks are to be completed each sprint.
-
-<div id='Objectives'/>
 
 #### Objectives
 
@@ -165,10 +175,192 @@ To create a level system that will slowly introduce users to how to play a keybo
 - Create Level 10 - Play Across Both Hands, Introducing New Chords - 1
 - Create Level 11 - Play Across Both Hands - 1
 
-> Figure 5: Gantt Chart Progression
->> ![Gantt Chart](/images/Gantt.png)
+**Figure 5: Gantt Chart Progression**
 
-<div id='User-Stories'/>
+PS = Planned Start,
+PD = Planned Duration,
+AS = Actual Start,
+AD = Actual Duration
+
+
+
+<style>
+    .Gantt {
+        text-align: center;
+		color: black
+    }
+    .Gantt th {
+        background: grey;
+        word-wrap: break-word;
+        text-align: center;
+    }
+
+    .Gantt td:nth-child(1) { background: grey; }
+    .Gantt td:nth-child(2) { background: white; }
+    .Gantt td:nth-child(3) { background: silver; }
+    .Gantt td:nth-child(4) { background: white; }
+    .Gantt td:nth-child(5) { background: silver; }
+	</style>
+
+<div class="Gantt">
+<table>
+	<tr>
+		<th>Activity</th>
+		<th>PS</th>
+		<th>PD</th>
+		<th>AS</th>
+		<th>AD</th>
+		<th>1</th>
+		<th>2</th>
+		<th>3</th>
+		<th>4</th>
+		<th>5</th>
+		<th>6</th>
+		<th>7</th>
+		<th>8</th>
+		<th>9</th>
+		<th>10</th>
+		<th>11</th>
+		<th>12</th>
+		<th>13</th>
+		<th>14</th>
+		<th>15</th>
+		<th>16</th>
+		<th>17</th>
+		<th>18</th>
+		<th>19</th>
+  	</tr>
+  	<tr>
+		<td>Display a Note Pressed on Terminal</td>
+		<td>1</td><td>1</td><td>1</td><td>1</td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Display Graphical Shapes</td>
+		<td>1</td><td>1</td><td>1</td><td>1</td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Keyboard Input Manipulates Shapes</td>
+		<td>1</td><td>1</td><td>1</td><td>1</td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+    	<td>Display what Key been Pressed</td>
+		<td>1</td><td>1</td><td>1</td><td>1</td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Display Keyboard Graphically</td>
+		<td>1</td><td>1</td><td>1</td><td>1</td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+    	<td>Keyboard Input Displays Note Press on Graphical Keyboard</td>
+		<td>1</td><td>1</td><td>1</td><td>1</td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Display Multiple Notes Pressed on Graphical Keyboard</td>
+		<td>1</td><td>1</td><td>1</td><td>2</td><td style="background-color:#0000FF"></td><td style="background-color:#FFFF00"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Graphical Keyboard Resizes to Canvas Size</td>
+		<td>2</td><td>1</td><td>2</td><td>1</td><td></td><td  style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Create Music Sheet Outline</td>
+		<td>2</td><td>1</td><td>2</td><td>1</td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Create Shape on Music Sheet when Note Presed</td>
+		<td>2</td><td>1</td><td>2</td><td>1</td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Display Multiple Notes Pressed on Music Sheet</td>
+		<td>3</td><td>1</td><td>3</td><td>1</td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Produce Tone on Key Press (On and Off)</td>
+		<td>4</td><td>1</td><td>4</td><td>1</td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Produce Specific Note Tone on Key Press</td>
+		<td>4</td><td>1</td><td>4</td><td>1</td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Animated Note Moves Across Music Sheet and Repeats</td>
+		<td>4</td><td>1</td><td>4</td><td>1</td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Note Repeats to a Different Line/Note</td>
+		<td>4</td><td>1</td><td>4</td><td>1</td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Display More than One Note at a Time on Music Sheet</td>
+		<td>4</td><td>1</td><td>4</td><td>1</td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Press Key at Specific Time to Raise Count</td>
+		<td>5</td><td>1</td><td>5</td><td>1</td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Ability to Change Speed of Note</td>
+		<td>5</td><td>1</td><td>5</td><td>1</td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Create Level System</td>
+		<td>6</td><td>1</td><td>6</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Create Level 1</td>
+		<td>6</td><td>1</td><td>6</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Create Level 2</td>
+		<td>7</td><td>1</td><td>6</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Create Level 3</td>
+		<td>7</td><td>1</td><td>6</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Create Level 4</td>
+		<td>7</td><td>1</td><td>7</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Create Level 5</td>    
+		<td>8</td><td>1</td><td>7</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Create Level 6</td>
+		<td>8</td><td>1</td><td>7</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Create Level 7</td>
+		<td>8</td><td>1</td><td>7</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Create Level 8</td>
+		<td>8</td><td>1</td><td>7</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Create Data Capture</td>
+		<td>9</td><td>1</td><td>7</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Change Levelling system</td>
+		<td>9</td><td>1</td><td>7</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Create Level 9</td>
+		<td>9</td><td>1</td><td>8</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Create Level 10</td>
+		<td>10</td><td>1</td><td>8</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td>Create Level 11</td>
+		<td>10</td><td>1</td><td>8</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+</table>
+</div>
+
 
 #### User Stories
 
@@ -179,8 +371,6 @@ To create a level system that will slowly introduce users to how to play a keybo
 - As a user the application must develop my understanding by progressing to a harder difficulty.
 - As a user the application must be visually appealing 
 
-<div id='Conditional-Flow-Diagram'/>
-
 #### Conditional Flow Diagram
 
 All actions for the application are dependent on the MIDI device input:
@@ -188,13 +378,12 @@ All actions for the application are dependent on the MIDI device input:
 - The visual representation on both the keyboard and the staff comes from the note number given by the MIDI device input.
 - The difficulty is adjusted based on the users’ score.
 
-> Figure 6: Conditional Flow Diagram
->> ![Conditional Flow Diagram](/images/ConditionalFlow.png)
+> **Figure 6: Conditional Flow Diagram**
+> 
+> ![Conditional Flow Diagram](/images/ConditionalFlow.png)
 
 
 This should explain the design technique chosen (and justify why it is appropriate) from the various ones available; it should select a suitable subset of the things described in the analysis chapter and develop a design. Where trade-offs exist between different designs, the chosen approach should be justified. Suitable diagram-techniques (e.g. UML, other drawings) should be used where appropriate. If a method is applied selectively, explain which parts were used and why. Experimental projects should pay careful attention to control conditions, samples selected, etc. to ensure a valid result.
-
-<div id='Level-Progression'/>
 
 #### Level Progression
 
@@ -202,27 +391,15 @@ Dynamic Difficulty Adjustment
 
 https://www.hindawi.com/journals/ahci/2018/5681652/
 
-<div id='Design'/>
-
 #### Design
-
-<div id='Accessibility'/>
 
 #### Accessibility - Colour contrast, fonts, layout, hovering, background, text shadow
 
-<div id='Functional-Requirements'/>
-
 #### Functional Requirements
-
-<div id='Use-Cases'/>
 
 #### Use Cases
 
-<div id='Wireframe-Design'/>
-
 #### Wireframe Design
-
-<div id='Finalised-Design'/>
 
 ### Finalised Design
 
@@ -231,11 +408,7 @@ In addition to illustrating "coding traps", this should highlight particular nov
 Hardware and Software Stack
 What is needed to run this application?
 
-<div id='Results'/>
-
 ### Results
-
-<div id='Challenges'/>
 
 #### Challenges
 
@@ -257,8 +430,6 @@ What is needed to run this application?
 >>
 >> Scoring does not currently work with chords, it can only handle one note at a time. 
 
-<div id='Findings'/>
-
 #### Findings
 
 Throughout this project one thing that has become apparent is that creating a timeline of sprints is not always accurate due to an inability to comprehend the difficulty of said task. For example creating a level system had originally been anticipated to hold a weighted value of 2, however this task only took 20 minutes to successfully implement.
@@ -267,27 +438,19 @@ Throughout this project one thing that has become apparent is that creating a ti
 
 present all the results (products, experimental findings, theories, etc.) generated during the project. This may also include some off-topic findings that were not expected, or which were side-effects of other explorations.
 
-<div id='Goals-Achieved'/>
-
 #### Goals Achieved
 
 describes the degree to which the findings support the original objectives laid out for the project. The goals may be partially or fully achieved, or exceeded. An experimental project may prove, or disprove the original thesis. A theoretical project may cover some or all of the example cases. Note that reporting of failures to achieve goals is important since a fundamental feature of the assessment procedures is that the processes (how you went about your project) are often as important as the products of the project.
 
-<div id='Further-Work'/>
-
 #### Further Work 
 
 describes two things: firstly, new areas of investigation prompted by developments in this project, and secondly parts of the current work which were not completed due to time constraints and/or problems encountered.
-
-<div id='Conclusion'/>
 
 #### Conclusion
 
 The conclusions can be summarised in a fairly short chapter (2 or 3 pages). This chapter brings together many of the points that you will have made in other chapters, especially in the previous results and discussion chapter. Do not be afraid of repeating some of your earlier statements here, albeit using different wording.
 Evaluating the Project
 Evaluation for this project will be done through comparison of the initial specification and design documents against the finalised project. It will also look at each sprint to see if targets were completed on time and to the expected standard. 
-
-<div id='References'/>
 
 ### References
 
@@ -307,11 +470,7 @@ Synthesia (2022) [Synthesia Game](https://synthesiagame.com/)
 
 Yuksel, B.F. et al. (2016) Learn piano with BACh: An adaptive learning interface that adjusts task difficulty based on brain state. Proceedings of the 2016 chi conference on human factors in computing systems, pp. 5372-5384.
 
-<div id='Appendices'/>
-
 ### Appendices
-
-<div id='Meeting-Notes'/>
 
 #### Meeting Notes
 
@@ -340,10 +499,12 @@ Meeting with supervisor to gain insight into oscillator type as well speaking ab
 - Display more than one note at a time
 
 > Allan’s Help 1
->> ![Allan’s Help 1](/images/AllansHelp.jpg)
+> 
+> ![Allan’s Help 1](/images/AllansHelp.jpg)
 
 > Allan’s Help 2
->> ![Allan’s Help 2](/images/AllansHelp2.jpg)
+> 
+> ![Allan’s Help 2](/images/AllansHelp2.jpg)
 
 ##### Friday 4th November
 Meeting with supervisor to discuss progress and making visible keyboard and staff dynamic and adapt automatically to the change of the screen size.
@@ -356,7 +517,9 @@ Meeting with supervisor to discuss documentation and areas needed for improvemen
 
 ##### Friday 2nd December
 Meeting with supervisor to discuss mark scheme, and introduce a JavaScript method called "requestAnimationFrame()" used to create moving animations. 
+
 [Request Animation Frame](http://www.javascriptkit.com/javatutors/requestanimationframe.shtml)
+
 [Supervisor Example](https://github.com/calaldees/paratrooper/blob/1dc2ddf1c47ab4728c78d8947ec04d57a00a500d/index.html#L984)
 
 ##### Friday 16th December
@@ -378,3 +541,13 @@ Feedback from poster presentation allowed potential users to give direct feedbac
 
 ##### Wednesday 8th February
 Meeting with supervisor to provide guidance to implement feature that collects user data as this will be very beneficial for milestone 3.
+
+##### Wednesday 22nd February
+Meeting with supervisor to discuss potentials for data to be captures and next steps in planning and research for next milestone. This includes:
+
+- Graph Charts
+- Functions such as:
+  - filter()
+  - map()
+  - reduce()
+- Offline storage and how that can be progressed to a Rest API
