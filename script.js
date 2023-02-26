@@ -335,7 +335,7 @@ function staffNoteHit(staffNumber,notePressed,octave){
 
 // When notes are released, removes them from the staff
 // Notes that are held whilst another key is released are kept visible on the staff
-function removeStaffNoteHit(removedNoteArray,removedStaffPosArray,heldNoteList){
+function removeStaffNoteHit(removedNoteArray,removedStaffPosArray,notesHeldList){
     removedStaffOctave = Math.floor((removedNoteArray/12)-4)
     if(removedStaffOctave === 1){
         removedOctaveWeight = (removedStaffPosArray*0.5+4)
@@ -349,19 +349,11 @@ function removeStaffNoteHit(removedNoteArray,removedStaffPosArray,heldNoteList){
     ctx.fillRect(0,0,leftBoundary,staffHeight)
     ctx.fill()
     drawStaff()
-    if(heldNoteList !== null){ // If a note is still held display it 
-        for(values in heldNoteList){
-            // console.log(heldNoteList[values])
-
-
-
-
-
-
-
-            if(majorKeyPos.includes(findNoteLetter(heldNoteList[values]))){
-                staffOctave =  parseInt(heldNoteList[values]/12) - 4
-                overwriteStaffLetter = findNoteLetter(heldNoteList[values])
+    if(notesHeldList !== null){ // If a note is still held display it 
+        for(values in notesHeldList){
+           if(majorKeyPos.includes(findNoteLetter(notesHeldList[values]))){
+                staffOctave =  parseInt(notesHeldList[values]/12) - 4
+                overwriteStaffLetter = findNoteLetter(notesHeldList[values])
                 overwriteStaffValue = staffShtMajorPos.indexOf(overwriteStaffLetter)
                 if(staffOctave === 1){
                     octaveWeight = (overwriteStaffValue*0.5+4)
@@ -374,9 +366,9 @@ function removeStaffNoteHit(removedNoteArray,removedStaffPosArray,heldNoteList){
                 ctx.fillStyle="red"
                 ctx.arc(leftBoundary, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
                 ctx.fill()
-            }else if(sharpKeyPos.includes(findNoteLetter(heldNoteList[values]))) {
-                staffOctave =  parseInt(heldNoteList[values]/12) - 4
-                overwriteStaffLetter = findNoteLetter(heldNoteList[values])
+            }else if(sharpKeyPos.includes(findNoteLetter(notesHeldList[values]))) {
+                staffOctave =  parseInt(notesHeldList[values]/12) - 4
+                overwriteStaffLetter = findNoteLetter(notesHeldList[values])
                 overwriteStaffValue = staffShtSharpPos.indexOf(overwriteStaffLetter)
                 if(staffOctave === 1){
                     octaveWeight = (overwriteStaffValue*0.5+4)
@@ -444,13 +436,15 @@ let resetValues = new Boolean(true)
 let previousNote = null
 // Class for animated notes
 class animatingNotes{
-    constructor (x,y,y1,y2,clicked,major,major1,major2){
+    constructor (x,y,yHit,y1,y1Hit,y2,y2Hit,major,major1,major2){
         this.x = x
         this.y = y
+        this.yHit = yHit
         this.y1 = y1
+        this.y1Hit = y1Hit
         this.y2 = y2
+        this.y2Hit = y2Hit
         this.yValues = []
-        this.clicked = clicked
         this.image = new Image(135,137) //pixel size
         this.image1 = new Image(135,137) //pixel size
         this.image2 = new Image(135,137) //pixel size
@@ -482,40 +476,81 @@ class animatingNotes{
             // Scoring
             if(pressed){
                 if(this.x <= leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)){
-                    if(!keyPressed){
+                    if(!keyPressed){ // Stops constantly adding to score whilst holding note
+                        keyPressed = true
                         const time = new Date() // Creates a time that the user pressed a note
-                        if ((this.y/staffSpacing)+0.5 == octaveWeight){
-                            if(this.major == majorPressed){
+                        if(notesHeldList.length == DynamicDifficulty[difficultyLevel].numberOfNotes){
+                            let notesHeldListValue
+                            for(var values in notesHeldList){
+                                if(majorKeyPos.includes(findNoteLetter(notesHeldList[values]))){
+                                    let notesHeldOctave =  parseInt(notesHeldList[values]/12) - 4
+                                    let notesHeldLetter = findNoteLetter(notesHeldList[values])
+                                    let notesHeldValue = staffShtMajorPos.indexOf(notesHeldLetter)
+                                    if(notesHeldOctave === 1){
+                                        notesHeldListValue = (notesHeldValue*0.5+4)
+                                    }else if(notesHeldOctave === 0){
+                                        notesHeldListValue = (notesHeldValue*0.5+4)+3.5
+                                    }else if(notesHeldOctave === 2){
+                                        notesHeldListValue = (notesHeldValue*0.5+4)-3.5
+                                    }else notesHeldListValue = 0
+                                }else if(sharpKeyPos.includes(findNoteLetter(notesHeldList[values]))) {
+                                    let notesHeldOctave =  parseInt(notesHeldList[values]/12) - 4
+                                    let notesHeldLetter = findNoteLetter(notesHeldList[values])
+                                    let notesHeldValue = staffShtSharpPos.indexOf(notesHeldLetter)
+                                    if(notesHeldOctave === 1){
+                                        notesHeldListValue = (notesHeldValue*0.5+4)
+                                    }else if(notesHeldOctave === 0){
+                                        notesHeldListValue = (notesHeldValue*0.5+4)+3.5
+                                    }else if(notesHeldOctave === 2){
+                                        notesHeldListValue = (notesHeldValue*0.5+4)-3.5
+                                    }else notesHeldListValue = 0
+                                }
+                                if((this.y/staffSpacing)+0.5 == notesHeldListValue && this.major == majorPressed){
+                                    this.yHit = true
+                                }
+                                if((this.y1/staffSpacing)+0.5 == notesHeldListValue && this.major == majorPressed){
+                                    this.y1Hit = true
+                                }
+                                if((this.y2/staffSpacing)+0.5 == notesHeldListValue && this.major == majorPressed){
+                                    this.y2Hit = true
+                                }
+                                console.log(octaveWeight)
+                                console.log(notesHeldList)
+                                console.log((this.y/staffSpacing)+0.5)
+                                console.log(notesHeldListValue)
+                            }
+                            if(DynamicDifficulty[difficultyLevel].numberOfNotes == 1 && this.yHit == true){
                                 score++
-                                keyPressed = true
-                                this.clicked = true
                                 console.log("score = " + score)
                                 correctNoteHit = true
                             }
-                            else{
-                                keyPressed = true
-                                score--
-                                this.clicked = true
+                            else if(DynamicDifficulty[difficultyLevel].numberOfNotes == 2 && this.yHit == true && this.y1Hit == true){
+                                score++
                                 console.log("score = " + score)
-                                correctNoteHit = false
+                                correctNoteHit = true
                             }
-                        } 
-                        else if(heldNoteList.length == DynamicDifficulty[difficultyLevel].numberOfNotes){
-                            //console.log(octaveWeight)
-
-
-                            // trying to enable scoring for chords
-                            // looking at heldNoteList to obtain values for all notes held
-                            // change else if to (if heldNoteList.length>1)
-                            // look at line 352
+                            else if(DynamicDifficulty[difficultyLevel].numberOfNotes == 3 && this.yHit == true && this.y1Hit == true && this.y2Hit == true){
+                                score++
+                                console.log("score = " + score)
+                                correctNoteHit = true
+                            }
+                            else{ // Wrong Note is pushed
+                                score--
+                                console.log("score = " + score)
+                                correctNoteHit = false   
+                            }
                         }
-                        else{
-                            keyPressed = true
+                        else{ // Wrong number of notes is pushed
                             score--
-                            this.clicked = true
                             console.log("score = " + score)
-                            correctNoteHit = false
+                            correctNoteHit = false   
                         }
+
+                        // Deducting a score point can be instantiated when the new scoring system is in place
+                        // e.g. when this.x == 'a specific point' && 'var scoreAltered == false' {deduct point}
+
+
+
                         currentActualHitTime.h = createTime(time.getHours(), 2)
                         currentActualHitTime.m = createTime(time.getMinutes(), 2)
                         currentActualHitTime.s = createTime(time.getSeconds(), 2)
@@ -523,10 +558,9 @@ class animatingNotes{
                         currentActualHitTime.time = time.getTime()
                     }
                 }
-            }        
+            }
             // Note Loop Around
             if(this.x<leftBoundary){ // If note moves far to the left it will delete and autocreate a new y value
-                this.recordedExpectedTime = false
                 let leftOrRight
                 let distanceBetweenNotes = 0
                 if(resetValues == false){ 
@@ -559,13 +593,6 @@ class animatingNotes{
                         userNoteProgression[numberOfNotesInLevel]=noteNumberProgression
                     }
                     previousNote = (this.y/staffSpacing)+0.5
-                }
-                if(!this.clicked && !keyPressed){
-                    score--
-                    console.log("score = " + score)
-                }
-                else{
-                    this.clicked = false
                 }
                 this.x = window.innerWidth
                 if(score == DynamicDifficulty[difficultyLevel].requiredScoreToProgress){
@@ -928,6 +955,11 @@ class animatingNotes{
             }   
             this.x -= DynamicDifficulty[difficultyLevel].speed
             numberOfNotesInLevel++
+            // Reset boolean values
+            this.recordedExpectedTime = false
+            this.yHit = false
+            this.y1Hit = false
+            this.y2Hit = false
         }    
         else{
             cancelAnimationFrame(movePlayableNotes)
