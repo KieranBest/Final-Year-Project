@@ -123,6 +123,10 @@ function noteOn(note, velocity){
 // When releasing a note
 function noteOff(note){    
     const time = new Date()
+    noteOffTime.h = createTime(time.getHours(), 2)
+    noteOffTime.m = createTime(time.getMinutes(), 2)
+    noteOffTime.s = createTime(time.getSeconds(), 2)
+    noteOffTime.ms = createTime(time.getMilliseconds(), 3)
     noteOffTime.time = time.getTime()
     const octave = parseInt(note/12) - 4; // -4 because my keyboard automatically starts at pos 48, this will need to be changed when numWhiteKeys is edited
     const noteLetterReleased=findNoteLetter(note);
@@ -200,6 +204,14 @@ function canvasStats(){
     staffHeight = (ch/7)*2.5
     staffSpacing = (ch/7)/6
     leftBoundary = cw*0.05
+    hitMarker = cw*0.15
+
+    lowerBoundary = hitMarker-((window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)/2)
+    upperBoundary = hitMarker+((window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)/2)
+
+    lowerBoundaryMultiplier = hitMarker-((window.innerWidth*0.05)/8)
+    upperBoundaryMultiplier = hitMarker+((window.innerWidth*0.05)/8)
+
     downLineDistance = staffSpacing*13
     img = new Image(whiteKeyWidth/2,staffSpacing*5)
 }
@@ -218,15 +230,35 @@ function drawStaff(){
         ctx.lineTo(cw, i*staffSpacing)
         ctx.stroke()
     }
+    // Left Boundary Marker
     ctx.beginPath()
     ctx.moveTo(leftBoundary, staffSpacing)
     ctx.lineTo(leftBoundary, downLineDistance)
     ctx.stroke()
-// Left Boundary Marker
+    // Hit Marker
     ctx.beginPath()
-    ctx.moveTo(leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage), staffSpacing)
-    ctx.lineTo(leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage), downLineDistance)
+    ctx.moveTo(hitMarker, staffSpacing)
+    ctx.lineTo(hitMarker, downLineDistance)
     ctx.stroke()
+
+    ctx.beginPath()
+    ctx.moveTo(lowerBoundary, staffSpacing)
+    ctx.lineTo(lowerBoundary, downLineDistance)
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.moveTo(upperBoundary, staffSpacing)
+    ctx.lineTo(upperBoundary, downLineDistance)
+    ctx.stroke()
+
+    ctx.beginPath()
+    ctx.moveTo(lowerBoundaryMultiplier, staffSpacing)
+    ctx.lineTo(lowerBoundaryMultiplier, downLineDistance)
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.moveTo(upperBoundaryMultiplier, staffSpacing)
+    ctx.lineTo(upperBoundaryMultiplier, downLineDistance)
+    ctx.stroke()
+
 }
 
 // Draws the displayed keyboard, sharpNote is a held sharp keyA
@@ -411,568 +443,6 @@ bassValues = [6.5,7,7.5,8,8.5,9,9.5,10]
 function noteGenerator(valueGenerator, randomGeneratorValue){
     let randomValue = Math.floor(Math.random()*randomGeneratorValue)
     return valueGenerator [randomValue]
-}
-
-// Creates accessible and understandable time signatures for the actual hit time and expected hit time
-function createTime(x,n){
-    while(x.toString().length < n){
-        x = "0" + x
-    }
-    return x
-}
-
-let cycleNotes = 1
-let bassCycle = 10
-let sharpNoteCycle = 7
-let bassSharpCycle = 0
-let chordCycle = 1
-let levelProgression = 1
-let correctNoteHit = new Boolean(false)
-let userNoteProgression= {}
-let gameProgression = {}
-let numberOfNotesInLevel = 0
-let noteNumberInGame = 0
-let resetValues = new Boolean(true)
-let previousNote = null
-// Class for animated notes
-class animatingNotes{
-    constructor (x,y,yHit,y1,y1Hit,y2,y2Hit,major,major1,major2){
-        this.x = x
-        this.y = y
-        this.yHit = yHit
-        this.y1 = y1
-        this.y1Hit = y1Hit
-        this.y2 = y2
-        this.y2Hit = y2Hit
-        this.yValues = []
-        this.image = new Image(135,137) //pixel size
-        this.image1 = new Image(135,137) //pixel size
-        this.image2 = new Image(135,137) //pixel size
-        this.images = []
-        this.major = major
-        this.major1 = major1
-        this.major2 = major2
-        this.recordedExpectedTime = new Boolean(false)
-    }
-    update(){ // Updates and changes each animated notes x variable according to speed
-        if(toggle){      
-            if(this.x <= leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)){
-                if(this.recordedExpectedTime == false){
-                    this.recordedExpectedTime = true
-                    noteNumberInGame++
-                    const time = new Date() // Creates a time that the note will reach the desired hit point
-                    currentExpectedHitTime.h = createTime(time.getHours(), 2)
-                    currentExpectedHitTime.m = createTime(time.getMinutes(), 2)
-                    currentExpectedHitTime.s = createTime(time.getSeconds(), 2)
-                    currentExpectedHitTime.ms = createTime(time.getMilliseconds(), 3)
-                    currentExpectedHitTime.time = time.getTime()
-                    if(noteNumberInGame > 1 && resetValues == true){ // Needs to be reset so it does not record when the first 2 notes are generated
-                        resetValues = false
-                        noteNumberInGame = 0
-                        numberOfNotesInLevel = 0   
-                    }
-                }
-            }
-            // Scoring
-            if(pressed){
-                if(this.x <= leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)){
-                    if(!keyPressed){ // Stops constantly adding to score whilst holding note
-                        keyPressed = true
-                        const time = new Date() // Creates a time that the user pressed a note
-                        if(notesHeldList.length == DynamicDifficulty[difficultyLevel].numberOfNotes){
-                            let notesHeldListValue
-                            for(var values in notesHeldList){
-                                if(majorKeyPos.includes(findNoteLetter(notesHeldList[values]))){
-                                    let notesHeldOctave =  parseInt(notesHeldList[values]/12) - 4
-                                    let notesHeldLetter = findNoteLetter(notesHeldList[values])
-                                    let notesHeldValue = staffShtMajorPos.indexOf(notesHeldLetter)
-                                    if(notesHeldOctave === 1){
-                                        notesHeldListValue = (notesHeldValue*0.5+4)
-                                    }else if(notesHeldOctave === 0){
-                                        notesHeldListValue = (notesHeldValue*0.5+4)+3.5
-                                    }else if(notesHeldOctave === 2){
-                                        notesHeldListValue = (notesHeldValue*0.5+4)-3.5
-                                    }else notesHeldListValue = 0
-                                }else if(sharpKeyPos.includes(findNoteLetter(notesHeldList[values]))) {
-                                    let notesHeldOctave =  parseInt(notesHeldList[values]/12) - 4
-                                    let notesHeldLetter = findNoteLetter(notesHeldList[values])
-                                    let notesHeldValue = staffShtSharpPos.indexOf(notesHeldLetter)
-                                    if(notesHeldOctave === 1){
-                                        notesHeldListValue = (notesHeldValue*0.5+4)
-                                    }else if(notesHeldOctave === 0){
-                                        notesHeldListValue = (notesHeldValue*0.5+4)+3.5
-                                    }else if(notesHeldOctave === 2){
-                                        notesHeldListValue = (notesHeldValue*0.5+4)-3.5
-                                    }else notesHeldListValue = 0
-                                }
-                                if((this.y/staffSpacing)+0.5 == notesHeldListValue && this.major == majorPressed){
-                                    this.yHit = true
-                                }
-                                if((this.y1/staffSpacing)+0.5 == notesHeldListValue && this.major == majorPressed){
-                                    this.y1Hit = true
-                                }
-                                if((this.y2/staffSpacing)+0.5 == notesHeldListValue && this.major == majorPressed){
-                                    this.y2Hit = true
-                                }
-                                console.log(octaveWeight)
-                                console.log(notesHeldList)
-                                console.log((this.y/staffSpacing)+0.5)
-                                console.log(notesHeldListValue)
-                            }
-                            if(DynamicDifficulty[difficultyLevel].numberOfNotes == 1 && this.yHit == true){
-                                score++
-                                console.log("score = " + score)
-                                correctNoteHit = true
-                            }
-                            else if(DynamicDifficulty[difficultyLevel].numberOfNotes == 2 && this.yHit == true && this.y1Hit == true){
-                                score++
-                                console.log("score = " + score)
-                                correctNoteHit = true
-                            }
-                            else if(DynamicDifficulty[difficultyLevel].numberOfNotes == 3 && this.yHit == true && this.y1Hit == true && this.y2Hit == true){
-                                score++
-                                console.log("score = " + score)
-                                correctNoteHit = true
-                            }
-                            else{ // Wrong Note is pushed
-                                score--
-                                console.log("score = " + score)
-                                correctNoteHit = false   
-                            }
-                        }
-                        else{ // Wrong number of notes is pushed
-                            score--
-                            console.log("score = " + score)
-                            correctNoteHit = false   
-                        }
-
-                        // Deducting a score point can be instantiated when the new scoring system is in place
-                        // e.g. when this.x == 'a specific point' && 'var scoreAltered == false' {deduct point}
-
-
-
-                        currentActualHitTime.h = createTime(time.getHours(), 2)
-                        currentActualHitTime.m = createTime(time.getMinutes(), 2)
-                        currentActualHitTime.s = createTime(time.getSeconds(), 2)
-                        currentActualHitTime.ms = createTime(time.getMilliseconds(), 3)
-                        currentActualHitTime.time = time.getTime()
-                    }
-                }
-            }
-            // Note Loop Around
-            if(this.x<leftBoundary){ // If note moves far to the left it will delete and autocreate a new y value
-                let leftOrRight
-                let distanceBetweenNotes = 0
-                if(resetValues == false){ 
-                    if(this.y < 6.5){
-                        leftOrRight =  "left"
-                    }
-                    else{
-                        leftOrRight =  "right"
-                    }
-                    if(numberOfNotesInLevel > 0 && resetValues == false){ // Otherwise distanceBetweenPreviousNote will error
-                        distanceBetweenNotes = previousNote-((this.y/staffSpacing)+0.5)                       
-                        const noteNumberProgression = { // Capturing data for statistical analysis
-                            expectedHitTime: currentExpectedHitTime,
-                            actualHitTime: currentActualHitTime,
-                            differenceInHitTime: currentActualHitTime.time-currentExpectedHitTime.time,
-                            noteoff: noteOffTime,
-                            timeHeldNote: noteOffTime.time - currentActualHitTime.time,
-                            correctNote: correctNoteHit,
-                            major1: this.major,
-                            major2: this.major1,
-                            major3:this.major2,
-                            hand: leftOrRight,
-                            noteEntered: octaveWeight,
-                            noteRequired: (this.y/staffSpacing)+0.5,
-                            noteGapBetweenEnteredAndRequired: octaveWeight-((this.y/staffSpacing)+0.5),
-                            previousNoteRequired: previousNote,
-                            distanceBetweenPreviousNoteRequiredAndCurrentRequired: distanceBetweenNotes,
-                            noteNumberInGame: noteNumberInGame
-                        }
-                        userNoteProgression[numberOfNotesInLevel]=noteNumberProgression
-                    }
-                    previousNote = (this.y/staffSpacing)+0.5
-                }
-                this.x = window.innerWidth
-                if(score == DynamicDifficulty[difficultyLevel].requiredScoreToProgress){
-                    gameProgression[levelProgression]={
-                        currentLevel: difficultyLevel,
-                        numberOfNotes: DynamicDifficulty[difficultyLevel].numberOfNotes,
-                        recurringNotes: DynamicDifficulty[difficultyLevel].recurringNotes,
-                        hitScreenPercentage: DynamicDifficulty[difficultyLevel].hitScreenPercentage,
-                        requiredScoreToProgress: DynamicDifficulty[difficultyLevel].requiredScoreToProgress,
-                        requiredScoreToRegress: DynamicDifficulty[difficultyLevel].requiredScoreToRegress,
-                        numberofNotesinLevel: numberOfNotesInLevel,  
-                        userNoteProgression: userNoteProgression
-                    }
-                    difficultyLevel++
-                    console.log(gameProgression)
-                    levelProgression++
-                    userNoteProgression = {}
-                    score = 0
-                    numberOfNotesInLevel = 0
-                }
-                else if(score == DynamicDifficulty[difficultyLevel].requiredScoreToRegress){
-                    gameProgression[levelProgression]={
-                        currentLevel: difficultyLevel,
-                        numberOfNotes: DynamicDifficulty[difficultyLevel].numberOfNotes,
-                        recurringNotes: DynamicDifficulty[difficultyLevel].recurringNotes,
-                        hitScreenPercentage: DynamicDifficulty[difficultyLevel].hitScreenPercentage,
-                        requiredScoreToProgress: DynamicDifficulty[difficultyLevel].requiredScoreToProgress,
-                        requiredScoreToRegress: DynamicDifficulty[difficultyLevel].requiredScoreToRegress,
-                        numberofNotesinLevel: numberOfNotesInLevel,  
-                        userNoteProgression: userNoteProgression
-                    }
-                    difficultyLevel--
-                    console.log(gameProgression)
-                    levelProgression++
-                    userNoteProgression = {}
-                    score = 0
-                    numberOfNotesInLevel = 0
-                }
-                switch(difficultyLevel){
-                    case 1: // random 4 notes
-                        this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
-                        this.image = noteImage
-                        this.major = true
-                        break
-                    case 2: // roll up and down 7 notes to teach moving fingers correctly
-                        this.y = staffSpacing * cycleNotes
-                        this.major = true
-                        if(DynamicDifficulty[2].down == true){ // Scrolls up and down through the octave
-                            cycleNotes=cycleNotes+0.5
-                            if(cycleNotes>3.5){
-                                DynamicDifficulty[2].down = false
-                            } 
-                        }
-                        else if (DynamicDifficulty[2].down == false){
-                            cycleNotes=cycleNotes-0.5
-                            if(cycleNotes<1.5){
-                                DynamicDifficulty[2].down = true
-                            }  
-                        }
-                        this.image = noteImage
-                        break
-                    case 3: // random majors in octave
-                        this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
-                        this.image = noteImage
-                        this.major = true
-                        break
-                    case 4: // roll up and down including sharps somehow
-                        this.y = staffSpacing * cycleNotes
-                        if(DynamicDifficulty[4].down == true){ // Scrolls up and down through the octave
-                            if(noteLetter[sharpNoteCycle].includes("#")){
-                                this.image = sharpImage
-                                this.major = false
-                                sharpNoteCycle--
-                            }
-                            else{
-                                this.image = noteImage
-                                this.major = true
-                                sharpNoteCycle--
-                                cycleNotes=cycleNotes+0.5
-                            }
-                            if(sharpNoteCycle < 0){
-                                sharpNoteCycle = 11
-                            }
-                            if(noteLetter[sharpNoteCycle] == "G"){
-                                DynamicDifficulty[4].down = false
-                            } 
-                        }
-                        else if (DynamicDifficulty[4].down == false){
-                            if(noteLetter[sharpNoteCycle].includes("#")){
-                                this.image = sharpImage
-                                this.major = false
-                                sharpNoteCycle++
-                                cycleNotes=cycleNotes-0.5
-                            }
-                            else{
-                                this.image = noteImage
-                                this.major = true
-                                sharpNoteCycle++
-                                if(sharpNoteCycle > 11){
-                                    sharpNoteCycle = 0
-                                }    
-                                if(!noteLetter[sharpNoteCycle].includes("#")){
-                                    cycleNotes=cycleNotes-0.5
-                                }
-                            }
-                            if(noteLetter[sharpNoteCycle] == "G"){
-                                DynamicDifficulty[4].down = true
-                            } 
-                        }
-                        break
-                    case 5: // random notes including sharps
-                        let trebleSharpValue
-                        if(Math.random()>DynamicDifficulty[5].sharpChance){
-                            this.image = noteImage
-                            this.major = true
-                            this.y = trebleValues[Math.floor(Math.random() * 7)+1] * staffSpacing
-                        }
-                        else{
-                            this.image = sharpImage
-                            this.major = false
-                            trebleSharpValue = Math.floor(Math.random() * 7)+1
-                            if(trebleSharpValue == 2 || trebleSharpValue == 3.5){
-                                trebleSharpValue ++
-                            }
-                            this.y = trebleValues[trebleSharpValue] * staffSpacing
-                        }
-                        this.y1 = null
-                        this.y2 = null
-                        break
-                    case 6: // 3 note chords
-                        // y Note
-                        if(trebleChords[chordCycle][1][1] == "major"){
-                            this.image = noteImage
-                            this.major = true
-                        }
-                        else if(trebleChords[chordCycle][1][1] == "sharp"){
-                            this.image = sharpImage
-                            this.major = false
-                        }
-                        this.y = trebleChords[chordCycle][1][0] * staffSpacing
-                        // y1 Note
-                        if(trebleChords[chordCycle][2][1] == "major"){
-                            this.image1 = noteImage
-                            this.major = true
-                        }
-                        else if(trebleChords[chordCycle][2][1] == "sharp"){
-                            this.image1 = sharpImage
-                            this.major = false
-                        }
-                        this.y1 = trebleChords[chordCycle][2][0] * staffSpacing
-                        // y2 Note
-                        if(trebleChords[chordCycle][3][1] == "major"){
-                            this.image2 = noteImage
-                            this.major = true
-                        }
-                        else if(trebleChords[chordCycle][3][1] == "sharp"){
-                            this.image2 = sharpImage
-                            this.major = false
-                        }
-                        this.y2 = trebleChords[chordCycle][3][0] * staffSpacing
-                        chordCycle++
-                        if(chordCycle > 12){
-                            chordCycle = 1
-                        }
-                        break
-                    case 7: // 3 note chords
-                        if(trebleChords[chordCycle][1][1] == "major"){
-                            this.image = noteImage
-                            this.major = true
-                        }
-                        else if(trebleChords[chordCycle][1][1] == "sharp"){
-                            this.image = sharpImage
-                            this.major = false
-                        }
-                        this.y = trebleChords[chordCycle][1][0] * staffSpacing
-                        // y1 Note
-                        if(trebleChords[chordCycle][2][1] == "major"){
-                            this.image1 = noteImage
-                            this.major = true
-                        }
-                        else if(trebleChords[chordCycle][2][1] == "sharp"){
-                            this.image1 = sharpImage
-                            this.major = false
-                        }
-                        this.y1 = trebleChords[chordCycle][2][0] * staffSpacing
-                        // y2 Note
-                        if(trebleChords[chordCycle][3][1] == "major"){
-                            this.image2 = noteImage
-                            this.major = true
-                        }
-                        else if(trebleChords[chordCycle][3][1] == "sharp"){
-                            this.image2 = sharpImage
-                            this.major = false
-                        }
-                        this.y2 = trebleChords[chordCycle][3][0] * staffSpacing
-                        chordCycle = Math.floor(Math.random()*12)+1
-                        break
-                    case 8: // random 4 notes
-                        this.y1 = null
-                        this.y2 = null
-                        this.y = staffSpacing * noteGenerator(bassValues,DynamicDifficulty[difficultyLevel].bassGeneratorSize)
-                        this.image = noteImage
-                        this.major = true
-                        break
-                    case 9: // roll up and down 7 notes to teach moving fingers correctly
-                        this.y = staffSpacing * bassCycle
-                        this.major = true
-                        if(DynamicDifficulty[9].down == false){ // Scrolls up and down through the octave
-                            bassCycle=bassCycle-0.5
-                            if(bassCycle<7.5){
-                                DynamicDifficulty[9].down = true
-                            } 
-                        }
-                        else if (DynamicDifficulty[9].down == true){
-                            bassCycle=bassCycle+0.5
-                            if(bassCycle>9.5){
-                                DynamicDifficulty[9].down = false
-                            }  
-                        }
-                        this.image = noteImage
-                        break
-                    case 10: // random majors in octave
-                        this.y = staffSpacing * noteGenerator(bassValues,DynamicDifficulty[difficultyLevel].bassGeneratorSize)
-                        this.image = noteImage
-                        this.major = true
-                        break
-                    case 11: // roll up and down including sharps
-                        this.y = staffSpacing * bassCycle
-                        if(DynamicDifficulty[11].down == false){ // Scrolls up and down through the octave
-                            if(noteLetter[bassSharpCycle].includes("#")){
-                                this.image = sharpImage
-                                this.major = false
-                                bassSharpCycle++
-                                bassCycle=bassCycle-0.5
-                            }
-                            else{
-                                this.image = noteImage
-                                this.major = true
-                                bassSharpCycle++
-                            
-                                if(bassSharpCycle > 11){
-                                    bassSharpCycle = 0
-                                }
-                                if(!noteLetter[bassSharpCycle].includes("#")){
-                                    bassCycle=bassCycle-0.5
-                                }
-                            }
-                            if(noteLetter[bassSharpCycle] == "C"){
-                                DynamicDifficulty[11].down = true
-                            } 
-                        }
-                        else if (DynamicDifficulty[11].down == true){
-                            if(noteLetter[bassSharpCycle].includes("#")){
-                                this.image = sharpImage
-                                this.major = false
-                                bassSharpCycle--
-                            }
-                            else{
-                                this.image = noteImage
-                                this.major = true
-                                bassSharpCycle--
-                                bassCycle=bassCycle+0.5
-                            }
-                            if(bassSharpCycle < 0){
-                                bassSharpCycle = 11
-                            }
-                            if(noteLetter[bassSharpCycle] == "C"){
-                                DynamicDifficulty[11].down = false
-                            } 
-                        }
-                        break
-                    case 12: // random notes including sharps
-                        let bassSharpValue
-                        if(Math.random()>DynamicDifficulty[12].sharpChance){
-                            this.image = noteImage
-                            this.major = true
-                            this.y = bassValues[Math.floor(Math.random() * 7)+1] * staffSpacing
-                        }
-                        else{
-                            this.image = sharpImage
-                            this.major = false
-                            bassSharpValue = Math.floor(Math.random() * 7)+1
-                            if(bassSharpValue == 1 || bassSharpValue == 5){
-                                bassSharpValue --
-                            }
-                            this.y = bassValues[bassSharpValue] * staffSpacing
-                        }                            
-                        this.y1 = null
-                        this.y2 = null
-                        break
-                    case 13: // 3 note chords
-                        // y Note
-                        if(bassChords[chordCycle][1][1] == "major"){
-                            this.image = noteImage
-                            this.major = true
-                        }
-                        else if(bassChords[chordCycle][1][1] == "sharp"){
-                            this.image = sharpImage
-                            this.major = false
-                        }
-                        this.y = bassChords[chordCycle][1][0] * staffSpacing
-                        // y1 Note
-                        if(bassChords[chordCycle][2][1] == "major"){
-                            this.image1 = noteImage
-                            this.major = true
-                        }
-                        else if(bassChords[chordCycle][2][1] == "sharp"){
-                            this.image1 = sharpImage
-                            this.major = false
-                        }
-                        this.y1 = bassChords[chordCycle][2][0] * staffSpacing
-                        // y2 Note
-                        if(bassChords[chordCycle][3][1] == "major"){
-                            this.image2 = noteImage
-                            this.major = true
-                        }
-                        else if(bassChords[chordCycle][3][1] == "sharp"){
-                            this.image2 = sharpImage
-                            this.major = false
-                        }
-                        this.y2 = bassChords[chordCycle][3][0] * staffSpacing
-                        chordCycle++
-                        if(chordCycle > 12){
-                            chordCycle = 1
-                        }
-                        break
-                    case 14: // 3 note chords in different order
-                        if(bassChords[chordCycle][1][1] == "major"){
-                            this.image = noteImage
-                            this.major = true
-                        }
-                        else if(bassChords[chordCycle][1][1] == "sharp"){
-                            this.image = sharpImage
-                            this.major = false
-                        }
-                        this.y = bassChords[chordCycle][1][0] * staffSpacing
-                        // y1 Note
-                        if(bassChords[chordCycle][2][1] == "major"){
-                            this.image1 = noteImage
-                            this.major = true
-                        }
-                        else if(bassChords[chordCycle][2][1] == "sharp"){
-                            this.image1 = sharpImage
-                            this.major = false
-                        }
-                        this.y1 = bassChords[chordCycle][2][0] * staffSpacing
-                        // y2 Note
-                        if(bassChords[chordCycle][3][1] == "major"){
-                            this.image2 = noteImage
-                            this.major = true
-                        }
-                        else if(bassChords[chordCycle][3][1] == "sharp"){
-                            this.image2 = sharpImage
-                            this.major = false
-                        }
-                        this.y2 = bassChords[chordCycle][3][0] * staffSpacing
-                        chordCycle = Math.floor(Math.random()*12)+1
-                        break
-                }   
-            }   
-            this.x -= DynamicDifficulty[difficultyLevel].speed
-            numberOfNotesInLevel++
-            // Reset boolean values
-            this.recordedExpectedTime = false
-            this.yHit = false
-            this.y1Hit = false
-            this.y2Hit = false
-        }    
-        else{
-            cancelAnimationFrame(movePlayableNotes)
-            this.x = window.innerWidth
-        }
-    }
-    display(){ // Displays the notes based on the x and y values created in the update function
-        ctx.drawImage(this.image,this.x, this.y, staffSpacing,staffSpacing)
-        if(this.y1 != null && this.y2 != null){
-            ctx.drawImage(this.image1,this.x, this.y1, staffSpacing,staffSpacing)
-            ctx.drawImage(this.image2,this.x, this.y2, staffSpacing,staffSpacing)
-        }
-    }              
 }
 
 let animating_Notes1 = new animatingNotes(window.innerWidth)
