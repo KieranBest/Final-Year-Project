@@ -99,11 +99,13 @@ class animatingNotes{
                                 }
                                 
                                 if(this.x > lowerBoundaryMultiplier && this.x < upperBoundaryMultiplier){
-                                    scoreMultiplier = 2
                                     bonusScore = true
                                 }
                             }
                             if(DynamicDifficulty[difficultyLevel].numberOfNotes == 1 && this.yHit == true){
+                                if(bonusScore==true){
+                                    score++
+                                }
                                 score++
                                 console.log("score = " + score)
                                 deductionReason = ""
@@ -112,6 +114,9 @@ class animatingNotes{
                                 this.scoreAdjusted = true
                             }
                             else if(DynamicDifficulty[difficultyLevel].numberOfNotes == 3 && this.yHit == true && this.y1Hit == true && this.y2Hit == true){
+                                if(bonusScore==true){
+                                    score++
+                                }
                                 score++
                                 console.log("score = " + score)
                                 deductionReason = ""
@@ -233,7 +238,7 @@ class animatingNotes{
                     previousNote = (this.y/staffSpacing)+0.5
                 }
                 this.x = window.innerWidth
-                if(score == DynamicDifficulty[difficultyLevel].requiredScoreToProgress){
+                if(score >= DynamicDifficulty[difficultyLevel].requiredScoreToProgress){
                     gameProgression[levelProgression]={
                         currentLevel: difficultyLevel,
                         numberOfNotes: DynamicDifficulty[difficultyLevel].numberOfNotes,

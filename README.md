@@ -28,6 +28,8 @@ Canterbury Christ Church University
 	- [Use Cases](#use-cases)
 	- [Wireframe Design](#wireframe-design)
 - [Finalised Design](#finalised-design)
+- [Implementation and Testing](#implementation-and-testing)
+- [Hardware and Software Stack](#hardware-and-software-stack)
 - [Results](#results)
 	- [Challenges](#challenges)
 	- [Findings](#findings)
@@ -171,9 +173,15 @@ To create a level system that will slowly introduce users to how to play a keybo
 - Create Level 6 - Less Dominant Hand, Move Hand Across 1 Octave - 1
 - Create Level 7 - Less Dominant Hand, Introduce Sharps and Flats in the Octave - 1
 - Create Level 8 - Less Dominant Hand, Introduce 3 Note Chords - 1
+- Create Data Capture - 1
+- Adapt Levelling System to Further Complexity - 1
 - Create Level 9 - Play Across Both Hands - 1
 - Create Level 10 - Play Across Both Hands, Introducing New Chords - 1
 - Create Level 11 - Play Across Both Hands - 1
+
+Milestone 3 Objectives
+
+To produce visual aid in understanding the progression of a users' learning experience.
 
 **Figure 5: Gantt Chart Progression**
 
@@ -181,8 +189,6 @@ PS = Planned Start,
 PD = Planned Duration,
 AS = Actual Start,
 AD = Actual Duration
-
-
 
 <style>
     .Gantt {
@@ -201,34 +207,14 @@ AD = Actual Duration
     .Gantt td:nth-child(4) { background: white; }
     .Gantt td:nth-child(5) { background: silver; }
 	</style>
-
 <div class="Gantt">
 <table>
 	<tr>
 		<th>Activity</th>
-		<th>PS</th>
-		<th>PD</th>
-		<th>AS</th>
-		<th>AD</th>
-		<th>1</th>
-		<th>2</th>
-		<th>3</th>
-		<th>4</th>
-		<th>5</th>
-		<th>6</th>
-		<th>7</th>
-		<th>8</th>
-		<th>9</th>
-		<th>10</th>
-		<th>11</th>
-		<th>12</th>
-		<th>13</th>
-		<th>14</th>
-		<th>15</th>
-		<th>16</th>
-		<th>17</th>
-		<th>18</th>
-		<th>19</th>
+		<th>PS</th><th>PD</th><th>AS</th><th>AD</th>
+		<th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th>
+		<th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th>
+		<th>17</th><th>18</th><th>19</th>
   	</tr>
   	<tr>
 		<td>Display a Note Pressed on Terminal</td>
@@ -361,7 +347,6 @@ AD = Actual Duration
 </table>
 </div>
 
-
 #### User Stories
 
 - As a user the application must demonstrate which key I am pressing and what note that is to begin with.
@@ -369,7 +354,10 @@ AD = Actual Duration
 - As a user the application must clearly define if I’ve pressed the correct key or not.
 - As a user the application must be a plug in and play application, and not require me to install multiple drivers to run.
 - As a user the application must develop my understanding by progressing to a harder difficulty.
-- As a user the application must be visually appealing 
+- As a user the application must be visually appealing.
+- As a user the application must adjust its difficulty based on my current ability.
+- As a user the application must produce a visual stimuli expressing my learning pathway.
+- 
 
 #### Conditional Flow Diagram
 
@@ -381,9 +369,6 @@ All actions for the application are dependent on the MIDI device input:
 > **Figure 6: Conditional Flow Diagram**
 > 
 > ![Conditional Flow Diagram](/images/ConditionalFlow.png)
-
-
-This should explain the design technique chosen (and justify why it is appropriate) from the various ones available; it should select a suitable subset of the things described in the analysis chapter and develop a design. Where trade-offs exist between different designs, the chosen approach should be justified. Suitable diagram-techniques (e.g. UML, other drawings) should be used where appropriate. If a method is applied selectively, explain which parts were used and why. Experimental projects should pay careful attention to control conditions, samples selected, etc. to ensure a valid result.
 
 #### Level Progression
 
@@ -403,10 +388,11 @@ https://www.hindawi.com/journals/ahci/2018/5681652/
 
 ### Finalised Design
 
-Implementation and Testing
+### Implementation and Testing
 In addition to illustrating "coding traps", this should highlight particular novel aspects to algorithms. Testing should be according to the scheme presented in the Analysis chapter and should follow some suitable model - e.g. category partition, state machine-based. Both functional testing and user-acceptance testing are appropriate. For experimental/investigative projects, techniques developed should be evaluated against a standard result set for calibration, as well as the "live" data set. For theoretical projects, the relative power/expressiveness of the theory should be evaluated with respect to competing approaches.
-Hardware and Software Stack
-What is needed to run this application?
+
+### Hardware and Software Stack
+This application requires the user to possess a MIDI keyboard and the ability to plug into a computer or laptop device. The device will need to have a web browser that supports MIDI input such as Chrome, Edge and Opera.
 
 ### Results
 
