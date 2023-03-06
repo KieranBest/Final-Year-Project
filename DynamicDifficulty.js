@@ -1,4 +1,4 @@
-let difficultyLevel = 1
+let difficultyLevel = 15
 let bassGenerator = 0
 const DynamicDifficulty = {
     // Treble cleff
@@ -122,15 +122,15 @@ const DynamicDifficulty = {
         hitScreenPercentage: 0.05,
         recurringNotes:4,
         numberOfNotes: 3,
-        requiredScoreToProgress: 20,
+        requiredScoreToProgress: 2,
         requiredScoreToRegress: -20
     },
     15:{ // Happy Birthday
-        speed: 1,
+        speed: 0.5,//1.5,
         hitScreenPercentage: 0.05,
         recurringNotes:8,
-        numberOfNotes: 1,
+        numberOfNotes: 2,
         requiredScoreToProgress: 20,
-        requiredScoreToRegress: -20
+        requiredScoreToRegress: -2000
     }
 }

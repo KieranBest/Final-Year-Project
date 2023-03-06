@@ -463,44 +463,43 @@ function movePlayableNotes(staffNumber,notePressed,octave){
             staffNoteHit(staffNumber,notePressed,octave)
             drawStaff()
         }
-            // updates x and y values and then displays them whilst removing the old values from visibility
-            switch(DynamicDifficulty[difficultyLevel].recurringNotes){
-                case 2:
-                    animating_Notes1.update()
-                    animating_Notes1.display()
-                    setTimeout((s) => animating_Notes5.update(), 4*timeDelay)
-                    animating_Notes5.display()        
-                    break
-                case 4:
-                    animating_Notes1.update()
-                    animating_Notes1.display()
-                    setTimeout((s) => animating_Notes3.update(), 2*timeDelay)
-                    animating_Notes3.display()
-                    setTimeout((s) => animating_Notes5.update(), 4*timeDelay)
-                    animating_Notes5.display()
-                    setTimeout((s) => animating_Notes7.update(), 6*timeDelay)
-                    animating_Notes7.display()
-                    break
-                case 8:
-                    animating_Notes1.update()
-                    animating_Notes1.display()    
-                    setTimeout((s) => animating_Notes2.update(), 1*timeDelay)
-                    animating_Notes2.display()
-                    setTimeout((s) => animating_Notes3.update(), 2*timeDelay)
-                    animating_Notes3.display()
-                    setTimeout((s) => animating_Notes4.update(), 3*timeDelay)
-                    animating_Notes4.display()
-                    setTimeout((s) => animating_Notes5.update(), 4*timeDelay)
-                    animating_Notes5.display()
-                    setTimeout((s) => animating_Notes6.update(), 5*timeDelay)
-                    animating_Notes6.display()
-                    setTimeout((s) => animating_Notes7.update(), 6*timeDelay)
-                    animating_Notes7.display()
-                    setTimeout((s) => animating_Notes8.update(), 7*timeDelay)
-                    animating_Notes8.display()
-                    break
+        // updates x and y values and then displays them whilst removing the old values from visibility
+        switch(DynamicDifficulty[difficultyLevel].recurringNotes){
+            case 2:
+                animating_Notes1.update()
+                animating_Notes1.display()
+                setTimeout((s) => animating_Notes5.update(), 4*timeDelay)
+                animating_Notes5.display()        
+                break
+            case 4:
+                animating_Notes1.update()
+                animating_Notes1.display()
+                setTimeout((s) => animating_Notes3.update(), 2*timeDelay)
+                animating_Notes3.display()
+                setTimeout((s) => animating_Notes5.update(), 4*timeDelay)
+                animating_Notes5.display()
+                setTimeout((s) => animating_Notes7.update(), 6*timeDelay)
+                animating_Notes7.display()
+                break
+            case 8:
+                animating_Notes1.update()
+                animating_Notes1.display()    
+                setTimeout((s) => animating_Notes2.update(), 1*timeDelay)
+                animating_Notes2.display()
+                setTimeout((s) => animating_Notes3.update(), 2*timeDelay)
+                animating_Notes3.display()
+                setTimeout((s) => animating_Notes4.update(), 3*timeDelay)
+                animating_Notes4.display()
+                setTimeout((s) => animating_Notes5.update(), 4*timeDelay)
+                animating_Notes5.display()
+                setTimeout((s) => animating_Notes6.update(), 5*timeDelay)
+                animating_Notes6.display()
+                setTimeout((s) => animating_Notes7.update(), 6*timeDelay)
+                animating_Notes7.display()
+                setTimeout((s) => animating_Notes8.update(), 7*timeDelay)
+                animating_Notes8.display()
+                break
         }
-        
         requestAnimationFrame(movePlayableNotes) // Repeats this function to create an animation
     }
     else{

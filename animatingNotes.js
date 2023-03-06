@@ -3,6 +3,7 @@ let bassCycle = 10
 let sharpNoteCycle = 7
 let bassSharpCycle = 0
 let chordCycle = 1
+let songCycle = 1
 let levelProgression = 1
 let correctNoteHit = new Boolean(false)
 let userNoteProgression= {}
@@ -97,12 +98,22 @@ class animatingNotes{
                                 if((this.y2/staffSpacing)+0.5 == notesHeldListValue && this.major == majorPressed){
                                     this.y2Hit = true
                                 }
-                                
                                 if(this.x > lowerBoundaryMultiplier && this.x < upperBoundaryMultiplier){
                                     bonusScore = true
                                 }
                             }
                             if(DynamicDifficulty[difficultyLevel].numberOfNotes == 1 && this.yHit == true){
+                                if(bonusScore==true){
+                                    score++
+                                }
+                                score++
+                                console.log("score = " + score)
+                                deductionReason = ""
+                                deductionCode = 0
+                                correctNoteHit = true
+                                this.scoreAdjusted = true
+                            }
+                            else if(DynamicDifficulty[difficultyLevel].numberOfNotes == 2 && this.yHit == true && this.y1Hit == true){
                                 if(bonusScore==true){
                                     score++
                                 }
@@ -129,6 +140,7 @@ class animatingNotes{
                                 deductionCode = 1
                                 score--
                                 console.log("score = " + score)
+                                console.log(deductionCode)
                                 correctNoteHit = false  
                                 this.scoreAdjusted = true 
                             }
@@ -138,6 +150,7 @@ class animatingNotes{
                             deductionCode = 2
                             score--
                             console.log("score = " + score)
+                            console.log(deductionCode)
                             correctNoteHit = false   
                             this.scoreAdjusted = true
                         }
@@ -157,6 +170,7 @@ class animatingNotes{
                         deductionReason = "Out of bounds"
                         deductionCode = 3
                         console.log("score = " + score)
+                        console.log(deductionCode)
                         correctNoteHit = false
                         currentActualHitTime.h = createTime(time.getHours(), 2)
                         currentActualHitTime.m = createTime(time.getMinutes(), 2)
@@ -173,6 +187,7 @@ class animatingNotes{
                     deductionReason = "Missed Note"
                     deductionCode = 4
                     console.log("score = " + score)
+                    console.log(deductionCode)
                     currentActualHitTime.h = 0
                     currentActualHitTime.m = 0
                     currentActualHitTime.s = 0
@@ -540,21 +555,21 @@ class animatingNotes{
                         // y1 Note
                         if(bassChords[chordCycle][2][1] == "major"){
                             this.image1 = noteImage
-                            this.major = true
+                            this.major1 = true
                         }
                         else if(bassChords[chordCycle][2][1] == "sharp"){
                             this.image1 = sharpImage
-                            this.major = false
+                            this.major1 = false
                         }
                         this.y1 = bassChords[chordCycle][2][0] * staffSpacing
                         // y2 Note
                         if(bassChords[chordCycle][3][1] == "major"){
                             this.image2 = noteImage
-                            this.major = true
+                            this.major2 = true
                         }
                         else if(bassChords[chordCycle][3][1] == "sharp"){
                             this.image2 = sharpImage
-                            this.major = false
+                            this.major2 = false
                         }
                         this.y2 = bassChords[chordCycle][3][0] * staffSpacing
                         chordCycle++
@@ -575,37 +590,57 @@ class animatingNotes{
                         // y1 Note
                         if(bassChords[chordCycle][2][1] == "major"){
                             this.image1 = noteImage
-                            this.major = true
+                            this.major1 = true
                         }
                         else if(bassChords[chordCycle][2][1] == "sharp"){
                             this.image1 = sharpImage
-                            this.major = false
+                            this.major1 = false
                         }
                         this.y1 = bassChords[chordCycle][2][0] * staffSpacing
                         // y2 Note
                         if(bassChords[chordCycle][3][1] == "major"){
                             this.image2 = noteImage
-                            this.major = true
+                            this.major2 = true
                         }
                         else if(bassChords[chordCycle][3][1] == "sharp"){
                             this.image2 = sharpImage
-                            this.major = false
+                            this.major2 = false
                         }
                         this.y2 = bassChords[chordCycle][3][0] * staffSpacing
                         chordCycle = Math.floor(Math.random()*12)+1
                         break
                     case 15: // Happy Birthday
-                    
+                        if(happyBirthday[songCycle][1][0] == null){
+                            this.y = null
+                        }
+                        else{
+                            this.y = happyBirthday[songCycle][1][0]* staffSpacing
+                            this.image = noteImage
+                            this.major = true
+                        }
+                        if(happyBirthday[songCycle][2][0] == null){
+                            this.y1 = null
+                        }
+                        else{
+                            this.y1 = happyBirthday[songCycle][2][0]* staffSpacing
+                            this.image1 = noteImage
+                            this.major1 = true
+                        }
+                        songCycle++
+                        if(songCycle>46){
+                            songCycle=1
+                        }
+                        break
                 }   
-            // Reset values
-            this.recordedExpectedTime = false
-            this.yHit = false
-            this.y1Hit = false
-            this.y2Hit = false
-            this.scoreAdjusted = false
-            missedNote = false
-            scoreMultiplier = 1
-            bonusScore = false
+                // Reset values
+                this.recordedExpectedTime = false
+                this.yHit = false
+                this.y1Hit = false
+                this.y2Hit = false
+                this.scoreAdjusted = false
+                missedNote = false
+                scoreMultiplier = 1
+                bonusScore = false
             }   
             this.x -= DynamicDifficulty[difficultyLevel].speed
         }    
@@ -615,10 +650,17 @@ class animatingNotes{
         }
     }
     display(){ // Displays the notes based on the x and y values created in the update function
-        ctx.drawImage(this.image,this.x, this.y, staffSpacing,staffSpacing)
-        if(this.y1 != null && this.y2 != null){
+        if(this.y2 != undefined || this.y2 != null){
+            ctx.drawImage(this.image,this.x, this.y, staffSpacing,staffSpacing)
             ctx.drawImage(this.image1,this.x, this.y1, staffSpacing,staffSpacing)
             ctx.drawImage(this.image2,this.x, this.y2, staffSpacing,staffSpacing)
+        }
+        if(this.y1 != undefined || this.y1 != null){
+            ctx.drawImage(this.image,this.x, this.y, staffSpacing,staffSpacing)
+            ctx.drawImage(this.image1,this.x, this.y1, staffSpacing,staffSpacing)
+        }
+        if(this.y != undefined || this.y != null){
+            ctx.drawImage(this.image,this.x, this.y, staffSpacing,staffSpacing)
         }
     }              
 }
