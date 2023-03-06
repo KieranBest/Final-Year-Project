@@ -1,4 +1,4 @@
-let difficultyLevel = 15
+let difficultyLevel = 1
 let bassGenerator = 0
 const DynamicDifficulty = {
     // Treble cleff
@@ -10,15 +10,15 @@ const DynamicDifficulty = {
         trebleGeneratorSize: 4,
         requiredScoreToProgress: 5,
     },
-    2:{ // roll up and down 7 notes to teach moving fingers correctly
-        speed: 1,
-        hitScreenPercentage: 0.07,
-        recurringNotes:4,
-        numberOfNotes: 1,
-        requiredScoreToProgress: 25, // up and down twice
-        requiredScoreToRegress: -10,
-        down: true
-    },
+    // 2:{ // roll up and down 7 notes to teach moving fingers correctly
+    //     speed: 1,
+    //     hitScreenPercentage: 0.07,
+    //     recurringNotes:4,
+    //     numberOfNotes: 1,
+    //     requiredScoreToProgress: 25, // up and down twice
+    //     requiredScoreToRegress: -10,
+    //     down: true
+    // },
     3:{ // random majors in octave
         speed: 1,
         hitScreenPercentage: 0.07,
@@ -125,8 +125,8 @@ const DynamicDifficulty = {
         requiredScoreToProgress: 2,
         requiredScoreToRegress: -20
     },
-    15:{ // Happy Birthday
-        speed: 0.5,//1.5,
+    2:{ // Happy Birthday
+        speed: 1,//1.5,
         hitScreenPercentage: 0.05,
         recurringNotes:8,
         numberOfNotes: 2,

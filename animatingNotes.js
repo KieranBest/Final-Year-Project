@@ -37,6 +37,7 @@ class animatingNotes{
         this.major2 = major2
         this.recordedExpectedTime = new Boolean(false)
         this.scoreAdjusted = new Boolean(false)
+        this.doNotDeductScore = new Boolean(false)
     }
     update(){ // Updates and changes each animated notes x variable according to speed
         if(toggle){      
@@ -63,7 +64,7 @@ class animatingNotes{
                     if(!keyPressed){ // Stops constantly adding to score whilst holding note
                         keyPressed = true
                         const time = new Date() // Creates a time that the user pressed a note
-                        if(notesHeldList.length == DynamicDifficulty[difficultyLevel].numberOfNotes){
+                        if(notesHeldList.length == DynamicDifficulty[difficultyLevel].numberOfNotes || (notesHeldList.length == DynamicDifficulty[difficultyLevel].numberOfNotes-1 && this.y1Hit == true)){
                             let notesHeldListValue
                             for(var values in notesHeldList){
                                 if(majorKeyPos.includes(findNoteLetter(notesHeldList[values]))){
@@ -102,12 +103,14 @@ class animatingNotes{
                                     bonusScore = true
                                 }
                             }
+                            // Checks to see if number of notes required are pressed correctly
                             if(DynamicDifficulty[difficultyLevel].numberOfNotes == 1 && this.yHit == true){
                                 if(bonusScore==true){
                                     score++
                                 }
                                 score++
                                 console.log("score = " + score)
+                                console.log("HOORAY")
                                 deductionReason = ""
                                 deductionCode = 0
                                 correctNoteHit = true
@@ -119,6 +122,7 @@ class animatingNotes{
                                 }
                                 score++
                                 console.log("score = " + score)
+                                console.log("HOORAY")
                                 deductionReason = ""
                                 deductionCode = 0
                                 correctNoteHit = true
@@ -135,7 +139,7 @@ class animatingNotes{
                                 correctNoteHit = true
                                 this.scoreAdjusted = true
                             }
-                            else{ // Wrong Note is pushed
+                            else if(this.doNotDeductScore == false){ // Wrong Note is pushed
                                 deductionReason = "Wrong Note"
                                 deductionCode = 1
                                 score--
@@ -145,7 +149,7 @@ class animatingNotes{
                                 this.scoreAdjusted = true 
                             }
                         }
-                        else{ // Wrong number of notes is pushed
+                        else if(this.doNotDeductScore == false){ // Wrong number of notes is pushed
                             deductionReason = "Wrong Number of notes"
                             deductionCode = 2
                             score--
@@ -163,7 +167,7 @@ class animatingNotes{
                 }
                 else{
                     // Out of bounds
-                    if(this.scoreAdjusted == false && resetValues == false && this.x<(window.innerWidth/2)){
+                    if(this.scoreAdjusted == false && resetValues == false && this.x<(window.innerWidth/2) && this.doNotDeductScore == false){
                         this.scoreAdjusted = true // Stops constantly deducting from score
                         const time = new Date() // Creates a time that the user pressed a note
                         score--
@@ -182,12 +186,13 @@ class animatingNotes{
             }
             // Note Loop Around
             if(this.x<leftBoundary){ // If note moves far to the left it will delete and autocreate a new y value
-                if(this.scoreAdjusted == false && resetValues == false){ // Missed the note
+                if(this.scoreAdjusted == false && resetValues == false && this.doNotDeductScore == false){ // Missed the note
                     score--
                     deductionReason = "Missed Note"
                     deductionCode = 4
                     console.log("score = " + score)
                     console.log(deductionCode)
+
                     currentActualHitTime.h = 0
                     currentActualHitTime.m = 0
                     currentActualHitTime.s = 0
@@ -295,23 +300,23 @@ class animatingNotes{
                         this.image = noteImage
                         this.major = true
                         break
-                    case 2: // roll up and down 7 notes to teach moving fingers correctly
-                        this.y = staffSpacing * cycleNotes
-                        this.major = true
-                        if(DynamicDifficulty[2].down == true){ // Scrolls up and down through the octave
-                            cycleNotes=cycleNotes+0.5
-                            if(cycleNotes>3.5){
-                                DynamicDifficulty[2].down = false
-                            } 
-                        }
-                        else if (DynamicDifficulty[2].down == false){
-                            cycleNotes=cycleNotes-0.5
-                            if(cycleNotes<1.5){
-                                DynamicDifficulty[2].down = true
-                            }  
-                        }
-                        this.image = noteImage
-                        break
+                    // case 2: // roll up and down 7 notes to teach moving fingers correctly
+                    //     this.y = staffSpacing * cycleNotes
+                    //     this.major = true
+                    //     if(DynamicDifficulty[2].down == true){ // Scrolls up and down through the octave
+                    //         cycleNotes=cycleNotes+0.5
+                    //         if(cycleNotes>3.5){
+                    //             DynamicDifficulty[2].down = false
+                    //         } 
+                    //     }
+                    //     else if (DynamicDifficulty[2].down == false){
+                    //         cycleNotes=cycleNotes-0.5
+                    //         if(cycleNotes<1.5){
+                    //             DynamicDifficulty[2].down = true
+                    //         }  
+                    //     }
+                    //     this.image = noteImage
+                    //     break
                     case 3: // random majors in octave
                         this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
                         this.image = noteImage
@@ -609,23 +614,29 @@ class animatingNotes{
                         this.y2 = bassChords[chordCycle][3][0] * staffSpacing
                         chordCycle = Math.floor(Math.random()*12)+1
                         break
-                    case 15: // Happy Birthday
+                    case 2: // Happy Birthday
                         if(happyBirthday[songCycle][1][0] == null){
                             this.y = null
+                            this.doNotDeductScore = true
+                            this.y1Hit = true
+                            this.yHit = true
                         }
                         else{
                             this.y = happyBirthday[songCycle][1][0]* staffSpacing
                             this.image = noteImage
                             this.major = true
+                            this.doNotDeductScore = false
                         }
                         if(happyBirthday[songCycle][2][0] == null){
                             this.y1 = null
+                            this.y1Hit = true
                         }
                         else{
                             this.y1 = happyBirthday[songCycle][2][0]* staffSpacing
                             this.image1 = noteImage
                             this.major1 = true
                         }
+                        console.log(this.doNotDeductScore)
                         songCycle++
                         if(songCycle>46){
                             songCycle=1

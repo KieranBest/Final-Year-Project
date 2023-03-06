@@ -204,6 +204,10 @@ PD = Planned Duration,
 AS = Actual Start,
 AD = Actual Duration
 
+Blue = On Target
+Yellow = Exceeded Target
+Red = Ahead of Target
+
 <style>
     .Gantt {
         text-align: center;
@@ -348,15 +352,15 @@ AD = Actual Duration
 	</tr>
 	<tr>
 		<td>Create Level 9</td>
-		<td>9</td><td>1</td><td>8</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+		<td>9</td><td>1</td><td>8</td><td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
 	</tr>
 	<tr>
 		<td>Create Level 10</td>
-		<td>10</td><td>1</td><td>8</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+		<td>10</td><td>1</td><td>9</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
 	</tr>
 	<tr>
 		<td>Create Level 11</td>
-		<td>10</td><td>1</td><td>8</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+		<td>10</td><td>1</td><td>9</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
 	</tr>
 </table>
 </div>
