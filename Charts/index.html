@@ -1,13 +1,74 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Chart.js example</title>
-  </head>
-  <body>
-    <!-- <div style="width: 500px;"><canvas id="dimensions"></canvas></div><br/> -->
-    <div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
-
-    <!-- <script type="module" src="dimensions.js"></script> -->
-    <script type="module" src="acquisitions.js"></script>
-  </body>
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js">
+    import { Colors } from 'chart.js';
+</script>
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Example</title>
+</head>
+<body>
+  <button onclick="myFunction()">Click me</button>
+  <p id="demo"></p>
+  <div style="width: 800px;"><canvas id="myChart"></canvas>
+  </div>
+</body>
+<script>
+  const ctx = document.getElementById('myChart');
+  const data = {
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    datasets: [{
+      label: 'Weekly Sales',
+      data: [18, 12, 6, 9, 12, 3, 9],
+      backgroundColor: [
+        'rgba(255, 26, 104, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(0, 0, 0, 0.2)'
+      ],
+      borderColor: [
+        'rgba(255, 26, 104, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)',
+        'rgba(0, 0, 0, 1)'
+      ],
+      borderWidth: 1
+    }]
+  };
+  const config = {
+    type: 'pie',
+    data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  };
+  // render init block
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+  function myFunction() {
+    document.getElementById("demo").innerHTML;
+    myChart.data.labels[7] = 'Test';
+    myChart.data.datasets[0].data[0] = 70000;
+    myChart.data.datasets[0].data[7] = 70000;
+    myChart.update();
+  }
+</script>
 </html>

@@ -594,6 +594,8 @@ class animatingNotes{
                         this.y2 = bassChords[chordCycle][3][0] * staffSpacing
                         chordCycle = Math.floor(Math.random()*12)+1
                         break
+                    case 15: // Happy Birthday
+                    
                 }   
             // Reset values
             this.recordedExpectedTime = false

@@ -124,5 +124,13 @@ const DynamicDifficulty = {
         numberOfNotes: 3,
         requiredScoreToProgress: 20,
         requiredScoreToRegress: -20
+    },
+    15:{ // Happy Birthday
+        speed: 1,
+        hitScreenPercentage: 0.05,
+        recurringNotes:8,
+        numberOfNotes: 1,
+        requiredScoreToProgress: 20,
+        requiredScoreToRegress: -20
     }
 }

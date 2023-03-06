@@ -240,25 +240,6 @@ function drawStaff(){
     ctx.moveTo(hitMarker, staffSpacing)
     ctx.lineTo(hitMarker, downLineDistance)
     ctx.stroke()
-
-    ctx.beginPath()
-    ctx.moveTo(lowerBoundary, staffSpacing)
-    ctx.lineTo(lowerBoundary, downLineDistance)
-    ctx.stroke()
-    ctx.beginPath()
-    ctx.moveTo(upperBoundary, staffSpacing)
-    ctx.lineTo(upperBoundary, downLineDistance)
-    ctx.stroke()
-
-    ctx.beginPath()
-    ctx.moveTo(lowerBoundaryMultiplier, staffSpacing)
-    ctx.lineTo(lowerBoundaryMultiplier, downLineDistance)
-    ctx.stroke()
-    ctx.beginPath()
-    ctx.moveTo(upperBoundaryMultiplier, staffSpacing)
-    ctx.lineTo(upperBoundaryMultiplier, downLineDistance)
-    ctx.stroke()
-
 }
 
 // Draws the displayed keyboard, sharpNote is a held sharp keyA
