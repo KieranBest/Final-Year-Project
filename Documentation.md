@@ -87,10 +87,13 @@ These were developed by basic learning principles where Skinner (2012) investiga
 
 Progressing on from primarily educational tools, educational computer games have proven to be just as effective because of their ability to "increase students' motivation". It does this by allowing the user a fun experience as well as an educational one (Sampayo-Vargas, 2013). 
 
+While proving that educational computer games enhance a students enjoyment is not necessarily an accurate representation of the students learning, it has been proven that adaptive difficulty within educational settings increase the student's level of learning (Sampayo-Vargas et al., 2013). Sampayo-Vargas et al. explain that when comparing students progression with 3 different learning methods, adaptive difficulty proves to be more efficient than a steadily incremental difficulty game, and a written activity as seen in Figure 1.
 
-
-https://reader.elsevier.com/reader/sd/pii/S0360131513001711?token=24C89623FC3B8AEA2DDECC9BF0BCDC0D0757224491754AA7845152774B657CA880E57A1AB0519302CDF4E7EE00CDF212&originRegion=eu-west-1&originCreation=20221211213321
-
+> ** Figure 1: Differences between 3 learning techniques
+>
+> ![Sampayo-Vargas et al.](/images/Sampayo-Vargas et al..png)
+>
+> *(Sampayo-Vargas et al., 2013)*
 
 Dynamic Difficulty Adjustment
 
@@ -104,7 +107,7 @@ Whilst there similar applications to the proposed, none have the exact features.
 
 ‘P.I.A.N.O.’ has a interactive projection placed on to the keyboard to enable users to understand what key to push. 
 
-> **Figure 1: ‘P.I.A.N.O.’**
+> **Figure 2: ‘P.I.A.N.O.’**
 > 
 > ![‘P.I.A.N.O.’](/images/P.I.A.N.O..png)
 >
@@ -112,7 +115,7 @@ Whilst there similar applications to the proposed, none have the exact features.
 
 As Rogers et al. (2014) explains, the mapping of the keys provides users with a way to learn how to read sheet music. This can often be the cause of putting off most people from learning how to play an instrument. Other benefits include teaching users where to place their hands to allow them to reach all the keys.  As well as “a note visualisation based on roll notation” which will teach timing (Rogers et al., 2014). The downfall for this application however, is even though it teaches hand placement for reading music, it does not teach how to read sheet music.
 
-> **Figure 2: Note Visualisation in ‘P.I.A.N.O.’**
+> **Figure 3: Note Visualisation in ‘P.I.A.N.O.’**
 >
 > ![Note Visualisation in ‘P.I.A.N.O.’](/images/P.I.A.N.O.2.png)
 >
@@ -120,7 +123,7 @@ As Rogers et al. (2014) explains, the mapping of the keys provides users with a 
 
 Going back to learning in a zone of proximal development, Yuksel et al. (2016) created 'BACh'. An application where users’ cognitive workload dictates the applications difficulty. 'BACh' measures cognitive workload using a fNIRS sensor which is not in the scope of my project.
 
-> **Figure 3: Learn Piano with ‘BACh’**
+> **Figure 4: Learn Piano with ‘BACh’**
 >
 > ![Learn Piano with ‘BACh’](/images/BACh.png)
 >
@@ -128,7 +131,7 @@ Going back to learning in a zone of proximal development, Yuksel et al. (2016) c
  
 The most similar application to what I propose is ‘Synthesia’. An educational tool used with a MIDI keyboard for learning how to play piano by using of a note visualisation like that of ‘P.I.A.N.O.’. It contains a mass library of songs for the user to decide. And it also includes teaching where users hands should be to allow them full reach of keys. It also contains a feature “Finger Number Hints” in which users fingers are visually demonstrated (Synthesia Game, 2022). Whilst this is almost identical to my specification, this application does not adapt to users’ current ability and skill. 
 
-> **Figure 4: Finger Number Hints in ‘Synthesia’**
+> **Figure 5: Finger Number Hints in ‘Synthesia’**
 >
 > ![Finger Number Hints in ‘Synthesia’](/images/Synthesia.png)
 >
@@ -151,7 +154,7 @@ Milestones will be divided into 2 weekly sprints and tasks will be assigned weig
 
 #### Objectives
 
-Milestone 1 Objective
+##### Milestone 1 Objective
 
 Create a Minimum Viable Product (MVP) and be able to produce it to potential users to attain feedback on usability and potential features.  
 
@@ -174,7 +177,7 @@ Create a Minimum Viable Product (MVP) and be able to produce it to potential use
 - Press key at specific time to raise count - 2
 - Ability to change speed of note - 1
 
-Milestone 2 Objective
+##### Milestone 2 Objective
 
 To create a level system that will slowly introduce users to how to play a keyboard.
 
@@ -193,11 +196,11 @@ To create a level system that will slowly introduce users to how to play a keybo
 - Create Level 10 - Play Across Both Hands, Introducing New Chords - 1
 - Create Level 11 - Play Across Both Hands - 1
 
-Milestone 3 Objectives
+##### Milestone 3 Objectives
 
 To produce visual aid in understanding the progression of a users' learning experience.
 
-**Figure 5: Gantt Chart Progression**
+**Figure 6: Gantt Chart Progression**
 
 PS = Planned Start,
 PD = Planned Duration,
@@ -385,7 +388,7 @@ The flow of the application is controlled by the user input as all actions for t
 - The visual representation on both the keyboard and the staff comes from the note number given by the MIDI device input.
 - The difficulty is adjusted based on the users’ score.
 
-> **Figure 6: Conditional Flow Diagram**
+> **Figure 7: Conditional Flow Diagram**
 > 
 > ![Conditional Flow Diagram](/images/ConditionalFlow.png)
 
@@ -402,6 +405,7 @@ The input and accuracy recorded will then determine the output for visual repres
 #### Finalised Design
 
 #### Hardware and Software Stack
+
 This application requires the user to possess a MIDI keyboard and the ability to plug into a computer or laptop device. The device will need to have a web browser that supports MIDI input such as Chrome, Edge and Opera.
 
 
@@ -573,3 +577,5 @@ Meeting with supervisor to discuss potentials for data to be captures and next s
   - map()
   - reduce()
 - Offline storage and how that can be progressed to a Rest API
+
+##### Wednesday 8th March
