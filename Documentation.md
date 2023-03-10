@@ -25,6 +25,9 @@ I would like to give thanks to my supervisor, Allan Callaghan, for all his amazi
 - [Requirements and Analysis](#requirements-and-analysis)
 	- [Methodology](#methodology)
 	- [Objectives](#objectives)
+		- [Milestone 1 Objective](#milestone-1-objective)
+		- [Milestone 2 Objective](#milestone-2-objective)
+		- [Milestone 3 Objectives](#milestone-3-objectives)
 	- [User Stories](#user-stories)
 - [Design](#design)
 	- [Conditional Flow Diagram](#conditional-flow-diagram)
@@ -53,6 +56,7 @@ I would like to give thanks to my supervisor, Allan Callaghan, for all his amazi
 		- [Friday 27th January](#friday-27th-january)
 		- [Wednesday 8th February](#wednesday-8th-february)
 		- [Wednesday 22nd February](#wednesday-22nd-february)
+		- [Wednesday 8th March](#wednesday-8th-march)
 
 ### Introduction
 Trying to learn how to play piano can be a strenuous task, especially if you are unknowledgeable of how to read music. It has been understood that knowledge of sheet music can lead to a much more complex understanding of music (López‐Íñiguez & Pozo, 2014) and therefore can be vastly beneficial when learning how to play piano. 
@@ -182,191 +186,39 @@ Create a Minimum Viable Product (MVP) and be able to produce it to potential use
 To create a level system that will slowly introduce users to how to play a keyboard.
 
 - Create Level System - 2
-- Create Level 1 - Dominant Hand, Without Moving Hand - 1
-- Create Level 2 - Dominant Hand, Move Hand Across 1 Octave - 1
-- Create Level 3 - Dominant Hand, Introduce Sharps and Flats in the Octave - 1
-- Create Level 4 - Dominant Hand, Introduce 3 Note Chords - 1
-- Create Level 5 - Swap to Less Dominant Hand, Without Moving Hand - 1
-- Create Level 6 - Less Dominant Hand, Move Hand Across 1 Octave - 1
-- Create Level 7 - Less Dominant Hand, Introduce Sharps and Flats in the Octave - 1
-- Create Level 8 - Less Dominant Hand, Introduce 3 Note Chords - 1
+- Create Level 1 - Right Hand, Without Moving Hand - 1
+- Create Level 2 - Right Hand, Roll Up and Down 1 Octave - 1
+- Create Level 3 - Right Hand, Random Notes Across 1 Octave - 1
+- Create Level 4 - Right Hand, Roll Up and Down 1 Octave Including Sharps and Flats - 1
+- Create Level 5 - Right Hand, Random Notes Across 1 Octave Including Sharps and Flats - 1
+- Create Level 6 - Right Hand, Introduce 3 Note Chords in Order - 1
+- Create Level 7 - Right Hand, Random Order of 3 Note Chords - 1
+- Create Level 8 - Left Hand, Without Moving Hand - 1
+- Create Level 9 - Left Hand, Roll Up and Down 1 Octave - 1
+- Create Level 10 - Left Hand, Random Notes Across 1 Octave - 1
+- Create Level 11 - Left Hand, Roll Up and Down 1 Octave Including Sharps and Flats - 1
+- Create Level 12 - Left Hand, Random Notes Across 1 Octave Including Sharps and Flats - 1
+- Create Level 13 - Left Hand, Introduce 3 Note Chords in Order - 1
+- Create Level 14 - Left Hand, Random Order of 3 Note Chords - 1
 - Create Data Capture - 1
 - Adapt Levelling System to Further Complexity - 1
-- Create Level 9 - Play Across Both Hands - 1
-- Create Level 10 - Play Across Both Hands, Introducing New Chords - 1
-- Create Level 11 - Play Across Both Hands - 1
+- Create Level 15 - Play Simple Song Using Both Hands - 1
 
 ##### Milestone 3 Objectives
 
 To produce visual aid in understanding the progression of a users' learning experience.
+- Create Offline Storage for JSON Data Files - 1 
+- Create Graphs from JSON Data Files - 2
+- Create Express API with Cookies - 1
+- Create MongoDB - 1
+- Link Express API with MongoDB - 1
 
-**Figure 6: Gantt Chart Progression**
 
-PS = Planned Start,
-PD = Planned Duration,
-AS = Actual Start,
-AD = Actual Duration
-
-Blue = On Target
-Yellow = Exceeded Target
-Red = Ahead of Target
-
-<style>
-    .Gantt {
-        text-align: center;
-		color: black
-    }
-    .Gantt th {
-        background: grey;
-        word-wrap: break-word;
-        text-align: center;
-    }
-
-    .Gantt td:nth-child(1) { background: grey; }
-    .Gantt td:nth-child(2) { background: white; }
-    .Gantt td:nth-child(3) { background: silver; }
-    .Gantt td:nth-child(4) { background: white; }
-    .Gantt td:nth-child(5) { background: silver; }
-	</style>
-<div class="Gantt">
-<table>
-	<tr>
-		<th>Activity</th>
-		<th>PS</th><th>PD</th><th>AS</th><th>AD</th>
-		<th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th>
-		<th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th>
-		<th>17</th><th>18</th><th>19</th>
-  	</tr>
-  	<tr>
-		<td>Display a Note Pressed on Terminal</td>
-		<td>1</td><td>1</td><td>1</td><td>1</td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Display Graphical Shapes</td>
-		<td>1</td><td>1</td><td>1</td><td>1</td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Keyboard Input Manipulates Shapes</td>
-		<td>1</td><td>1</td><td>1</td><td>1</td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-    	<td>Display what Key been Pressed</td>
-		<td>1</td><td>1</td><td>1</td><td>1</td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Display Keyboard Graphically</td>
-		<td>1</td><td>1</td><td>1</td><td>1</td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-    	<td>Keyboard Input Displays Note Press on Graphical Keyboard</td>
-		<td>1</td><td>1</td><td>1</td><td>1</td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Display Multiple Notes Pressed on Graphical Keyboard</td>
-		<td>1</td><td>1</td><td>1</td><td>2</td><td style="background-color:#0000FF"></td><td style="background-color:#FFFF00"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Graphical Keyboard Resizes to Canvas Size</td>
-		<td>2</td><td>1</td><td>2</td><td>1</td><td></td><td  style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Create Music Sheet Outline</td>
-		<td>2</td><td>1</td><td>2</td><td>1</td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Create Shape on Music Sheet when Note Presed</td>
-		<td>2</td><td>1</td><td>2</td><td>1</td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Display Multiple Notes Pressed on Music Sheet</td>
-		<td>3</td><td>1</td><td>3</td><td>1</td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Produce Tone on Key Press (On and Off)</td>
-		<td>4</td><td>1</td><td>4</td><td>1</td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Produce Specific Note Tone on Key Press</td>
-		<td>4</td><td>1</td><td>4</td><td>1</td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Animated Note Moves Across Music Sheet and Repeats</td>
-		<td>4</td><td>1</td><td>4</td><td>1</td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Note Repeats to a Different Line/Note</td>
-		<td>4</td><td>1</td><td>4</td><td>1</td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Display More than One Note at a Time on Music Sheet</td>
-		<td>4</td><td>1</td><td>4</td><td>1</td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Press Key at Specific Time to Raise Count</td>
-		<td>5</td><td>1</td><td>5</td><td>1</td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Ability to Change Speed of Note</td>
-		<td>5</td><td>1</td><td>5</td><td>1</td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Create Level System</td>
-		<td>6</td><td>1</td><td>6</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Create Level 1</td>
-		<td>6</td><td>1</td><td>6</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Create Level 2</td>
-		<td>7</td><td>1</td><td>6</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Create Level 3</td>
-		<td>7</td><td>1</td><td>6</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Create Level 4</td>
-		<td>7</td><td>1</td><td>7</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Create Level 5</td>    
-		<td>8</td><td>1</td><td>7</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Create Level 6</td>
-		<td>8</td><td>1</td><td>7</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Create Level 7</td>
-		<td>8</td><td>1</td><td>7</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Create Level 8</td>
-		<td>8</td><td>1</td><td>7</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Create Data Capture</td>
-		<td>9</td><td>1</td><td>7</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Change Levelling system</td>
-		<td>9</td><td>1</td><td>7</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Create Level 9</td>
-		<td>9</td><td>1</td><td>8</td><td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#0000FF"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Create Level 10</td>
-		<td>10</td><td>1</td><td>9</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-		<td>Create Level 11</td>
-		<td>10</td><td>1</td><td>9</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td style="background-color:#0000FF"></td><td style="background-color:#FF0000"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-	</tr>
-</table>
-</div>
+>**Figure 6: Gantt Chart Progression**
+>
+>![Gantt Chart 1](/images/Gantt1.png)
+>![Gantt Chart 2](/images/Gantt2.png)
+>![Gantt Chart 3](/images/Gantt3.png)
 
 #### User Stories
 
@@ -570,7 +422,6 @@ Meeting with supervisor to provide guidance to implement feature that collects u
 
 ##### Wednesday 22nd February
 Meeting with supervisor to discuss potentials for data to be captures and next steps in planning and research for next milestone. This includes:
-
 - Graph Charts
 - Functions such as:
   - filter()
