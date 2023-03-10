@@ -57,6 +57,7 @@ I would like to give thanks to my supervisor, Allan Callaghan, for all his amazi
 		- [Wednesday 8th February](#wednesday-8th-february)
 		- [Wednesday 22nd February](#wednesday-22nd-february)
 		- [Wednesday 8th March](#wednesday-8th-march)
+	- [Wednesday 22nd March](#wednesday-22nd-march)
 
 ### Introduction
 Trying to learn how to play piano can be a strenuous task, especially if you are unknowledgeable of how to read music. It has been understood that knowledge of sheet music can lead to a much more complex understanding of music (López‐Íñiguez & Pozo, 2014) and therefore can be vastly beneficial when learning how to play piano. 
@@ -430,3 +431,7 @@ Meeting with supervisor to discuss potentials for data to be captures and next s
 - Offline storage and how that can be progressed to a Rest API
 
 ##### Wednesday 8th March
+Meeting with supervisor to discuss heading for Milestone 3, basic steps and current progression on Milestone 3.
+
+#### Wednesday 22nd March
+Meeting with stakeholder to discuss 

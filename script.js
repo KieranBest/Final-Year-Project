@@ -40,20 +40,35 @@ function handleInput(input){
 // Compatibility issues, make sure its compatible across browsers
 window.AudioContext = window.AudioContext || window.webkitAudioContext
 let soundCTX
-const startButton = document.getElementById('StartButton')
 const oscillators = {}
+const startButton = document.getElementById('startButton')
 startButton.addEventListener('click', () => {
     soundCTX = new AudioContext()
     startButton.style.visibility = 'hidden'
     pauseButton.style.visibility = 'visible'
     toggleGame()
 })
-const pauseButton = document.getElementById('PauseButton')
+const pauseButton = document.getElementById('pauseButton')
 pauseButton.style.visibility = 'hidden'
 pauseButton.addEventListener('click', () => {
     pauseButton.style.visibility = 'hidden'
     startButton.style.visibility = 'visible'
     toggleGame()
+})
+let dataValue = 0
+const submitButton = document.getElementById('submitButton')
+submitButton.addEventListener('click', () => {
+    const itemSet = (localStorage.getItem('dataValue') !== null);
+
+    if (itemSet) {        
+        dataValue ++
+    }
+    else{
+        dataValue = 0
+    }
+    localStorage.setItem("dataValue",dataValue)
+    localStorage.setItem(dataValue, JSON.stringify(gameProgression))
+    console.log(dataValue)
 })
 
 function midiToFreq(number){
@@ -123,10 +138,10 @@ function noteOn(note, velocity){
 // When releasing a note
 function noteOff(note){    
     const time = new Date()
-    noteOffTime.h = createTime(time.getHours(), 2)
-    noteOffTime.m = createTime(time.getMinutes(), 2)
-    noteOffTime.s = createTime(time.getSeconds(), 2)
-    noteOffTime.ms = createTime(time.getMilliseconds(), 3)
+    noteOffTime.h = time.getHours()
+    noteOffTime.m = time.getMinutes()
+    noteOffTime.s = time.getSeconds()
+    noteOffTime.ms = time.getMilliseconds()
     noteOffTime.time = time.getTime()
     const octave = parseInt(note/12) - 4; // -4 because my keyboard automatically starts at pos 48, this will need to be changed when numWhiteKeys is edited
     const noteLetterReleased=findNoteLetter(note);
@@ -464,6 +479,7 @@ function movePlayableNotes(staffNumber,notePressed,octave){
             drawStaff()
         }
         // updates x and y values and then displays them whilst removing the old values from visibility
+        
         switch(DynamicDifficulty[difficultyLevel].recurringNotes){
             case 2:
                 animating_Notes1.update()

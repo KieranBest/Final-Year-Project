@@ -16,7 +16,6 @@ let previousNote = null
 let deductionReason
 let deductionCode
 let scoreMultiplier = 1
-let bonusScore = new Boolean(false)
 // Class for animated notes
 class animatingNotes{
     constructor (x,y,yHit,y1,y1Hit,y2,y2Hit,major,major1,major2){
@@ -38,6 +37,8 @@ class animatingNotes{
         this.recordedExpectedTime = new Boolean(false)
         this.scoreAdjusted = new Boolean(false)
         this.doNotDeductScore = new Boolean(false)
+        this.bonusScore = new Boolean(false)
+
     }
     update(){ // Updates and changes each animated notes x variable according to speed
         if(toggle){      
@@ -46,10 +47,10 @@ class animatingNotes{
                     this.recordedExpectedTime = true
                     const time = new Date() // Creates a time that the note will reach the desired hit point
                     // https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_datetime_millisec
-                    currentExpectedHitTime.h = createTime(time.getHours(), 2)
-                    currentExpectedHitTime.m = createTime(time.getMinutes(), 2)
-                    currentExpectedHitTime.s = createTime(time.getSeconds(), 2)
-                    currentExpectedHitTime.ms = createTime(time.getMilliseconds(), 3)
+                    currentExpectedHitTime.h = time.getHours()
+                    currentExpectedHitTime.m = time.getMinutes()
+                    currentExpectedHitTime.s = time.getSeconds()
+                    currentExpectedHitTime.ms = time.getMilliseconds()
                     currentExpectedHitTime.time = time.getTime()
                     if(noteNumberInGame > 1 && resetValues == true){ // Needs to be reset so it does not record when the first 2 notes are generated
                         resetValues = false
@@ -100,36 +101,34 @@ class animatingNotes{
                                     this.y2Hit = true
                                 }
                                 if(this.x > lowerBoundaryMultiplier && this.x < upperBoundaryMultiplier){
-                                    bonusScore = true
+                                    this.bonusScore = true
                                 }
                             }
                             // Checks to see if number of notes required are pressed correctly
                             if(DynamicDifficulty[difficultyLevel].numberOfNotes == 1 && this.yHit == true){
-                                if(bonusScore==true){
+                                if(this.bonusScore==true){
                                     score++
                                 }
                                 score++
                                 console.log("score = " + score)
-                                console.log("HOORAY")
                                 deductionReason = ""
                                 deductionCode = 0
                                 correctNoteHit = true
                                 this.scoreAdjusted = true
                             }
                             else if(DynamicDifficulty[difficultyLevel].numberOfNotes == 2 && this.yHit == true && this.y1Hit == true){
-                                if(bonusScore==true){
+                                if(this.bonusScore==true){
                                     score++
                                 }
                                 score++
-                                console.log("score = " + score)
-                                console.log("HOORAY")
+                                console.log("score = ")
                                 deductionReason = ""
                                 deductionCode = 0
                                 correctNoteHit = true
                                 this.scoreAdjusted = true
                             }
                             else if(DynamicDifficulty[difficultyLevel].numberOfNotes == 3 && this.yHit == true && this.y1Hit == true && this.y2Hit == true){
-                                if(bonusScore==true){
+                                if(this.bonusScore==true){
                                     score++
                                 }
                                 score++
@@ -144,7 +143,6 @@ class animatingNotes{
                                 deductionCode = 1
                                 score--
                                 console.log("score = " + score)
-                                console.log(deductionCode)
                                 correctNoteHit = false  
                                 this.scoreAdjusted = true 
                             }
@@ -154,14 +152,13 @@ class animatingNotes{
                             deductionCode = 2
                             score--
                             console.log("score = " + score)
-                            console.log(deductionCode)
                             correctNoteHit = false   
                             this.scoreAdjusted = true
                         }
-                        currentActualHitTime.h = createTime(time.getHours(), 2)
-                        currentActualHitTime.m = createTime(time.getMinutes(), 2)
-                        currentActualHitTime.s = createTime(time.getSeconds(), 2)
-                        currentActualHitTime.ms = createTime(time.getMilliseconds(), 3)
+                        currentActualHitTime.h = time.getHours()
+                        currentActualHitTime.m = time.getMinutes()
+                        currentActualHitTime.s = time.getSeconds()
+                        currentActualHitTime.ms = time.getMilliseconds()
                         currentActualHitTime.time = time.getTime()
                     }
                 }
@@ -174,12 +171,11 @@ class animatingNotes{
                         deductionReason = "Out of bounds"
                         deductionCode = 3
                         console.log("score = " + score)
-                        console.log(deductionCode)
                         correctNoteHit = false
-                        currentActualHitTime.h = createTime(time.getHours(), 2)
-                        currentActualHitTime.m = createTime(time.getMinutes(), 2)
-                        currentActualHitTime.s = createTime(time.getSeconds(), 2)
-                        currentActualHitTime.ms = createTime(time.getMilliseconds(), 3)
+                        currentActualHitTime.h = time.getHours()
+                        currentActualHitTime.m = time.getMinutes()
+                        currentActualHitTime.s = time.getSeconds()
+                        currentActualHitTime.ms = time.getMilliseconds()
                         currentActualHitTime.time = time.getTime()
                     }
                 }
@@ -191,8 +187,6 @@ class animatingNotes{
                     deductionReason = "Missed Note"
                     deductionCode = 4
                     console.log("score = " + score)
-                    console.log(deductionCode)
-
                     currentActualHitTime.h = 0
                     currentActualHitTime.m = 0
                     currentActualHitTime.s = 0
@@ -251,7 +245,7 @@ class animatingNotes{
                             missedNote: missedNote,
                             deductionReason: deductionReason,
                             deductionCode: deductionCode,
-                            withinExtraBoundary: bonusScore
+                            withinExtraBoundary: this.bonusScore
                         }
                         userNoteProgression[numberOfNotesInLevel]=noteNumberProgression
                     }
@@ -294,29 +288,39 @@ class animatingNotes{
                     score = 0
                     numberOfNotesInLevel = 0
                 }
+                                // Reset values
+                                this.recordedExpectedTime = false
+                                this.yHit = false
+                                this.y1Hit = false
+                                this.y2Hit = false
+                                this.scoreAdjusted = false
+                                missedNote = false
+                                scoreMultiplier = 1
+                                this.bonusScore = false
+                
                 switch(difficultyLevel){
                     case 1: // random 4 notes
                         this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
                         this.image = noteImage
                         this.major = true
                         break
-                    // case 2: // roll up and down 7 notes to teach moving fingers correctly
-                    //     this.y = staffSpacing * cycleNotes
-                    //     this.major = true
-                    //     if(DynamicDifficulty[2].down == true){ // Scrolls up and down through the octave
-                    //         cycleNotes=cycleNotes+0.5
-                    //         if(cycleNotes>3.5){
-                    //             DynamicDifficulty[2].down = false
-                    //         } 
-                    //     }
-                    //     else if (DynamicDifficulty[2].down == false){
-                    //         cycleNotes=cycleNotes-0.5
-                    //         if(cycleNotes<1.5){
-                    //             DynamicDifficulty[2].down = true
-                    //         }  
-                    //     }
-                    //     this.image = noteImage
-                    //     break
+                    case 2: // roll up and down 7 notes to teach moving fingers correctly
+                        this.y = staffSpacing * cycleNotes
+                        this.major = true
+                        if(DynamicDifficulty[2].down == true){ // Scrolls up and down through the octave
+                            cycleNotes=cycleNotes+0.5
+                            if(cycleNotes>3.5){
+                                DynamicDifficulty[2].down = false
+                            } 
+                        }
+                        else if (DynamicDifficulty[2].down == false){
+                            cycleNotes=cycleNotes-0.5
+                            if(cycleNotes<1.5){
+                                DynamicDifficulty[2].down = true
+                            }  
+                        }
+                        this.image = noteImage
+                        break
                     case 3: // random majors in octave
                         this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
                         this.image = noteImage
@@ -614,12 +618,14 @@ class animatingNotes{
                         this.y2 = bassChords[chordCycle][3][0] * staffSpacing
                         chordCycle = Math.floor(Math.random()*12)+1
                         break
-                    case 2: // Happy Birthday
+                    case 15: // Happy Birthday
                         if(happyBirthday[songCycle][1][0] == null){
-                            this.y = null
+                            this.y = 1
+                            this.image = noteImage
                             this.doNotDeductScore = true
                             this.y1Hit = true
                             this.yHit = true
+                            this.scoreAdjusted = true
                         }
                         else{
                             this.y = happyBirthday[songCycle][1][0]* staffSpacing
@@ -636,22 +642,12 @@ class animatingNotes{
                             this.image1 = noteImage
                             this.major1 = true
                         }
-                        console.log(this.doNotDeductScore)
                         songCycle++
                         if(songCycle>46){
                             songCycle=1
                         }
                         break
                 }   
-                // Reset values
-                this.recordedExpectedTime = false
-                this.yHit = false
-                this.y1Hit = false
-                this.y2Hit = false
-                this.scoreAdjusted = false
-                missedNote = false
-                scoreMultiplier = 1
-                bonusScore = false
             }   
             this.x -= DynamicDifficulty[difficultyLevel].speed
         }    
