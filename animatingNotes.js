@@ -65,7 +65,7 @@ class animatingNotes{
                     if(!keyPressed){ // Stops constantly adding to score whilst holding note
                         keyPressed = true
                         const time = new Date() // Creates a time that the user pressed a note
-                        if(notesHeldList.length == DynamicDifficulty[difficultyLevel].numberOfNotes || (notesHeldList.length == DynamicDifficulty[difficultyLevel].numberOfNotes-1 && this.y1Hit == true)){
+                        if(notesHeldList.length == DynamicDifficulty[difficultyLevel].numberOfNotes){
                             let notesHeldListValue
                             for(var values in notesHeldList){
                                 if(majorKeyPos.includes(findNoteLetter(notesHeldList[values]))){
@@ -138,13 +138,67 @@ class animatingNotes{
                                 correctNoteHit = true
                                 this.scoreAdjusted = true
                             }
-                            else if(this.doNotDeductScore == false){ // Wrong Note is pushed
+                            else{ // Wrong Note is pushed
                                 deductionReason = "Wrong Note"
                                 deductionCode = 1
                                 score--
                                 console.log("score = " + score)
                                 correctNoteHit = false  
                                 this.scoreAdjusted = true 
+                            }
+                        }
+                        else if(difficultyLevel == 15){
+                            if(notesHeldList.length == (DynamicDifficulty[difficultyLevel].numberOfNotes-1) && this.y1Hit == true){
+                                for(var values in notesHeldList){
+                                    if(majorKeyPos.includes(findNoteLetter(notesHeldList[values]))){
+                                        let notesHeldOctave =  parseInt(notesHeldList[values]/12) - 4
+                                        let notesHeldLetter = findNoteLetter(notesHeldList[values])
+                                        let notesHeldValue = staffShtMajorPos.indexOf(notesHeldLetter)
+                                        if(notesHeldOctave === 1){
+                                            notesHeldListValue = (notesHeldValue*0.5+4)
+                                        }else if(notesHeldOctave === 0){
+                                            notesHeldListValue = (notesHeldValue*0.5+4)+3.5
+                                        }else if(notesHeldOctave === 2){
+                                            notesHeldListValue = (notesHeldValue*0.5+4)-3.5
+                                        }else notesHeldListValue = 0
+                                    }else if(sharpKeyPos.includes(findNoteLetter(notesHeldList[values]))) {
+                                        let notesHeldOctave =  parseInt(notesHeldList[values]/12) - 4
+                                        let notesHeldLetter = findNoteLetter(notesHeldList[values])
+                                        let notesHeldValue = staffShtSharpPos.indexOf(notesHeldLetter)
+                                        if(notesHeldOctave === 1){
+                                            notesHeldListValue = (notesHeldValue*0.5+4)
+                                        }else if(notesHeldOctave === 0){
+                                            notesHeldListValue = (notesHeldValue*0.5+4)+3.5
+                                        }else if(notesHeldOctave === 2){
+                                            notesHeldListValue = (notesHeldValue*0.5+4)-3.5
+                                        }else notesHeldListValue = 0
+                                    }
+                                    if((this.y/staffSpacing)+0.5 == notesHeldListValue && this.major == majorPressed){
+                                        this.yHit = true
+                                    }
+                                    if(this.x > lowerBoundaryMultiplier && this.x < upperBoundaryMultiplier){
+                                        this.bonusScore = true
+                                    }
+                                }
+                                if(this.yHit == true && this.y1Hit == true){
+                                    if(this.bonusScore==true){
+                                        score++
+                                    }
+                                    score++
+                                    console.log("score = " + score)
+                                    deductionReason = ""
+                                    deductionCode = 0
+                                    correctNoteHit = true
+                                    this.scoreAdjusted = true
+                                }
+                                else{ // Wrong Note is pushed
+                                    deductionReason = "Wrong Note"
+                                    deductionCode = 1
+                                    score--
+                                    console.log("score = " + score)
+                                    correctNoteHit = false  
+                                    this.scoreAdjusted = true 
+                                }    
                             }
                         }
                         else if(this.doNotDeductScore == false){ // Wrong number of notes is pushed
@@ -288,15 +342,15 @@ class animatingNotes{
                     score = 0
                     numberOfNotesInLevel = 0
                 }
-                                // Reset values
-                                this.recordedExpectedTime = false
-                                this.yHit = false
-                                this.y1Hit = false
-                                this.y2Hit = false
-                                this.scoreAdjusted = false
-                                missedNote = false
-                                scoreMultiplier = 1
-                                this.bonusScore = false
+                // Reset values
+                this.recordedExpectedTime = false
+                this.yHit = false
+                this.y1Hit = false
+                this.y2Hit = false
+                this.scoreAdjusted = false
+                missedNote = false
+                scoreMultiplier = 1
+                this.bonusScore = false
                 
                 switch(difficultyLevel){
                     case 1: // random 4 notes
