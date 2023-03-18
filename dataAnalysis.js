@@ -5,6 +5,7 @@ window.onload = function(){
       allData[i] = JSON.parse(localStorage.getItem(i))
   }
   createDataTypes(allData)
+  //localStorage.clear()
 }
 
 // Define canvas for graph display with predefined data variables
@@ -24,7 +25,9 @@ const data = {
   datasets: [
     { label: 'Example data',
       data: Example1.map(row => row.count)
-    }]
+    },
+    {}
+  ]
   }
 
 const config = {
@@ -44,22 +47,13 @@ const myChart = new Chart(
   config
 )
 
-function timeDifferenceHitFunction(){
-  myChart.data.labels = timeDifferenceHit.map(row => row.noteNumber)
-  myChart.data.datasets[0].label = "Time Difference of When Note Hit Against Required Note Hit"
-  myChart.data.datasets[0].data = timeDifferenceHit.map(row => row.timeDifference)
-  myChart.update()
-}
-
 function actualVsExpectedTimeFunction(){
-  myChart.data.labels = actualHitTimes.map(row => row.noteNumber)
+  myChart.data.labels = timeDifferenceHit.map(row => row.noteNumber)
   myChart.data.datasets[0].label = "Actual Hit Times"
-  myChart.data.datasets[0].data = actualHitTimes.map(row => row.actualHitTime)
+  myChart.data.datasets[0].data = timeDifferenceHit.map(row => row.timeDifference)
   
-  myChart.data.datasets.push({
-    label: "Expected Hit Times",
-    data: expectedHitTimes.map(row => row.expectedHitTime)
-  })
+  myChart.data.datasets[1].label = "Expected Hit Times",
+  myChart.data.datasets[1].data = expectedHitTimes.map(row => row.expectedHitTime)
 
   myChart.update()
 }

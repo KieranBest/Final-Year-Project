@@ -8,7 +8,7 @@ function retrieveIndividualNotes(allData){
     for(let storageLength = 0; storageLength < localStorage.length; storageLength++){
         if(allData[storageLength] != null){
             for(let levelNumber = 1; levelNumber <= Object.keys(allData[storageLength]).length; levelNumber++){
-                for(let noteNumber = 0; noteNumber < Object.keys(allData[storageLength][levelNumber].userNoteProgression).length; noteNumber++){
+                for(let noteNumber = 0; noteNumber < Object.keys(allData[storageLength][levelNumber].userNoteProgression).length+1; noteNumber++){
                     if(allData[storageLength][levelNumber].userNoteProgression[noteNumber] != undefined){
                         individualNotes[numberOfNotes] = allData[storageLength][levelNumber].userNoteProgression[noteNumber]
                         numberOfNotes++    
@@ -19,7 +19,6 @@ function retrieveIndividualNotes(allData){
     }
     console.log(individualNotes)
     retrieveTimeDifferenceHit(individualNotes)
-    retrieveHitTimes(individualNotes)
     retrieveExpectedHitTimes(individualNotes)
 }
 
@@ -28,23 +27,13 @@ function retrieveTimeDifferenceHit(individualNotes){
     for(let numberOfNotes = 0; numberOfNotes < individualNotes.length; numberOfNotes++){
         timeDifferenceHit[numberOfNotes] = {noteNumber: numberOfNotes, timeDifference: individualNotes[numberOfNotes].differenceInHitTime}
     }
-}
-
-let actualHitTimes = []
-let actualHitTime
-function retrieveHitTimes(individualNotes){
-    for(let numberOfNotes = 0; numberOfNotes < individualNotes.length; numberOfNotes++){
-        actualHitTime =  parseInt(individualNotes[numberOfNotes].actualHitTime.h.toString()+individualNotes[numberOfNotes].actualHitTime.m.toString()+individualNotes[numberOfNotes].actualHitTime.s.toString()+individualNotes[numberOfNotes].actualHitTime.ms.toString())
-        actualHitTimes[numberOfNotes] = {noteNumber: numberOfNotes, actualHitTime: actualHitTime}
-    }
-    console.log(actualHitTimes)
+    console.log(timeDifferenceHit)
 }
 
 let expectedHitTimes = []
-let expectedHitTime
 function retrieveExpectedHitTimes(individualNotes){
     for(let numberOfNotes = 0; numberOfNotes < individualNotes.length; numberOfNotes++){
-        expectedHitTimes[numberOfNotes] = {noteNumber: numberOfNotes, expectedHitTime: expectedHitTime}
+        expectedHitTimes[numberOfNotes] = {noteNumber: numberOfNotes, expectedHitTime: 0}
     }
     console.log(expectedHitTimes)
 }

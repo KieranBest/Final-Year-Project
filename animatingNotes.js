@@ -243,16 +243,16 @@ class animatingNotes{
                     deductionReason = "Missed Note"
                     deductionCode = 4
                     console.log("score = " + score)
-                    currentActualHitTime.h = 0
-                    currentActualHitTime.m = 0
-                    currentActualHitTime.s = 0
-                    currentActualHitTime.ms = 0
-                    currentActualHitTime.time = 0
-                    noteOffTime.h = 0
-                    noteOffTime.m = 0
-                    noteOffTime.s = 0
-                    noteOffTime.ms = 0
-                    noteOffTime.time = 0
+                    currentActualHitTime.h = null
+                    currentActualHitTime.m = null
+                    currentActualHitTime.s = null
+                    currentActualHitTime.ms = null
+                    currentActualHitTime.time = null
+                    noteOffTime.h = null
+                    noteOffTime.m = null
+                    noteOffTime.s = null
+                    noteOffTime.ms = null
+                    noteOffTime.time = null
                     correctNoteHit = null 
                     this.major = null
                     this.major1 = null
@@ -272,11 +272,18 @@ class animatingNotes{
                         leftOrRight =  "right"
                     }
                     if(numberOfNotesInLevel > 0){ // Otherwise distanceBetweenPreviousNote will error
-                        distanceBetweenNotes = previousNote-((this.y/staffSpacing)+0.5)                           
+                        distanceBetweenNotes = previousNote-((this.y/staffSpacing)+0.5)      
+                        let differenceInHit      
+                        if(deductionCode == 4){
+                            differenceInHit = null
+                        }
+                        else{
+                            differenceInHit = currentActualHitTime.time-currentExpectedHitTime.time
+                        }
                         const noteNumberProgression = { // Capturing data for statistical analysis
                             expectedHitTime: currentExpectedHitTime,
                             actualHitTime: currentActualHitTime,
-                            differenceInHitTime: currentActualHitTime.time-currentExpectedHitTime.time,
+                            differenceInHitTime: differenceInHit,
                             noteoff: noteOffTime,
                             timeHeldNote: noteOffTime.time - currentActualHitTime.time,
                             correctNote: correctNoteHit,
