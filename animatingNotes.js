@@ -45,13 +45,13 @@ class animatingNotes{
             if(this.x <= leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)){
                 if(this.recordedExpectedTime == false){  
                     this.recordedExpectedTime = true
-                    const time = new Date() // Creates a time that the note will reach the desired hit point
+                    let ExpectedTime = new Date() // Creates a time that the note will reach the desired hit point
                     // https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_datetime_millisec
-                    currentExpectedHitTime.h = time.getHours()
-                    currentExpectedHitTime.m = time.getMinutes()
-                    currentExpectedHitTime.s = time.getSeconds()
-                    currentExpectedHitTime.ms = time.getMilliseconds()
-                    currentExpectedHitTime.time = time.getTime()
+                    currentExpectedHitTime.h = ExpectedTime.getHours()
+                    currentExpectedHitTime.m = ExpectedTime.getMinutes()
+                    currentExpectedHitTime.s = ExpectedTime.getSeconds()
+                    currentExpectedHitTime.ms = ExpectedTime.getMilliseconds()
+                    currentExpectedHitTime.time = ExpectedTime.getTime()
                     if(noteNumberInGame > 1 && resetValues == true){ // Needs to be reset so it does not record when the first 2 notes are generated
                         resetValues = false
                         noteNumberInGame = 0
@@ -64,7 +64,7 @@ class animatingNotes{
                 if(this.x > lowerBoundary && this.x < upperBoundary){
                     if(!keyPressed){ // Stops constantly adding to score whilst holding note
                         keyPressed = true
-                        const time = new Date() // Creates a time that the user pressed a note
+                        let hitTime = new Date() // Creates a time that the user pressed a note
                         if(notesHeldList.length == DynamicDifficulty[difficultyLevel].numberOfNotes){
                             let notesHeldListValue
                             for(var values in notesHeldList){
@@ -115,6 +115,7 @@ class animatingNotes{
                                 deductionCode = 0
                                 correctNoteHit = true
                                 this.scoreAdjusted = true
+                                console.log(this.y)
                             }
                             else if(DynamicDifficulty[difficultyLevel].numberOfNotes == 2 && this.yHit == true && this.y1Hit == true){
                                 if(this.bonusScore==true){
@@ -209,33 +210,34 @@ class animatingNotes{
                             correctNoteHit = false   
                             this.scoreAdjusted = true
                         }
-                        currentActualHitTime.h = time.getHours()
-                        currentActualHitTime.m = time.getMinutes()
-                        currentActualHitTime.s = time.getSeconds()
-                        currentActualHitTime.ms = time.getMilliseconds()
-                        currentActualHitTime.time = time.getTime()
+                        currentActualHitTime.h = hitTime .getHours()
+                        currentActualHitTime.m = hitTime .getMinutes()
+                        currentActualHitTime.s = hitTime .getSeconds()
+                        currentActualHitTime.ms = hitTime .getMilliseconds()
+                        currentActualHitTime.time = hitTime .getTime()
                     }
                 }
                 else{
                     // Out of bounds
-                    if(this.scoreAdjusted == false && resetValues == false && this.x<(window.innerWidth/2) && this.doNotDeductScore == false){
+                    if(this.scoreAdjusted == false && resetValues == false && this.x<hitMarker && this.doNotDeductScore == false){
                         this.scoreAdjusted = true // Stops constantly deducting from score
-                        const time = new Date() // Creates a time that the user pressed a note
+                        let missedTime = new Date() // Creates a time that the user pressed a note
                         score--
                         deductionReason = "Out of bounds"
                         deductionCode = 3
                         console.log("score = " + score)
                         correctNoteHit = false
-                        currentActualHitTime.h = time.getHours()
-                        currentActualHitTime.m = time.getMinutes()
-                        currentActualHitTime.s = time.getSeconds()
-                        currentActualHitTime.ms = time.getMilliseconds()
-                        currentActualHitTime.time = time.getTime()
+                        currentActualHitTime.h = missedTime.getHours()
+                        currentActualHitTime.m = missedTime.getMinutes()
+                        currentActualHitTime.s = missedTime.getSeconds()
+                        currentActualHitTime.ms = missedTime.getMilliseconds()
+                        currentActualHitTime.time = missedTime.getTime()
+                        console.log(this.y)
                     }
                 }
             }
             // Note Loop Around
-            if(this.x<leftBoundary){ // If note moves far to the left it will delete and autocreate a new y value
+            if(this.x<leftBoundary){ // If note oves far to the left it will delete and autocreate a new y value
                 if(this.scoreAdjusted == false && resetValues == false && this.doNotDeductScore == false){ // Missed the note
                     score--
                     deductionReason = "Missed Note"
@@ -246,11 +248,6 @@ class animatingNotes{
                     currentActualHitTime.s = 0
                     currentActualHitTime.ms = 0
                     currentActualHitTime.time = 0
-                    currentExpectedHitTime.h = 0
-                    currentExpectedHitTime.m = 0
-                    currentExpectedHitTime.s = 0
-                    currentExpectedHitTime.ms = 0
-                    currentExpectedHitTime.time = 0
                     noteOffTime.h = 0
                     noteOffTime.m = 0
                     noteOffTime.s = 0
@@ -274,7 +271,7 @@ class animatingNotes{
                     else{
                         leftOrRight =  "right"
                     }
-                    if(numberOfNotesInLevel > 0 && resetValues == false){ // Otherwise distanceBetweenPreviousNote will error
+                    if(numberOfNotesInLevel > 0){ // Otherwise distanceBetweenPreviousNote will error
                         distanceBetweenNotes = previousNote-((this.y/staffSpacing)+0.5)                           
                         const noteNumberProgression = { // Capturing data for statistical analysis
                             expectedHitTime: currentExpectedHitTime,
@@ -351,6 +348,9 @@ class animatingNotes{
                 missedNote = false
                 scoreMultiplier = 1
                 this.bonusScore = false
+                currentExpectedHitTime = {}
+                currentActualHitTime = {}
+                noteOffTime = {}
                 
                 switch(difficultyLevel){
                     case 1: // random 4 notes
