@@ -311,7 +311,7 @@ class animatingNotes{
                 }
                 this.x = window.innerWidth
                 if(score >= DynamicDifficulty[difficultyLevel].requiredScoreToProgress){
-                    gameProgression[levelProgression]={
+                    gameProgression[levelProgression] = {
                         currentLevel: difficultyLevel,
                         numberOfNotes: DynamicDifficulty[difficultyLevel].numberOfNotes,
                         recurringNotes: DynamicDifficulty[difficultyLevel].recurringNotes,

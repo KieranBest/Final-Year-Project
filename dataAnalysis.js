@@ -1,10 +1,10 @@
 // Do data calculations on loading of page
 window.onload = function(){
   let allData = {}
-  for(let i = 0; i < localStorage.length; i++){
+  for(let i = 0; i < localStorage.length+1; i++){
       allData[i] = JSON.parse(localStorage.getItem(i))
   }
-  createDataTypes(allData)
+  retrieveIndividualNotes(allData)
   //localStorage.clear()
 }
 
@@ -23,10 +23,27 @@ const ctx = document.getElementById('myChart')
 const data = {
   labels: Example1.map(row => row.year),
   datasets: [
-    { label: 'Example data',
-      data: Example1.map(row => row.count)
-    },
-    {}
+    { 
+      barPercentage: 0.5,
+      barThickness: 50,
+      label: 'Example data',
+      data: Example1.map(row => row.count),
+      backgroundColor: [
+        'red',
+        'blue',
+        'yellow',
+        'green',
+        'black'
+      ],
+      borderColor: [
+        'red',
+        'blue',
+        'yellow',
+        'green',
+        'black'
+      ],
+      borderWidth: 1
+    }
   ]
   }
 
@@ -36,9 +53,13 @@ const config = {
   options: {
     scales: {
       y: {
-        beginAtZero: true
+        beginAtZero: true,
+        display: true
+      },
+      x: {
+        display: true
       }
-    }
+    },
   }
 }  
 
@@ -48,12 +69,63 @@ const myChart = new Chart(
 )
 
 function actualVsExpectedTimeFunction(){
-  myChart.data.labels = timeDifferenceHit.map(row => row.noteNumber)
+  myChart.config.type = 'line'
+  myChart.config.options.scales.y.display = true
+  myChart.config.options.scales.x.display = true
+
+  myChart.data.labels[0] = numberOfNotes
   myChart.data.datasets[0].label = "Actual Hit Times"
-  myChart.data.datasets[0].data = timeDifferenceHit.map(row => row.timeDifference)
-  
-  myChart.data.datasets[1].label = "Expected Hit Times",
-  myChart.data.datasets[1].data = expectedHitTimes.map(row => row.expectedHitTime)
+  myChart.data.datasets[0].data = timeDifferenceHit
+  var newDataset = {
+    label: "Vendas",
+    backgroundColor: 'black',
+    borderColor: 'black',
+    borderWidth: 1,
+    data: expectedHitTimes,
+  }
+  data.datasets.push(newDataset);
 
   myChart.update()
+}
+
+function viewNoteCodesPie(){
+  myChart.config.type = 'pie'
+  myChart.config.options.scales.y.display = false
+  myChart.config.options.scales.x.display = false
+
+  myChart.data.labels.pop()
+  myChart.data.datasets.forEach((dataset) => {
+    dataset.data.pop() 
+  })
+  myChart.update()
+
+  myChart.data.labels = ['Number Of Correct Hits','Number Of Wrong Hits','Number Of Wrong Number Hits',
+    'Number Of Out Of Bound Hits','Number Of Missed Notes']
+  myChart.data.datasets[0].label = ""
+  myChart.data.datasets[0].data = [numberOfCorrectHits,numberOfWrongHits,numberOfWrongNumberHits,numberOfOutOfBoundHits,numberOfMissedNotes]
+  myChart.update()
+}
+
+function viewNoteCodesBar(){
+  myChart.config.type = 'bar'
+  myChart.config.options.scales.y.display = true
+  myChart.config.options.scales.x.display = true
+
+  myChart.data.labels.pop()
+  myChart.data.datasets.forEach((dataset) => {
+    dataset.data.pop() 
+  })
+  myChart.update()
+
+  myChart.data.labels = ['Number Of Correct Hits','Number Of Wrong Hits','Number Of Wrong Number Hits',
+    'Number Of Out Of Bound Hits','Number Of Missed Notes']
+  for(let numberOfPeriods = 0; numberOfPeriods < playPeriodNotes.length; numberOfPeriods++){
+    myChart.data.datasets[numberOfPeriods].label = "Period " + numberOfPeriods
+    myChart.data.datasets[numberOfPeriods].data = [playPeriodCodes[numberOfPeriods].numberOfCorrectHits,
+      playPeriodCodes[numberOfPeriods].numberOfWrongHits,playPeriodCodes[numberOfPeriods].numberOfWrongNumberHits,
+      playPeriodCodes[numberOfPeriods].numberOfOutOfBoundHits,playPeriodCodes[numberOfPeriods].numberOfMissedNotes]
+  }
+  myChart.data.datasets[0].data = [numberOfCorrectHits,numberOfWrongHits,numberOfWrongNumberHits,numberOfOutOfBoundHits,numberOfMissedNotes]
+  myChart.update()
+
 }
