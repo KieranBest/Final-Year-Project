@@ -69,31 +69,32 @@ function retrievePlaytimePeriods(allData){
 }
 
 let playPeriodCodes = []
-
 function retrieveNoteCodesFromPeriods(playPeriodNotes){
     for(let numberOfPeriods = 0; numberOfPeriods < playPeriodNotes.length; numberOfPeriods++){
+        let numOfCorrectHits = 0
+        let numOfWrongHits = 0
+        let numOfWrongNumberHits = 0
+        let numOfOutOfBoundHits = 0
+        let numOfMissedNotes = 0
         playPeriodCodes[numberOfPeriods] = {}
-        playPeriodCodes[numberOfPeriods].numberOfCorrectHits = 0
-        playPeriodCodes[numberOfPeriods].numberOfWrongHits = 0
-        playPeriodCodes[numberOfPeriods].numberOfWrongNumberHits = 0
-        playPeriodCodes[numberOfPeriods].numberOfOutOfBoundHits = 0
-        playPeriodCodes[numberOfPeriods].numberOfMissedNotes = 0
         for(let numberOfNotes = 1; numberOfNotes < Object.keys(playPeriodNotes[numberOfPeriods]).length + 1; numberOfNotes++){
             if(playPeriodNotes[numberOfPeriods][numberOfNotes].deductionCode == 0){
-                playPeriodCodes[numberOfPeriods].numberOfCorrectHits = playPeriodCodes[numberOfPeriods].numberOfCorrectHits + 1
+                numOfCorrectHits = numOfCorrectHits + 1
             }
             else if(playPeriodNotes[numberOfPeriods][numberOfNotes].deductionCode == 1){
-                playPeriodCodes[numberOfPeriods].numberOfWrongHits = playPeriodCodes[numberOfPeriods].numberOfWrongHits + 1
+                numOfWrongHits = numOfWrongHits + 1
             }
             else if(playPeriodNotes[numberOfPeriods][numberOfNotes].deductionCode == 2){
-                playPeriodCodes[numberOfPeriods].numberOfWrongNumberHits = playPeriodCodes[numberOfPeriods].numberOfWrongNumberHits + 1
+                numOfWrongNumberHits = numOfWrongNumberHits + 1
             }
             else if(playPeriodNotes[numberOfPeriods][numberOfNotes].deductionCode == 3){
-                playPeriodCodes[numberOfPeriods].numberOfOutOfBoundHits = playPeriodCodes[numberOfPeriods].numberOfOutOfBoundHits + 1
+                numOfOutOfBoundHits = numOfOutOfBoundHits + 1
             }
             else if(playPeriodNotes[numberOfPeriods][numberOfNotes].deductionCode == 4){
-                playPeriodCodes[numberOfPeriods].numberOfMissedNotes = playPeriodCodes[numberOfPeriods].numberOfMissedNotes + 1
+                numOfMissedNotes = numOfMissedNotes + 1
             }
-        }    
+        }
+        playPeriodCodes[numberOfPeriods] = [numOfCorrectHits,numOfWrongHits,numOfWrongNumberHits,numOfOutOfBoundHits,numOfMissedNotes
+        ]
     }
 }

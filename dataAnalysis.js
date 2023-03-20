@@ -75,6 +75,10 @@ function actualVsExpectedTimeFunction(){
   myChart.config.options.scales.y.display = true
   myChart.config.options.scales.x.display = true
 
+  if(data.datasets.length > 1){
+    data.datasets.length = 1
+  }
+
   myChart.data.labels = NoOfNotes.map(row => row.noteNumber)
   myChart.data.datasets[0].label = "Actual Hit Times"
   myChart.data.datasets[0].data = timeDifferenceHit
@@ -86,7 +90,6 @@ function actualVsExpectedTimeFunction(){
     data: expectedHitTimes,
   }
   data.datasets.push(newDataset);
-
   myChart.update()
 }
 
@@ -95,39 +98,37 @@ function viewNoteCodesPie(){
   myChart.config.options.scales.y.display = false
   myChart.config.options.scales.x.display = false
 
-
   if(data.datasets.length > 1){
-    data.datasets.splice(0,1)
+    data.datasets.length = 1
   }
-
 
   myChart.data.labels = ['Number Of Correct Hits','Number Of Wrong Hits','Number Of Wrong Number Hits',
     'Number Of Out Of Bound Hits','Number Of Missed Notes']
   myChart.data.datasets[0].label = ""
   myChart.data.datasets[0].data = [numberOfCorrectHits,numberOfWrongHits,numberOfWrongNumberHits,numberOfOutOfBoundHits,numberOfMissedNotes]
-myChart.update()
+  myChart.update()
 }
 
-function viewNoteCodesBar(){
-  myChart.config.type = 'bar'
+function viewNoteCodesLine(){
+  myChart.config.type = 'line'
   myChart.config.options.scales.y.display = true
   myChart.config.options.scales.x.display = true
 
-  myChart.data.labels.pop()
-  myChart.data.datasets.forEach((dataset) => {
-    dataset.data.pop() 
-  })
-  myChart.update()
+  if(data.datasets.length > 0){
+    data.datasets.length = 0
+  }
 
   myChart.data.labels = ['Number Of Correct Hits','Number Of Wrong Hits','Number Of Wrong Number Hits',
     'Number Of Out Of Bound Hits','Number Of Missed Notes']
   for(let numberOfPeriods = 0; numberOfPeriods < playPeriodNotes.length; numberOfPeriods++){
-    myChart.data.datasets[numberOfPeriods].label = "Period " + numberOfPeriods
-    myChart.data.datasets[numberOfPeriods].data = [playPeriodCodes[numberOfPeriods].numberOfCorrectHits,
-      playPeriodCodes[numberOfPeriods].numberOfWrongHits,playPeriodCodes[numberOfPeriods].numberOfWrongNumberHits,
-      playPeriodCodes[numberOfPeriods].numberOfOutOfBoundHits,playPeriodCodes[numberOfPeriods].numberOfMissedNotes]
-  }
-  myChart.data.datasets[0].data = [numberOfCorrectHits,numberOfWrongHits,numberOfWrongNumberHits,numberOfOutOfBoundHits,numberOfMissedNotes]
-  myChart.update()
-
+    var newDataset = {
+      label: "Period " + numberOfPeriods,
+      backgroundColor: numberOfPeriods * 111111,
+      borderColor: numberOfPeriods * 111111,
+      borderWidth: 1,
+      data: playPeriodCodes[numberOfPeriods],
+    }
+    data.datasets.push(newDataset);
+    }
+    myChart.update()
 }
