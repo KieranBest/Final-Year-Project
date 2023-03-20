@@ -8,6 +8,8 @@ window.onload = function(){
   }
   retrieveIndividualNotes(allData)
   retrievePlaytimePeriods(allData)
+
+  console.log(allData)
 }
 
 // Define canvas for graph display with predefined data variables
@@ -82,6 +84,9 @@ function actualVsExpectedTimeFunction(){
   myChart.data.labels = NoOfNotes.map(row => row.noteNumber)
   myChart.data.datasets[0].label = "Actual Hit Times"
   myChart.data.datasets[0].data = timeDifferenceHit
+  myChart.data.datasets[0].backgroundColor = ['red']
+  myChart.data.datasets[0].borderColor = ['red']
+
   var newDataset = {
     label: "Expected Time",
     backgroundColor: 'black',
@@ -106,6 +111,20 @@ function viewNoteCodesPie(){
     'Number Of Out Of Bound Hits','Number Of Missed Notes']
   myChart.data.datasets[0].label = ""
   myChart.data.datasets[0].data = [numberOfCorrectHits,numberOfWrongHits,numberOfWrongNumberHits,numberOfOutOfBoundHits,numberOfMissedNotes]
+  myChart.data.datasets[0].backgroundColor = [
+    'red',
+    'blue',
+    'yellow',
+    'green',
+    'black'
+  ]
+  myChart.data.datasets[0].borderColor = [
+    'red',
+    'blue',
+    'yellow',
+    'green',
+    'black'
+  ]
   myChart.update()
 }
 
@@ -121,10 +140,11 @@ function viewNoteCodesLine(){
   myChart.data.labels = ['Number Of Correct Hits','Number Of Wrong Hits','Number Of Wrong Number Hits',
     'Number Of Out Of Bound Hits','Number Of Missed Notes']
   for(let numberOfPeriods = 0; numberOfPeriods < playPeriodNotes.length; numberOfPeriods++){
+    let colour = '#' + Math.floor(Math.random()*16777215).toString(16)
     var newDataset = {
       label: "Period " + numberOfPeriods,
-      backgroundColor: numberOfPeriods * 111111,
-      borderColor: numberOfPeriods * 111111,
+      backgroundColor: colour,
+      borderColor:colour,
       borderWidth: 1,
       data: playPeriodCodes[numberOfPeriods],
     }
