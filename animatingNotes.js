@@ -115,7 +115,6 @@ class animatingNotes{
                                 deductionCode = 0
                                 correctNoteHit = true
                                 this.scoreAdjusted = true
-                                console.log(this.y)
                             }
                             else if(DynamicDifficulty[difficultyLevel].numberOfNotes == 2 && this.yHit == true && this.y1Hit == true){
                                 if(this.bonusScore==true){
@@ -232,7 +231,6 @@ class animatingNotes{
                         currentActualHitTime.s = missedTime.getSeconds()
                         currentActualHitTime.ms = missedTime.getMilliseconds()
                         currentActualHitTime.time = missedTime.getTime()
-                        console.log(this.y)
                     }
                 }
             }

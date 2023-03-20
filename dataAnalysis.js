@@ -1,11 +1,13 @@
 // Do data calculations on loading of page
+let allData = {}
 window.onload = function(){
-  let allData = {}
   for(let i = 0; i < localStorage.length+1; i++){
-      allData[i] = JSON.parse(localStorage.getItem(i))
+    if(JSON.parse(localStorage.getItem(i)) != null){
+          allData[i] = JSON.parse(localStorage.getItem(i))
+    }
   }
   retrieveIndividualNotes(allData)
-  //localStorage.clear()
+  retrievePlaytimePeriods(allData)
 }
 
 // Define canvas for graph display with predefined data variables
@@ -73,11 +75,11 @@ function actualVsExpectedTimeFunction(){
   myChart.config.options.scales.y.display = true
   myChart.config.options.scales.x.display = true
 
-  myChart.data.labels[0] = numberOfNotes
+  myChart.data.labels = NoOfNotes.map(row => row.noteNumber)
   myChart.data.datasets[0].label = "Actual Hit Times"
   myChart.data.datasets[0].data = timeDifferenceHit
   var newDataset = {
-    label: "Vendas",
+    label: "Expected Time",
     backgroundColor: 'black',
     borderColor: 'black',
     borderWidth: 1,
@@ -93,17 +95,17 @@ function viewNoteCodesPie(){
   myChart.config.options.scales.y.display = false
   myChart.config.options.scales.x.display = false
 
-  myChart.data.labels.pop()
-  myChart.data.datasets.forEach((dataset) => {
-    dataset.data.pop() 
-  })
-  myChart.update()
+
+  if(data.datasets.length > 1){
+    data.datasets.splice(0,1)
+  }
+
 
   myChart.data.labels = ['Number Of Correct Hits','Number Of Wrong Hits','Number Of Wrong Number Hits',
     'Number Of Out Of Bound Hits','Number Of Missed Notes']
   myChart.data.datasets[0].label = ""
   myChart.data.datasets[0].data = [numberOfCorrectHits,numberOfWrongHits,numberOfWrongNumberHits,numberOfOutOfBoundHits,numberOfMissedNotes]
-  myChart.update()
+myChart.update()
 }
 
 function viewNoteCodesBar(){

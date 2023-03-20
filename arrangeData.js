@@ -1,6 +1,4 @@
 let individualNotes = []
-let playPeriodNotes = []
-playPeriodNotes[0] = {}
 function retrieveIndividualNotes(allData){
     let numberOfNotes = 0
     for(let storageLength = 0; storageLength < localStorage.length; storageLength++){
@@ -9,7 +7,6 @@ function retrieveIndividualNotes(allData){
                 for(let noteNumber = 0; noteNumber < Object.keys(allData[storageLength][levelNumber].userNoteProgression).length+1; noteNumber++){
                     if(allData[storageLength][levelNumber].userNoteProgression[noteNumber] != undefined){
                         individualNotes[numberOfNotes] = allData[storageLength][levelNumber].userNoteProgression[noteNumber]
-                        playPeriodNotes[storageLength][numberOfNotes] = allData[storageLength][levelNumber].userNoteProgression[noteNumber]
                         numberOfNotes++    
                     }                    
                 }
@@ -17,71 +14,19 @@ function retrieveIndividualNotes(allData){
         }
     }
     retrieveTimeDifferenceHit(individualNotes)
-    retrieveExpectedHitTimes(individualNotes)
-    combineTime(individualNotes)
     retrieveNoteCodes(individualNotes)
-    retrieveNoteCodesFromPeriods(playPeriodNotes)
-}
+}    
 
-let numberOfNotes = []
 let timeDifferenceHit = []
+let expectedHitTimes = []
+let NoOfNotes = []
 function retrieveTimeDifferenceHit(individualNotes){
     for(let numberOfNote = 0; numberOfNote < individualNotes.length; numberOfNote++){
         timeDifferenceHit[numberOfNote] = individualNotes[numberOfNote].differenceInHitTime
-        numberOfNotes[numberOfNote] = numberOfNote
+        expectedHitTimes[numberOfNote] = 0
+        NoOfNotes[numberOfNote] = {noteNumber: numberOfNote}
     }
 }
-
-let expectedHitTimes = []
-function retrieveExpectedHitTimes(individualNotes){
-    for(let numberOfNotes = 0; numberOfNotes < individualNotes.length; numberOfNotes++){
-        expectedHitTimes[numberOfNotes] = 0
-    }
-}
-
-let combinedTimes = []
-function combineTime(individualNotes){
-    for(let numberOfNote = 0; numberOfNote < individualNotes.length; numberOfNote++){
-        combinedTimes[numberOfNote] = [
-            individualNotes[numberOfNote].differenceInHitTime, 0
-        ]
-    }
-}
-
-
-console.log(timeDifferenceHit)
-console.log(expectedHitTimes)
-console.log(combinedTimes)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 let numberOfCorrectHits = 0
 let numberOfWrongHits = 0
@@ -108,32 +53,47 @@ function retrieveNoteCodes(individualNotes){
     }
 }
 
+let playPeriodNotes = []
+function retrievePlaytimePeriods(allData){    
+    for(let storageLength = 0; storageLength < localStorage.length; storageLength++){
+        if(allData[storageLength] != null){
+            playPeriodNotes[storageLength] = {}
+            for(let levelNumber = 1; levelNumber <= Object.keys(allData[storageLength]).length; levelNumber++){
+                for(let noteNumber = 1; noteNumber < Object.keys(allData[storageLength][levelNumber].userNoteProgression).length+1; noteNumber++){
+                        playPeriodNotes[storageLength][noteNumber] = allData[storageLength][levelNumber].userNoteProgression[noteNumber]
+                }
+            }
+        }
+    }
+    retrieveNoteCodesFromPeriods(playPeriodNotes)
+}
+
 let playPeriodCodes = []
-playPeriodCodes[0] = {}
+
 function retrieveNoteCodesFromPeriods(playPeriodNotes){
     for(let numberOfPeriods = 0; numberOfPeriods < playPeriodNotes.length; numberOfPeriods++){
+        playPeriodCodes[numberOfPeriods] = {}
         playPeriodCodes[numberOfPeriods].numberOfCorrectHits = 0
         playPeriodCodes[numberOfPeriods].numberOfWrongHits = 0
         playPeriodCodes[numberOfPeriods].numberOfWrongNumberHits = 0
         playPeriodCodes[numberOfPeriods].numberOfOutOfBoundHits = 0
         playPeriodCodes[numberOfPeriods].numberOfMissedNotes = 0
-        for(let numberOfNotes = 0; numberOfNotes < individualNotes.length; numberOfNotes++){
+        for(let numberOfNotes = 1; numberOfNotes < Object.keys(playPeriodNotes[numberOfPeriods]).length + 1; numberOfNotes++){
             if(playPeriodNotes[numberOfPeriods][numberOfNotes].deductionCode == 0){
-                playPeriodCodes[numberOfPeriods].numberOfCorrectHits++
+                playPeriodCodes[numberOfPeriods].numberOfCorrectHits = playPeriodCodes[numberOfPeriods].numberOfCorrectHits + 1
             }
             else if(playPeriodNotes[numberOfPeriods][numberOfNotes].deductionCode == 1){
-                playPeriodCodes[numberOfPeriods].numberOfWrongHits++
+                playPeriodCodes[numberOfPeriods].numberOfWrongHits = playPeriodCodes[numberOfPeriods].numberOfWrongHits + 1
             }
             else if(playPeriodNotes[numberOfPeriods][numberOfNotes].deductionCode == 2){
-                playPeriodCodes[numberOfPeriods].numberOfWrongNumberHits++
+                playPeriodCodes[numberOfPeriods].numberOfWrongNumberHits = playPeriodCodes[numberOfPeriods].numberOfWrongNumberHits + 1
             }
             else if(playPeriodNotes[numberOfPeriods][numberOfNotes].deductionCode == 3){
-                playPeriodCodes[numberOfPeriods].numberOfOutOfBoundHits++
+                playPeriodCodes[numberOfPeriods].numberOfOutOfBoundHits = playPeriodCodes[numberOfPeriods].numberOfOutOfBoundHits + 1
             }
             else if(playPeriodNotes[numberOfPeriods][numberOfNotes].deductionCode == 4){
-                playPeriodCodes[numberOfPeriods].numberOfMissedNotes++
+                playPeriodCodes[numberOfPeriods].numberOfMissedNotes = playPeriodCodes[numberOfPeriods].numberOfMissedNotes + 1
             }
         }    
     }
 }
-
