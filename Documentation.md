@@ -195,6 +195,20 @@ Milestones will be divided into 2 weekly sprints and tasks will be assigned weig
 
 Each Milestone will show logical steps in its production process whilst also giving clear deadlines for each sprint. It will be created using JavaScript, HTML5, CSS, Express and MongoDB.
 
+#### User Stories
+
+- As a user the application must demonstrate which key I am pressing and what note that is to begin with.
+- As a user the application must allow me to clearly follow which note I need to press and when.
+- As a user the application must clearly define if I’ve pressed the correct key or not.
+- As a user the application must be a plug in and play application, and not require me to install multiple drivers to run.
+- As a user the application must develop my understanding by progressing to a harder difficulty.
+- As a user the application must be visually appealing.
+- As a user the application must adjust its difficulty based on my current ability.
+- As a user the application must produce a visual representation expressing my learning progression.
+- As a user I want to be able to choose a difficulty setting that affects the speed.
+
+- As a teacher the application must be able to produce a visual output that enables me to see how long each student has used the application as well as compare that against the students average hit percentage in a ascending or descending order.
+
 #### Objectives
 
 ##### Milestone 1 Objective
@@ -240,35 +254,42 @@ To create a level system that will slowly introduce users to how to play a keybo
 - Create Level 13 - Left Hand, Introduce 3 Note Chords in Order - 1
 - Create Level 14 - Left Hand, Random Order of 3 Note Chords - 1
 - Create Data Capture - 1
-- Adapt Levelling System to Further Complexity - 1
+- Adapt Levelling System to Suit Capturing Data - 1
 - Create Level 15 - Play Simple Song Using Both Hands - 1
 
 ##### Milestone 3 Objectives
 
-To produce visual aid in understanding the progression of a users' learning experience.
+To produce visual aid in understanding the progression of a users' learning experience as well as include usability features.
 
 - Create Offline Storage for JSON Data Files - 1
-- Create Graphs from JSON Data Files - 2
+- Create Graphs from JSON Data Files - 1
 - Create Express API with Cookies - 1
 - Create MongoDB - 1
 - Link Express API with MongoDB - 1
+- Extract data from database and create visual representation - 1
+- Create log in for users - 1
+- Create teacher/student accounts - 1
+- Create graph for teachers that allow teacher profile to view all students progress statistics aswell as comparison bar chart.
+- Create accuracy graph comparing left hand against right hand.
+- Create a scatter graph containing: - 1
+   - Accuracy of pitch (%)
+   - Accuracy of timing (%)
+   - Duration of practice (minutes)
+   - Accuracy of chords (%)
+   - Number of perfect hits
+- Create user interface features such as:
+  - Creating a difficulty setting that would affect the speed in order to be more applicable to the younger or disabled audiences E.g. 'Easy', 'Medium' and 'Hard' buttons - 1
+  - Creating an instruction manual for how to use the application - 1
+  - When the note is hit correctly, remove it from the staff - 1
+  - When the note is hit correctly, display the note pressed in green on both the visual keyboard and the staff - 1
+  - When the note is hit incorrectly, display the note pressed in red on both the visual keyboard and the staff - 1
+  - Display the note/chord name above the staff whilst moving across the screen - 1
 
 >**Figure 8: Gantt Chart Progression**
 >
 >![Gantt Chart 1](/images/Gantt1.png)
 >![Gantt Chart 2](/images/Gantt2.png)
 >![Gantt Chart 3](/images/Gantt3.png)
-
-#### User Stories
-
-- As a user the application must demonstrate which key I am pressing and what note that is to begin with.
-- As a user the application must allow me to clearly follow which note I need to press and when.
-- As a user the application must clearly define if I’ve pressed the correct key or not.
-- As a user the application must be a plug in and play application, and not require me to install multiple drivers to run.
-- As a user the application must develop my understanding by progressing to a harder difficulty.
-- As a user the application must be visually appealing.
-- As a user the application must adjust its difficulty based on my current ability.
-- As a user the application must produce a visual representation expressing my learning progression.
 
 ### Design
 
@@ -279,12 +300,11 @@ The flow of the application is controlled by the user input as all actions for t
 - The sound comes from the note input being registered as a number from the MIDI device input.
 - The visual representation on both the keyboard and the staff comes from the note number given by the MIDI device input.
 - The difficulty is adjusted based on the users’ score.
+- The visual output will be dictated by the user's input and accuracy.
 
 > **Figure 9: Conditional Flow Diagram**
 >
 > ![Conditional Flow Diagram](/images/ConditionalFlow.png)
-
-The input and accuracy recorded will then determine the output for visual representation of the users' progression.
 
 #### Accessibility - Colour contrast, fonts, layout, hovering, background, text shadow
 
@@ -298,11 +318,32 @@ The input and accuracy recorded will then determine the output for visual repres
 
 #### Hardware and Software Stack
 
-This application requires the user to possess a MIDI keyboard and the ability to plug into a computer or laptop device. The device will need to have a web browser that supports MIDI input such as Chrome, Edge and Opera.
+This application requires the user to possess a MIDI keyboard and the ability to plug into a computer or laptop device. The device will need to have a web browser that supports MIDI input such as Chrome, Edge, Firefox and Opera (caniuse, 2023).
 
 ### Implementation and Testing
 
-In addition to illustrating "coding traps", this should highlight particular novel aspects to algorithms. Testing should be according to the scheme presented in the Analysis chapter and should follow some suitable model - e.g. category partition, state machine-based. Both functional testing and user-acceptance testing are appropriate. For experimental/investigative projects, techniques developed should be evaluated against a standard result set for calibration, as well as the "live" data set. For theoretical projects, the relative power/expressiveness of the theory should be evaluated with respect to competing approaches.
+Testing has been implemented in the Script.js file in which the index page will output to its console whether a MIDI device has been connected. If a device is connected then the MIDI device details will be displayed. 
+
+```JavaScript
+// When the Midi device is first connected it will ask for permission to use MIDI device
+// and then display device features if successful
+if(navigator.requestMIDIAccess){
+    navigator.requestMIDIAccess({sysex: false}).then(success, failure)
+}
+function success(midiAccess){
+    midiAccess.addEventListener('statechange',updateDevices)
+    const inputs = midiAccess.inputs;
+    inputs.forEach((input) => {
+        input.addEventListener('midimessage', handleInput)
+    })
+}
+function failure(){
+    console.log('Could not connect MIDI')
+}
+function updateDevices(event){
+    console.log(`Name: ${event.port.name}, Brand: ${event.port.manufacturer}, State:${event.port.state}, Type:${event.port.type}`)
+}
+```
 
 ### Results
 
@@ -400,9 +441,11 @@ Evaluation for this project will be done through comparison of the initial speci
 
 ### References
 
+Caniuse (2023) [caniuse.com](https://caniuse.com/?search=midi) (Accessed: 23/03/2023)
+
 Chiu, S.C. and Chen, M.S. (2012) December. A study on difficulty level recognition of piano sheet music. 2012 IEEE International Symposium on Multimedia, pp. 17-23.
 
-Educational App Store (2022) [Best Apps to Learn Music](https://www.educationalappstore.com/app-lists/best-apps-music-learning)
+Educational App Store (2022) [Best Apps to Learn Music](https://www.educationalappstore.com/app-lists/best-apps-music-learning)(Accessed: 18/11/2022)
 
 Graesser, A.C. et al.(2012) Intelligent tutoring systems. APA educational psychology handbook, 3:(Application to learning and teaching), pp. 451-473.
 
@@ -420,7 +463,7 @@ Sampayo-Vargas, S., Cope, C.J., He, Z. and Byrne, G.J. (2013) The effectiveness 
 
 Skinner, B. (2012) The science of learning and the art of teaching. Reading in Educational Psychology, 66, pp. 301.
 
-Synthesia (2022) [Synthesia Game](https://synthesiagame.com/)
+Synthesia (2022) [Synthesia Game](https://synthesiagame.com/) (Accessed: 18/11/2022)
 
 Yuksel, B.F. et al. (2016) Learn piano with BACh: An adaptive learning interface that adjusts task difficulty based on brain state. Proceedings of the 2016 chi conference on human factors in computing systems, pp. 5372-5384.
 
@@ -530,17 +573,17 @@ Meeting with supervisor to discuss potentials for data to be captures and next s
 Meeting with supervisor to discuss heading for Milestone 3, basic steps and current progression on Milestone 3.
 Basic guidelines include to use gitpod to create a express API connected with mongoDB.
 
-#### Wednesday 22nd March
-##### Stakeholder Meeting
+##### Wednesday 22nd March
+###### Stakeholder Meeting
 
 Meeting with stakeholder to progress of project. Demonstrated current working prototype along with demonstrations of graphs produced. The stakeholder expressed great interest in the graphs produced, however stated the method of measurement should be changed against number of notes hit overall to a percentage of all notes hit. Along with changing names of current graphs produced. She produced some ideas of graphs to create such as:
  - Accuracy with left hand against accuracy against right hand.
  - A scatter graph containing:
- -  - Accuracy of pitch (%)
- -  - Accuracy of timing (%)
- -  - Duration of practice (minutes)
- -  - Accuracy of chords (%)
- -  - Number of perfect hits
+   - Accuracy of pitch (%)
+   - Accuracy of timing (%)
+   - Duration of practice (minutes)
+   - Accuracy of chords (%)
+   - Number of perfect hits
 
 Stakeholder expressed how viewing every single period of play could become problematic and overcomplicated to view, so dividing it into weeks and being able to select an amount of weeks or some form of selective capability could make viewing large amounts of data less complex.
 
@@ -554,7 +597,7 @@ Many user interface features were brought up such as:
 - When the note is hit incorrectly, display the note pressed in red on both the keyboard and the staff.
 - Display the note/chord name above the staff whilst moving across the screen.
 
-##### Supervisor Meeting
+###### Supervisor Meeting
 
 Meeting with supervisor to discuss creating the API and different types of Docker systems. Also guidelines on where to get information on how to create the Express API.
 
