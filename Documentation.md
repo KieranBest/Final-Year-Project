@@ -324,7 +324,49 @@ Trying to create a successful flow for the notes across the screen has proved ha
 
 When saving user data for statistical analysis it has become apparent that when changing level the notes on the previous level are still displayed but are recorded as the next level. For example, when progressing from a single note level to a chord level, the single notes are recorded in the chord levels statistics.
 
-Scoring does not currently work with chords, it can only handle one note at a time.
+Scoring does not currently work with chords, as currently it can only handle one note at a time. A fix was created, however this seemed to break the single notes score updater. 
+
+##### 20th March
+
+When creating a pie chart it was perfect if the user chooses the pie chart graph first, however if the user chose either of the others the pie would then become a doughnut graph.
+
+```JavaScript
+const myChart = new Chart(
+  document.getElementById('myChart'),
+  config
+)
+
+ myChart.data.labels = ['Number Of Correct Hits','Number Of Wrong Hits','Number Of Wrong Number Hits',
+    'Number Of Out Of Bound Hits','Number Of Missed Notes']
+  myChart.data.datasets[0].label = ""
+  myChart.data.datasets[0].data = [numberOfCorrectHits,numberOfWrongHits,numberOfWrongNumberHits,numberOfOutOfBoundHits,numberOfMissedNotes]
+  myChart.data.datasets[0].backgroundColor = [
+    'red',
+    'blue',
+    'yellow',
+    'green',
+    'black'
+  ]
+  myChart.data.datasets[0].borderColor = [
+    'red',
+    'blue',
+    'yellow',
+    'green',
+    'black'
+  ]
+  myChart.update()
+```
+
+This was because it was still storing the other datasets used to create the other graphs, to rectify this I initially used the pop() function
+
+``` Javascript
+  myChart.data.labels.pop()
+  myChart.data.datasets.forEach((dataset) => {
+    dataset.data.pop() 
+  })
+  ```
+  
+However when more than 1 dataset existed, this did not fix the bug. Therefore the fix was to set the length of the dataset to 0 and then reinstate a dataset using the required data.
 
 #### Findings
 
@@ -446,7 +488,7 @@ Meeting with supervisor to discuss mark scheme, and introduce a JavaScript metho
 
 [Request Animation Frame](http://www.javascriptkit.com/javatutors/requestanimationframe.shtml)
 
-[Supervisor Example](https://github.com/calaldees/paratrooper/blob/1dc2ddf1c47ab4728c78d8947ec04d57a00a500d/index.html#L984)
+[Supervisor Example for RequestAnimationFrame](https://github.com/calaldees/paratrooper/blob/1dc2ddf1c47ab4728c78d8947ec04d57a00a500d/index.html#L984)
 
 ##### Friday 16th December
 
@@ -486,7 +528,36 @@ Meeting with supervisor to discuss potentials for data to be captures and next s
 ##### Wednesday 8th March
 
 Meeting with supervisor to discuss heading for Milestone 3, basic steps and current progression on Milestone 3.
+Basic guidelines include to use gitpod to create a express API connected with mongoDB.
 
 #### Wednesday 22nd March
+##### Stakeholder Meeting
 
-Meeting with stakeholder to discuss
+Meeting with stakeholder to progress of project. Demonstrated current working prototype along with demonstrations of graphs produced. The stakeholder expressed great interest in the graphs produced, however stated the method of measurement should be changed against number of notes hit overall to a percentage of all notes hit. Along with changing names of current graphs produced. She produced some ideas of graphs to create such as:
+ - Accuracy with left hand against accuracy against right hand.
+ - A scatter graph containing:
+ -  - Accuracy of pitch (%)
+ -  - Accuracy of timing (%)
+ -  - Duration of practice (minutes)
+ -  - Accuracy of chords (%)
+ -  - Number of perfect hits
+
+Stakeholder expressed how viewing every single period of play could become problematic and overcomplicated to view, so dividing it into weeks and being able to select an amount of weeks or some form of selective capability could make viewing large amounts of data less complex.
+
+A feature that the stakeholder thought would be excellent would be to create a way for a teacher to view all students progress in one page, to enable a bar graph to be produced to see every students average hit against the amount of time they have practised in one graph. This graph could be arranged in ascending or descending order to make it easier to identify the less encouraged students. 
+
+Many user interface features were brought up such as:
+- Creating a difficulty setting that would affect the speed in order to be more applicable to the younger or disabled audiences.
+- Creating an instruction manual for how to use the application.
+- When the note is hit correctly, remove it from the staff.
+- When the note is hit correctly, display the note pressed in green on both the keyboard and the staff.
+- When the note is hit incorrectly, display the note pressed in red on both the keyboard and the staff.
+- Display the note/chord name above the staff whilst moving across the screen.
+
+##### Supervisor Meeting
+
+Meeting with supervisor to discuss creating the API and different types of Docker systems. Also guidelines on where to get information on how to create the Express API.
+
+[Supervisor Example for Using MongoDB](https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fcalaldees%2FTeachProgramming%2Ftree%2Fmaster%2Fteachprogramming%2Fstatic%2Fprojects%2Fdata%2Fmongo&data=05%7C01%7Ck.best806%40canterbury.ac.uk%7C2e54a99d71b349707fbe08db2b831677%7C0320b2da22dd4dab8c216e644ba14f13%7C0%7C0%7C638151614242327608%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=eNuRlF7BUikr5ALIAT3XUWFJfIzdfDLI3sidgk7Lx2Q%3D&reserved=0)
+
+[Supervisor Example for using Multi Container System](https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fcalaldees%2FdockerWorkshop%23multi-container-systems&data=05%7C01%7Ck.best806%40canterbury.ac.uk%7C2e54a99d71b349707fbe08db2b831677%7C0320b2da22dd4dab8c216e644ba14f13%7C0%7C0%7C638151614242327608%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=vBuaJgvqbYnACNIEkhRO5HgH9XVNnpiMowGgd9CQ2Uk%3D&reserved=0)
