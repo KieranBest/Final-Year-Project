@@ -28,11 +28,11 @@ I would like to give thanks to my supervisor, Allan Callaghan, for all his amazi
   - [Similar Applications](#similar-applications)
 - [Requirements and Analysis](#requirements-and-analysis)
   - [Methodology](#methodology)
+  - [User Stories](#user-stories)
   - [Objectives](#objectives)
     - [Milestone 1 Objective](#milestone-1-objective)
     - [Milestone 2 Objective](#milestone-2-objective)
     - [Milestone 3 Objectives](#milestone-3-objectives)
-  - [User Stories](#user-stories)
 - [Design](#design)
   - [Conditional Flow Diagram](#conditional-flow-diagram)
   - [Accessibility - Colour contrast, fonts, layout, hovering, background, text shadow](#accessibility---colour-contrast-fonts-layout-hovering-background-text-shadow)
@@ -48,6 +48,7 @@ I would like to give thanks to my supervisor, Allan Callaghan, for all his amazi
     - [16th November 2022](#16th-november-2022)
     - [15th December 2022](#15th-december-2022)
     - [21st February](#21st-february)
+    - [20th March](#20th-march)
   - [Findings](#findings)
   - [Goals Achieved](#goals-achieved)
   - [Further Work](#further-work)
@@ -65,7 +66,9 @@ I would like to give thanks to my supervisor, Allan Callaghan, for all his amazi
     - [Wednesday 8th February](#wednesday-8th-february)
     - [Wednesday 22nd February](#wednesday-22nd-february)
     - [Wednesday 8th March](#wednesday-8th-march)
-  - [Wednesday 22nd March](#wednesday-22nd-march)
+    - [Wednesday 22nd March](#wednesday-22nd-march)
+      - [Stakeholder Meeting](#stakeholder-meeting)
+      - [Supervisor Meeting](#supervisor-meeting)
 
 ### Introduction
 
@@ -108,7 +111,7 @@ Progressing on from primarily educational tools, educational computer games have
 >
 > *(Csikszentmihalyi, 2009, cited in Zohaib, 2018)*
 
-The model is designed to avoid creating a difficulty too easy to cause boredom, and too hard to create frustration. It was proven by Hagelback and Johansson (2009, cited in Zohaib, 2018) that users prefer to be challenged at an accurate level that adapts to their styles and need.  
+The model is designed to avoid creating a difficulty too easy to cause boredom, and too hard to create frustration. It was proven by Hagelback and Johansson (2009, cited in Zohaib, 2018) that users prefer to be challenged at an accurate level that adapts to their styles and need.
 
 While proving that educational computer games enhance a students enjoyment is not necessarily an accurate representation of the students learning, it has been proven that adaptive difficulty within educational settings increase the student's level of learning (Sampayo-Vargas et al., 2013). Sampayo-Vargas et al. explain that when comparing students progression with 3 different learning methods, adaptive difficulty proves to be more efficient than a steadily incremental difficulty game, and a written activity as seen in Figure 2.
 
@@ -130,7 +133,7 @@ As you can see from Figure 3, a linear increase in difficult results in a gradua
 
 #### Importance of Sheet Music
 
-Sight reading is the ability to read and play a piece of music unrehearsed, it is the performers ability to process "complex visual input (the score)" with minimal error (Kopiez and Lee, 2008). Having the ability to sight read sheet music can increase your skill as a musician in so many ways and "plays an important role in music education"(Chiu and Chen, 2012). Sight reading can 
+Sight reading is the ability to read and play a piece of music unrehearsed, it is the performers ability to process "complex visual input (the score)" with minimal error (Kopiez and Lee, 2008). Having the ability to sight read sheet music can increase your skill as a musician in so many ways and "plays an important role in music education"(Chiu and Chen, 2012). Sight reading can
 
 Not only is sight reading beneficial to you in terms of your musical ability but it can also be beneficial to all aspects of our lives. Musacchia and Khalil (2020) explain that musical training can give a multisensory workout and can help improve many things such as:
 
@@ -213,7 +216,7 @@ Each Milestone will show logical steps in its production process whilst also giv
 
 ##### Milestone 1 Objective
 
-Create a Minimum Viable Product (MVP) and be able to produce it to potential users to attain feedback on usability and potential features.  
+Create a Minimum Viable Product (MVP) and be able to produce it to potential users to attain feedback on usability and potential features.
 
 - Display that a key has been pressed on the terminal - 1
 - Display graphical shapes - 1
@@ -272,11 +275,11 @@ To produce visual aid in understanding the progression of a users' learning expe
 - Create graph for teachers that allow teacher profile to view all students progress statistics aswell as comparison bar chart.
 - Create accuracy graph comparing left hand against right hand.
 - Create a scatter graph containing: - 1
-   - Accuracy of pitch (%)
-   - Accuracy of timing (%)
-   - Duration of practice (minutes)
-   - Accuracy of chords (%)
-   - Number of perfect hits
+  - Accuracy of pitch (%)
+  - Accuracy of timing (%)
+  - Duration of practice (minutes)
+  - Accuracy of chords (%)
+  - Number of perfect hits
 - Create user interface features such as:
   - Creating a difficulty setting that would affect the speed in order to be more applicable to the younger or disabled audiences E.g. 'Easy', 'Medium' and 'Hard' buttons - 1
   - Creating an instruction manual for how to use the application - 1
@@ -285,11 +288,59 @@ To produce visual aid in understanding the progression of a users' learning expe
   - When the note is hit incorrectly, display the note pressed in red on both the visual keyboard and the staff - 1
   - Display the note/chord name above the staff whilst moving across the screen - 1
 
->**Figure 8: Gantt Chart Progression**
->
->![Gantt Chart 1](/images/Gantt1.png)
->![Gantt Chart 2](/images/Gantt2.png)
->![Gantt Chart 3](/images/Gantt3.png)
+```mermaid
+gantt
+    title Figure 8: A Gantt Diagram
+    dateFormat  YYYY-MM-DD
+
+    section Milestone 1
+    Display a Note Pressed on Terminal                        :a1, 2022-09-26, 14d
+    Display Any Graphical Shapes                              :a1, 2022-09-26, 14d
+    Keyboard Input Manipulates Shapes                         :a1, 2022-09-26, 14d
+    Display what Key been Pressed                             :a1, 2022-09-26, 14d
+    Display Keyboard Graphically                              :a1, 2022-09-26, 14d
+    Keyboard Input Displays Note Press on Graphical Keyboard  :a1, 2022-09-26, 14d
+    Display Multiple Notes Pressed on Graphical Keyboard      :a1, 2022-09-26, 14d
+    Graphical Keyboard Resizes to Canvas Size                 :a2, after a1, 14d
+    Create the Music Sheet Outline                            :a2, after a1, 14d
+    Create Shape on Music Sheet when Note Presed              :a2, after a1, 14d
+    Display Multiple Notes Pressed on Music Sheet             :a3, after a2, 14d
+    Produce Tone on Key Press (On and Off)                    :a4, after a3, 14d
+    Produce Specific Note Tone on Key Press                   :a4, after a3, 14d
+    Animated Note Moves Across Music Sheet and Repeats        :a4, after a3, 14d
+    Note Repeats to a Different Line/Note                     :a4, after a3, 14d
+    Display More than One Note at a Time on Music Sheet       :a4, after a3, 14d
+    Press Key at Specific Time to Raise Count                 :a5, after a4, 14d
+    Ability to Change Speed of Note                           :a5, after a4, 14d
+
+    section Milestone 2
+    Create Level System                                       :a6, after a5, 14d
+    Create Level 1                                            :a6, after a5, 14d
+    Create Level 2                                            :a7, after a6, 14d
+    Create Level 3                                            :a7, after a6, 14d
+    Create Level 4                                            :a7, after a6, 14d
+    Create Level 5                                            :a7, after a6, 14d
+    Create Level 6                                            :a8, after a7, 14d
+    Create Level 7                                            :a8, after a7, 14d
+    Create Level 8                                            :a8, after a7, 14d
+    Create Level 9                                            :a9, after a8, 14d
+    Create Level 10                                           :a9, after a8, 14d
+    Create Level 11                                           :a9, after a8, 14d
+    Create Level 12                                           :a9, after a8, 14d
+    Create Level 13                                           :a9, after a8, 14d
+    Create Level 14                                           :a9, after a8, 14d
+    Create Data Capture                                       :a10, after a9, 14d
+    Change Levelling system                                   :a10, after a9, 14d
+    Create Level 15                                           :a10, after a9, 14d
+
+    section Milestone 3
+    Create Offline Storage for JSON Data Files                :a11, after a10, 14d
+    Create Graphs from JSON Data Files                        :a11, after a10, 14d
+    Create Express API with Cookies                           :a12, after a11, 14d
+    Create MongoDB                                            :a13, after a12, 14d
+    Link Express API with MongoDB                             :a13, after a12, 14d
+
+```
 
 ### Design
 
@@ -322,7 +373,7 @@ This application requires the user to possess a MIDI keyboard and the ability to
 
 ### Implementation and Testing
 
-Testing has been implemented in the Script.js file in which the index page will output to its console whether a MIDI device has been connected. If a device is connected then the MIDI device details will be displayed. 
+Testing has been implemented in the Script.js file in which the index page will output to its console whether a MIDI device has been connected. If a device is connected then the MIDI device details will be displayed.
 
 ```JavaScript
 // When the Midi device is first connected it will ask for permission to use MIDI device
@@ -365,7 +416,7 @@ Trying to create a successful flow for the notes across the screen has proved ha
 
 When saving user data for statistical analysis it has become apparent that when changing level the notes on the previous level are still displayed but are recorded as the next level. For example, when progressing from a single note level to a chord level, the single notes are recorded in the chord levels statistics.
 
-Scoring does not currently work with chords, as currently it can only handle one note at a time. A fix was created, however this seemed to break the single notes score updater. 
+Scoring does not currently work with chords, as currently it can only handle one note at a time. A fix was created, however this seemed to break the single notes score updater.
 
 ##### 20th March
 
@@ -403,10 +454,10 @@ This was because it was still storing the other datasets used to create the othe
 ``` Javascript
   myChart.data.labels.pop()
   myChart.data.datasets.forEach((dataset) => {
-    dataset.data.pop() 
+    dataset.data.pop()
   })
   ```
-  
+
 However when more than 1 dataset existed, this did not fix the bug. Therefore the fix was to set the length of the dataset to 0 and then reinstate a dataset using the required data.
 
 #### Findings
@@ -574,22 +625,25 @@ Meeting with supervisor to discuss heading for Milestone 3, basic steps and curr
 Basic guidelines include to use gitpod to create a express API connected with mongoDB.
 
 ##### Wednesday 22nd March
+
 ###### Stakeholder Meeting
 
 Meeting with stakeholder to progress of project. Demonstrated current working prototype along with demonstrations of graphs produced. The stakeholder expressed great interest in the graphs produced, however stated the method of measurement should be changed against number of notes hit overall to a percentage of all notes hit. Along with changing names of current graphs produced. She produced some ideas of graphs to create such as:
- - Accuracy with left hand against accuracy against right hand.
- - A scatter graph containing:
-   - Accuracy of pitch (%)
-   - Accuracy of timing (%)
-   - Duration of practice (minutes)
-   - Accuracy of chords (%)
-   - Number of perfect hits
+
+- Accuracy with left hand against accuracy against right hand.
+- A scatter graph containing:
+  - Accuracy of pitch (%)
+  - Accuracy of timing (%)
+  - Duration of practice (minutes)
+  - Accuracy of chords (%)
+  - Number of perfect hits
 
 Stakeholder expressed how viewing every single period of play could become problematic and overcomplicated to view, so dividing it into weeks and being able to select an amount of weeks or some form of selective capability could make viewing large amounts of data less complex.
 
-A feature that the stakeholder thought would be excellent would be to create a way for a teacher to view all students progress in one page, to enable a bar graph to be produced to see every students average hit against the amount of time they have practised in one graph. This graph could be arranged in ascending or descending order to make it easier to identify the less encouraged students. 
+A feature that the stakeholder thought would be excellent would be to create a way for a teacher to view all students progress in one page, to enable a bar graph to be produced to see every students average hit against the amount of time they have practised in one graph. This graph could be arranged in ascending or descending order to make it easier to identify the less encouraged students.
 
 Many user interface features were brought up such as:
+
 - Creating a difficulty setting that would affect the speed in order to be more applicable to the younger or disabled audiences.
 - Creating an instruction manual for how to use the application.
 - When the note is hit correctly, remove it from the staff.

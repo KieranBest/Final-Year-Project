@@ -1,7 +1,7 @@
 // When the Midi device is first connected it will ask for permission to use MIDI device
 // and then display device features if successful
 if(navigator.requestMIDIAccess){
-    navigator.requestMIDIAccess({sysex: false}).then(success, failure)
+    navigator.requestMIDIAccess({sysex: false}).then(success, failure) //sysex asks the browser for permission to use the midi device
 }
 function success(midiAccess){
     midiAccess.addEventListener('statechange',updateDevices)
@@ -59,7 +59,7 @@ let dataValue = 0
 const submitButton = document.getElementById('submitButton')
 submitButton.addEventListener('click', () => {
     const itemSet = (localStorage.getItem('dataValue') !== null);
-    if (itemSet) {        
+    if (itemSet) {
         dataValue ++
     }
     else{
@@ -87,7 +87,7 @@ let removedOctaveWeight // Weight needed for the released key for the staff
 let overwriteStaffValue // Value needed to multiply by for the staff display when holding for example C and C#
 let overwriteStaffLetter // Note letter needed for the staff display when releasing a key whilst still holding a key
 let pressed = new Boolean(false)
-let score = 0 
+let score = 0
 let keyPressed = new Boolean(false)
 let majorPressed = new Boolean(false)
 
@@ -105,14 +105,14 @@ function noteOn(note, velocity){
     if(majorKeyPos.includes(notePressed)){
         noteNumber = majorKeyPos.indexOf(notePressed)
         staffNumber = staffShtMajorPos.indexOf(notePressed)
-        staffPosArray.push(staffNumber)   
+        staffPosArray.push(staffNumber)
         notesHeldList.push(note)
         majorPressed = true
     }else if(sharpKeyPos.includes(notePressed)){
         noteNumber = sharpKeyPos.indexOf(notePressed)
-        sharpNote.push((7*octave)+noteNumber)        
+        sharpNote.push((7*octave)+noteNumber)
         staffNumber = staffShtSharpPos.indexOf(notePressed)
-        staffPosArray.push(staffNumber)   
+        staffPosArray.push(staffNumber)
         notesHeldList.push(note)
     }
     noteOnColour(staffNumber,octave,noteNumber,notePressed,sharpNote)
@@ -134,7 +134,7 @@ function noteOn(note, velocity){
 }
 
 // When releasing a note
-function noteOff(note){    
+function noteOff(note){
     const time = new Date()
     noteOffTime.h = time.getHours()
     noteOffTime.m = time.getMinutes()
@@ -145,7 +145,7 @@ function noteOff(note){
     const noteLetterReleased=findNoteLetter(note);
     if(majorKeyPos.includes(noteLetterReleased)){
         var noteNumber = majorKeyPos.indexOf(noteLetterReleased)
-        var releasedStaffNumber = staffShtMajorPos.indexOf(noteLetterReleased) 
+        var releasedStaffNumber = staffShtMajorPos.indexOf(noteLetterReleased)
         var releasedStaffPosArray=releasedStaffNumber
         staffPosArray = staffPosArray.filter(function(without){
             return without !== (releasedStaffNumber)
@@ -159,7 +159,7 @@ function noteOff(note){
         var noteNumber = sharpKeyPos.indexOf(noteLetterReleased)
         sharpNote=sharpNote.filter(function(without){
             return without !== ((7*octave)+noteNumber)})
-        var releasedStaffNumber = staffShtSharpPos.indexOf(noteLetterReleased) 
+        var releasedStaffNumber = staffShtSharpPos.indexOf(noteLetterReleased)
         var releasedStaffPosArray=releasedStaffNumber
         staffPosArray = staffPosArray.filter(function(without){
             return without !== (releasedStaffNumber)
@@ -266,7 +266,7 @@ function drawKeyboard(sharpNote){
     }
     var position = []
     // Compares i to sharpNote and if matches puts it in a new variable called position
-    for(let i = 0; i < numWhiteKeys - 1; i++){                
+    for(let i = 0; i < numWhiteKeys - 1; i++){
         for(sharpNotePosition in sharpNote){
             if(sharpNote[sharpNotePosition] == i){
                 position.push(i)
@@ -338,7 +338,7 @@ function staffNoteHit(staffNumber,notePressed,octave){
             octaveWeight = (staffNumber*0.5+4)+3.5
         }else if(octave === 2){
             octaveWeight = (staffNumber*0.5+4)-3.5
-        }  
+        }
         ctx.beginPath()
         ctx.fillStyle="red"
         ctx.arc(leftBoundary, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
@@ -351,7 +351,7 @@ function staffNoteHit(staffNumber,notePressed,octave){
             octaveWeight = (staffNumber*0.5+4)+3.5
         }else if(octave === 2){
             octaveWeight = (staffNumber*0.5+4)-3.5
-        }   
+        }
         ctx.beginPath()
         ctx.fillStyle="blue"
         ctx.arc(leftBoundary, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
@@ -375,7 +375,7 @@ function removeStaffNoteHit(removedNoteArray,removedStaffPosArray,notesHeldList)
     ctx.fillRect(0,0,leftBoundary,staffHeight)
     ctx.fill()
     drawStaff()
-    if(notesHeldList !== null){ // If a note is still held display it 
+    if(notesHeldList !== null){ // If a note is still held display it
         for(values in notesHeldList){
            if(majorKeyPos.includes(findNoteLetter(notesHeldList[values]))){
                 staffOctave =  parseInt(notesHeldList[values]/12) - 4
@@ -408,8 +408,8 @@ function removeStaffNoteHit(removedNoteArray,removedStaffPosArray,notesHeldList)
                 ctx.arc(leftBoundary, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
                 ctx.fill()
             }
-        } 
-    } 
+        }
+    }
 }
 
 // Note animation
@@ -477,13 +477,13 @@ function movePlayableNotes(staffNumber,notePressed,octave){
             drawStaff()
         }
         // updates x and y values and then displays them whilst removing the old values from visibility
-        
+
         switch(DynamicDifficulty[difficultyLevel].recurringNotes){
             case 2:
                 animating_Notes1.update()
                 animating_Notes1.display()
                 setTimeout((s) => animating_Notes5.update(), 4*timeDelay)
-                animating_Notes5.display()        
+                animating_Notes5.display()
                 break
             case 4:
                 animating_Notes1.update()
@@ -497,7 +497,7 @@ function movePlayableNotes(staffNumber,notePressed,octave){
                 break
             case 8:
                 animating_Notes1.update()
-                animating_Notes1.display()    
+                animating_Notes1.display()
                 setTimeout((s) => animating_Notes2.update(), 1*timeDelay)
                 animating_Notes2.display()
                 setTimeout((s) => animating_Notes3.update(), 2*timeDelay)
