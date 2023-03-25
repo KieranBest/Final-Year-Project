@@ -1,5 +1,7 @@
 // Do data calculations on loading of page
 let allData = {}
+const ctx = document.getElementById('myChart')
+
 window.onload = function(){
   for(let i = 0; i < localStorage.length+1; i++){
     if(JSON.parse(localStorage.getItem(i)) != null){
@@ -23,11 +25,10 @@ let Example1 = [
   { year: 2016, count: 28 },
 ]
 
-const ctx = document.getElementById('myChart')
 const data = {
   labels: Example1.map(row => row.year),
   datasets: [
-    { 
+    {
       barPercentage: 0.5,
       barThickness: 50,
       label: 'Example data',
@@ -57,25 +58,31 @@ const config = {
   options: {
     scales: {
       y: {
+        ticks: {
+          callback:0
+        },
         beginAtZero: true,
         display: true
       },
       x: {
         display: true
       }
-    },
+    }
   }
-}  
+}
 
 const myChart = new Chart(
   document.getElementById('myChart'),
   config
 )
 
-function actualVsExpectedTimeFunction(){
+function timeAccuracy(){
   myChart.config.type = 'line'
   myChart.config.options.scales.y.display = true
   myChart.config.options.scales.x.display = true
+  myChart.options.scales.y.ticks.callback = function(value, index, ticks){
+    return value + 'ms'
+  }
 
   if(data.datasets.length > 1){
     data.datasets.length = 1
@@ -98,7 +105,7 @@ function actualVsExpectedTimeFunction(){
   myChart.update()
 }
 
-function viewNoteCodesPie(){
+function noteAccuracy(){
   myChart.config.type = 'pie'
   myChart.config.options.scales.y.display = false
   myChart.config.options.scales.x.display = false
@@ -128,10 +135,13 @@ function viewNoteCodesPie(){
   myChart.update()
 }
 
-function viewNoteCodesLine(){
+function noteAccuracyOverTime(){
   myChart.config.type = 'line'
   myChart.config.options.scales.y.display = true
   myChart.config.options.scales.x.display = true
+  myChart.options.scales.y.ticks.callback = function(value, index, ticks){
+    return value + '%'
+  }
 
   if(data.datasets.length > 0){
     data.datasets.length = 0

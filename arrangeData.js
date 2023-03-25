@@ -7,15 +7,15 @@ function retrieveIndividualNotes(allData){
                 for(let noteNumber = 0; noteNumber < Object.keys(allData[storageLength][levelNumber].userNoteProgression).length+1; noteNumber++){
                     if(allData[storageLength][levelNumber].userNoteProgression[noteNumber] != undefined){
                         individualNotes[numberOfNotes] = allData[storageLength][levelNumber].userNoteProgression[noteNumber]
-                        numberOfNotes++    
-                    }                    
+                        numberOfNotes++
+                    }
                 }
             }
         }
     }
     retrieveTimeDifferenceHit(individualNotes)
     retrieveNoteCodes(individualNotes)
-}    
+}
 
 let timeDifferenceHit = []
 let expectedHitTimes = []
@@ -54,7 +54,7 @@ function retrieveNoteCodes(individualNotes){
 }
 
 let playPeriodNotes = []
-function retrievePlaytimePeriods(allData){    
+function retrievePlaytimePeriods(allData){
     for(let storageLength = 0; storageLength < localStorage.length; storageLength++){
         if(allData[storageLength] != null){
             playPeriodNotes[storageLength] = {}
@@ -94,7 +94,11 @@ function retrieveNoteCodesFromPeriods(playPeriodNotes){
                 numOfMissedNotes = numOfMissedNotes + 1
             }
         }
-        playPeriodCodes[numberOfPeriods] = [numOfCorrectHits,numOfWrongHits,numOfWrongNumberHits,numOfOutOfBoundHits,numOfMissedNotes
-        ]
+        playPeriodCodes[numberOfPeriods] = [((numOfCorrectHits/Object.keys(playPeriodNotes[numberOfPeriods]).length)*100).toFixed(2),
+                                            ((numOfWrongHits/Object.keys(playPeriodNotes[numberOfPeriods]).length)*100).toFixed(2),
+                                            ((numOfWrongNumberHits/Object.keys(playPeriodNotes[numberOfPeriods]).length)*100).toFixed(2),
+                                            ((numOfOutOfBoundHits/Object.keys(playPeriodNotes[numberOfPeriods]).length)*100).toFixed(2),
+                                            ((numOfMissedNotes/Object.keys(playPeriodNotes[numberOfPeriods]).length)*100).toFixed(2)
+                                        ]
     }
 }

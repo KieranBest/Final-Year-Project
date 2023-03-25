@@ -15,14 +15,14 @@
             <title>Progress Report</title>
             <h1>Let's look at the data</h1>
         </header>
-        <div>
+        <div class="chart-container" style="position: relative; height: 55vh; width: 95vw;">
             <canvas id="myChart"></canvas>
         </div>
     </section>
-    <button onclick="actualVsExpectedTimeFunction()">Actual Vs Expected Hit Times</button>
-    <button onclick="viewNoteCodesPie()">Note Traits Overall</button>
-    <button onclick="viewNoteCodesLine()">Note Traits Over Time</button>
+    <button onclick="timeAccuracy()">Time Accuracy</button>
+    <button onclick="noteAccuracy()">Note Accuracy</button>
+    <button onclick="noteAccuracyOverTime()">Note Accuracy Over Time</button>
     <canvas>
-        
+
     </canvas>
 </body>
