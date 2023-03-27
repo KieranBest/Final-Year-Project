@@ -6,6 +6,7 @@ module.exports = router;
 
 const Model = require('../Model/model');
 
+
 //Post Method
 router.post('/post', async (req, res) => {
     const data = new Model({

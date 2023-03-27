@@ -428,8 +428,8 @@ const toggleGame = async() => {
 // https://www.youtube.com/watch?v=9Sxo7P3F3m0&t=322s
 const noteImage = new Image(135,137) //pixel size
 const sharpImage = new Image(135,137) //pixel size
-noteImage.src = 'images/noteImage.png'
-sharpImage.src= 'images/sharp.png'
+noteImage.src = '../images/noteImage.png'
+sharpImage.src= '../images/sharp.png'
 
 // Generates a random value based on whether a treble or bass note is needed
 trebleValues = [1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6]
