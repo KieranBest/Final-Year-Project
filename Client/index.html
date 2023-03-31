@@ -3,21 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <link id="favicon" rel="icon" type="image/png" href="images/icon.png">
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
-    <script src="animatingNotes.js"></script>    
-    <script src="DynamicDifficulty.js"></script>
-    <script src="Chords.js"></script>
-    <script src="timeStamp.js"></script>
-    <script src="Songs/HappyBirthday.js"></script>
+    <link href="style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <style>
-    canvas {
-        image-rendering: pixelated;
-        object-fit: cover;
-        height: 100%;
-        max-height: 100%;
-        max-width: 100%;
-    }
     </style>
 </head>
 <body>
@@ -27,11 +15,41 @@
             <h1>Learn How to Play Piano with your MIDI Keyboard</h1>
         </header>
     </section>
-    <button id="startButton">Start Button</button>
-    <button id="pauseButton">Pause Button</button>
-    <button id="submitButton" data-action="submit_data">Submit</button>
-    <button onclick="document.location = 'graph.html'">View Graphs</button>
-    <canvas>
-        
-    </canvas>
+    <div class="container">
+        <strong>Log In</strong>
+        <form action="https://3000-kieranbest-individualpr-emtbxuzkgpy.ws-eu93.gitpod.io">
+            <input type="text" v-model="loginDetails.username" name="username" placeholder="Enter Username Here">
+            <input type="text" v-model="loginDetails.password" name="password" placeholder="Enter Password Here">
+            <button class="button" data-action="login">Login</button>
+        </form>
+    </div>
 </body>
+<script>
+const { created } = Vue
+
+
+created({
+    data(){
+        return{
+            loginDetail: {
+                username:'',
+                password:''
+            },
+            loginDetails: [] 
+        }
+    },
+    methods:{
+        login() {
+            fetch(`${urlAPI}/`, {
+            method:'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(this.loginDetail),
+        })         
+            .then(response => response.json())
+            .then(json => console.log('login()',json))
+            .catch(err=>console.error(err))
+            .then(json => console.log(loginDetails,json))
+        },
+    }
+})
+</script>
