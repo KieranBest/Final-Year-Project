@@ -33,13 +33,9 @@ I would like to give thanks to my supervisor, Allan Callaghan, for all his amazi
     - [Milestone 1 Objective](#milestone-1-objective)
     - [Milestone 2 Objective](#milestone-2-objective)
     - [Milestone 3 Objectives](#milestone-3-objectives)
+  - [Time Management Using Gantt](#time-management-using-gantt)
 - [Design](#design)
   - [Conditional Flow Diagram](#conditional-flow-diagram)
-  - [Accessibility - Colour contrast, fonts, layout, hovering, background, text shadow](#accessibility---colour-contrast-fonts-layout-hovering-background-text-shadow)
-  - [Functional Requirements](#functional-requirements)
-  - [Use Cases](#use-cases)
-  - [Wireframe Design](#wireframe-design)
-  - [Finalised Design](#finalised-design)
   - [Hardware and Software Stack](#hardware-and-software-stack)
 - [Implementation and Testing](#implementation-and-testing)
 - [Results](#results)
@@ -49,6 +45,7 @@ I would like to give thanks to my supervisor, Allan Callaghan, for all his amazi
     - [15th December 2022](#15th-december-2022)
     - [21st February](#21st-february)
     - [20th March](#20th-march)
+    - [13th April](#13th-april)
   - [Findings](#findings)
   - [Goals Achieved](#goals-achieved)
   - [Further Work](#further-work)
@@ -214,6 +211,8 @@ Each Milestone will show logical steps in its production process whilst also giv
 
 #### Objectives
 
+> Every Milestone Objective will have a number next to it displaying its difficulty as a weight.
+
 ##### Milestone 1 Objective
 
 Create a Minimum Viable Product (MVP) and be able to produce it to potential users to attain feedback on usability and potential features.
@@ -265,13 +264,13 @@ To create a level system that will slowly introduce users to how to play a keybo
 To produce visual aid in understanding the progression of a users' learning experience as well as include usability features.
 
 - Create Offline Storage for JSON Data Files - 1
-- Create Graphs from JSON Data Files - 1
-- Create Express API with Cookies - 1
+- Create Graphs from JSON Data Files - 2
+- Create Express API with Cookies - 2
 - Create MongoDB - 1
-- Link Express API with MongoDB - 1
-- Extract data from database and create visual representation - 1
-- Create log in for users - 1
-- Create teacher/student accounts - 1
+- Link Express API with MongoDB - 2
+- Extract data from database and create visual representation - 3
+- Create log in for users - 2
+- Create teacher/student accounts - 2
 - Create graph for teachers that allow teacher profile to view all students progress statistics aswell as comparison bar chart.
 - Create accuracy graph comparing left hand against right hand.
 - Create a scatter graph containing: - 1
@@ -287,6 +286,8 @@ To produce visual aid in understanding the progression of a users' learning expe
   - When the note is hit correctly, display the note pressed in green on both the visual keyboard and the staff - 1
   - When the note is hit incorrectly, display the note pressed in red on both the visual keyboard and the staff - 1
   - Display the note/chord name above the staff whilst moving across the screen - 1
+
+#### Time Management Using Gantt
 
 ```mermaid
 gantt
@@ -338,7 +339,19 @@ gantt
     Create Graphs from JSON Data Files                        :a11, after a10, 14d
     Create Express API with Cookies                           :a12, after a11, 14d
     Create MongoDB                                            :a13, after a12, 14d
-    Link Express API with MongoDB                             :a13, after a12, 14d
+    Link Express API with MongoDB by Saving User Data to MongoDB  :a13, after a12, 14d
+    Extract Data from Database and Create Visual Representation   :a14, after a13, 14d
+    Create Log in for Users                                       :a14, after a13, 14d
+    Create Teacher/Student Accounts                               :a14, after a13, 14d
+    Enable Teachers to View all Students Statistics               :a14, after a13, 14d
+    Create Accuracy Graph Comparing Left Hand Against Right Hand  :a15, after a14, 14d
+    Create New Scatter Graph                                      :a15, after a14, 14d
+    Creating a Difficulty Setting that Controls Speed             :a15, after a14, 14d
+    Creating Instruction Manual                                   :a15, after a14, 14d
+    When the Note is Hit Correctly, Remove it from the Staff      :a15, after a14, 14d
+    Display the Note Pressed in Green when Pressed Correctly      :a15, after a14, 14d
+    Display the note pressed in red when Pressed Incorrectly      :a15, after a14, 14d
+    Display the note/chord name above the staff                   :a15, after a14, 14d
 
 ```
 
@@ -356,16 +369,6 @@ The flow of the application is controlled by the user input as all actions for t
 > **Figure 9: Conditional Flow Diagram**
 >
 > ![Conditional Flow Diagram](/images/ConditionalFlow.png)
-
-#### Accessibility - Colour contrast, fonts, layout, hovering, background, text shadow
-
-#### Functional Requirements
-
-#### Use Cases
-
-#### Wireframe Design
-
-#### Finalised Design
 
 #### Hardware and Software Stack
 
@@ -460,6 +463,15 @@ This was because it was still storing the other datasets used to create the othe
 
 However when more than 1 dataset existed, this did not fix the bug. Therefore the fix was to set the length of the dataset to 0 and then reinstate a dataset using the required data.
 
+##### 13th April
+
+Trying to create a server linking to a client by following tutorials such as those listed below, I could still not get the posting to work properly. Querying this online, it was suggested to use 'Postman' to test http requests, however on doing so it would return a 401 error with a 'POST' request. Due to this and a combination of time restraints due to personal life commitments, I was unable to complete most of Milestone 3's objectives.
+  https://www.youtube.com/watch?app=desktop&v=084rmLU1UgA&t=239s
+  https://www.youtube.com/watch?v=SqcY0GlETPk
+  https://learning.postman.com/docs/introduction/overview/
+  https://www.youtube.com/playlist?list=PL4cUxeGkcC9h77dJ-QJlwGlZlTd4ecZOA
+  https://community.postman.com/t/how-to-resolve-error-401-unauthorized-in-postman/17318/5
+
 #### Findings
 
 Throughout this project one thing that has become apparent is that creating a timeline of sprints is not always accurate due to an inability to comprehend the difficulty of said task. For example creating a level system had originally been anticipated to hold a weighted value of 2, however this task only took 20 minutes to successfully implement.
@@ -478,9 +490,44 @@ present all the results (products, experimental findings, theories, etc.) genera
 
 #### Goals Achieved
 
+When starting this project it was apparent that there would always be room for further improvement, but the scope of the project and how vast it could be was beyond what I could have imagined before this project began. Initially my scope of the project was to create a teaching tool that could be used either in classrooms or personal use, to teach users how to play piano and read sheet music. And since then it has greatly progressed from suggestions from my supervisor, stakeholder and personal research conducted on similar applications and now has features that I hadn't ever considered. Features such as:
+
+- Adaptive difficulty
+- Extensive levelling system on a simple progression of difficulty
+- Data storage for users progression
+- Visual representation of users progression
+
+Whilst I feel a great achievement for what I have achieved and how I planned this project, I feel I did not succeed in this project due to the ending of this project. Had I better planned the extent of this project I would've planned to create the database and account system at the beginning of this project.
+
 describes the degree to which the findings support the original objectives laid out for the project. The goals may be partially or fully achieved, or exceeded. Note that reporting of failures to achieve goals is important since a fundamental feature of the assessment procedures is that the processes (how you went about your project) are often as important as the products of the project.
 
 #### Further Work
+
+There are still many features I hadn't implemented yet that my stakeholder had suggested implementations such as:
+
+- Demonstrating correct fingers on notes
+- Correct hand movements to reach notes
+- Display of current note required to hit
+- Creating accounts to enable:
+  - Teachers to view all students progression
+  - Students to log in and use the application from any device
+- New graphical analysis such as:
+  - Scatter graph containing:
+    - Accuracy of pitch (%)
+    - Accuracy of timing (%)
+    - Duration of practice (minutes)
+    - Accuracy of chords (%)
+    - Number of perfect hits
+  - Accuracy graph comparing left hand against right hand
+- Adjustable difficulty buttons to determine starting speed
+- An initial index page that contains user instructions and how to work the application
+- Enable the note required to disappear once the user hits the note with a colour marker of green when correct and red when incorrect
+
+As are there many features I would've liked to have implemented to make this a much more realistic prototype such as:
+
+- Adding to the levelling system more levels that included songs
+- Implement an achivements system, for example, achieving a 95% pass rate earns a badge or achievement
+- Adding a social side to the application that would enable users to attain feedback from their teachers as well as show off their achievments to their class mates
 
 describes two things: firstly, new areas of investigation prompted by developments in this project, and secondly parts of the current work which were not completed due to time constraints and/or problems encountered.
 
