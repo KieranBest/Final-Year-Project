@@ -37,7 +37,10 @@ I would like to give thanks to my supervisor, Allan Callaghan, for all his amazi
 - [Design](#design)
   - [Conditional Flow Diagram](#conditional-flow-diagram)
   - [Hardware and Software Stack](#hardware-and-software-stack)
+  - [Database Design](#database-design)
 - [Implementation and Testing](#implementation-and-testing)
+  - [Milestone 1](#milestone-1)
+  - [Milestone 2](#milestone-2)
 - [Results](#results)
   - [Challenges](#challenges)
     - [4th November 2022](#4th-november-2022)
@@ -374,9 +377,38 @@ The flow of the application is controlled by the user input as all actions for t
 
 This application requires the user to possess a MIDI keyboard and the ability to plug into a computer or laptop device. The device will need to have a web browser that supports MIDI input such as Chrome, Edge, Firefox and Opera (caniuse, 2023).
 
+#### Database Design
+
+
+
 ### Implementation and Testing
 
-Testing has been implemented in the Script.js file in which the index page will output to its console whether a MIDI device has been connected. If a device is connected then the MIDI device details will be displayed.
+#### Milestone 1
+
+To start creating this application, I first needed to create a basic HTML page with a canvas element. This was done by creating a new HTML file and adding the following code:
+
+```HTML
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link id="favicon" rel="icon" type="image/png" href="images/icon.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <style>
+    canvas {
+        image-rendering: pixelated;
+        object-fit: cover;
+        height: 100%;
+        max-height: 100%;
+        max-width: 100%;
+    }
+    h1 {
+        font-size: 4vw;
+    }
+```
+
+From here testing had to be implemented in the Script.js file in which the index page will output to its console whether a MIDI device has been connected. If a device is connected then the MIDI device details will be displayed, and if not
 
 ```JavaScript
 // When the Midi device is first connected it will ask for permission to use MIDI device
@@ -399,27 +431,188 @@ function updateDevices(event){
 }
 ```
 
+> **Figure 10: Verification of MIDI Device Connected**
+>
+> ![Verification of MIDI Device Connected](/images/milestone1.1.png)
+
+From here basic input from the MIDI device needed to be registered and enable it to manipulate the canvas element. From here understanding which note had been pressed and display this on a graphical keyboard on the screen. Developing this until the user could press multiple keys and the notes would be displayed on a keyboard.
+
+[View Completion of Visual Keyboard](https://github.com/KieranBest/Individual-Project/blob/d62134388a64e79a09bd9583056b95e7f6155fc0/script.js#L127)
+
+From there ensuring the canvas is reactive to the users screen size, on both load up and resize of the browser window.
+
+```JavaScript
+// Window starting gets the window statistics needed before creating keyboard
+window.onload = function(){
+    keyboardStats();
+    drawKeyboard();
+}
+
+window.onresize = function(){
+    keyboardStats();
+    drawKeyboard();
+}
+```
+
+The next stage was to create a staff and display the note pressed on the staff. This was difficult at first due to the numbers given to the note pressed by the MIDI device are programmed in a increasing order from left to right whereas the canvas element to draw the note is programmed in a decreasing order due to the canvas element height. This meant I had to create a function to convert the MIDI note number to a canvas height element.
+
+```JavaScript
+// Draw on the staff when a note is pushed
+function staffNoteHit(staffNumber,notePressed,octave){
+    if(majorKeyPos.includes(notePressed)){
+        if(octave === 1){
+            octaveWeight = (staffNumber*0.5+4)
+        }else if(octave === 0){
+            octaveWeight = (staffNumber*0.5+4)+3.5
+        }else if(octave === 2){
+            octaveWeight = (staffNumber*0.5+4)-3.5
+        }
+        ctx.beginPath()
+        ctx.fillStyle="red"
+        ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
+        ctx.fill()
+    }
+    else if(sharpKeyPos.includes(notePressed)){
+        if(octave === 1){
+            octaveWeight = (staffNumber*0.5+4)
+        }else if(octave === 0){
+            octaveWeight = (staffNumber*0.5+4)+3.5
+        }else if(octave === 2){
+            octaveWeight = (staffNumber*0.5+4)-3.5
+        }
+        ctx.beginPath()
+        ctx.fillStyle="blue"
+        ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
+        ctx.fill()
+    }
+}
+```
+
+Multiple major notes being held is displayed in figure 11.
+
+> **Figure 11: Multiple Major Keys**
+>
+> ![Multiple Major Keys](/images/milestone1.2.png)
+
+Multiple major notes with a sharp note being held is displayed in Figure 12.
+
+> **Figure 12: Multiple Major Keys with a Sharp Key**
+>
+> ![Multiple Major Keys with a Sharp Key](/images/milestone1.3.png)
+
+Multiple sharp notes being held is displayed in figure 13.
+
+> **Figure 13: Multiple Sharp Keys**
+>
+> ![Multiple Sharp Keys](/images/milestone1.4.png)
+
+After that, a keyboard produces sound so that was the logical next step. This was done by firstly creating an oscillator that produces a tone when any key is pressed and stopping the sound once the note is removed. After that calculating a frequency based on the note number to attain specific note tones. This was done by the following script:
+
+```JavaScript
+window.AudioContext = window.AudioContext || window.webkitAudioContext
+let soundCTX
+
+const startButton = document.querySelector('button')
+const oscillators = {}
+
+startButton.addEventListener('click', () => {
+    soundCTX = new AudioContext()
+    startButton.style.display = 'none'
+})
+function midiToFreq(number){
+    const a = 440; //Hz
+    return (a/32) * (2 ** ((number - 9) / 12))
+}
+
+function noteOn(note, velocity){
+    const osc = soundCTX.createOscillator()
+
+    const oscGain = soundCTX.createGain()
+    oscGain.gain.value = 0.33
+
+    const velocityGainAmount = (1/127) * velocity
+    const velocityGain = soundCTX.createGain()
+    velocityGain.gain.value = velocityGainAmount
+
+    osc.type = 'sine' //sine, square, triangle, sawtooth
+    osc.frequency.value = midiToFreq(note)
+
+    osc.connect(oscGain)
+    oscGain.connect(velocityGain)
+    velocityGain.connect(soundCTX.destination) // Connect the oscillator to speaker output
+
+    osc.gain = oscGain
+
+    oscillators[note.toString()] = osc
+    osc.start()
+}
+
+function noteOff(note){
+    const osc = oscillators[note.toString()]
+    const oscGain = osc.gain
+
+    // This stops the clicking sound when releasing the note due to the sine wave
+    oscGain.gain.setValueAtTime(oscGain.gain.value, soundCTX.currentTime)
+    oscGain.gain.exponentialRampToValueAtTime(0.0001,soundCTX.currentTime + 0.03)
+    setTimeout(() => {
+        osc.stop()
+        osc.disconnect()
+    }, 20)
+
+    delete oscillators[note.toString()]
+}
+```
+
+The last part of milestone 1 was to create an animation displaying the required notes to be pressed as visual representation. Initially starting off with a simple animation of a single note displaying over a single line, and then progressing to multiple notes on a single line, and then to multiple notes over multiple lines using a random number generator to generate the element height of the note with an adaptable speed difficulty resulting in the following:
+
+> **Figure 13: Note Animation**
+>
+> ![Note Animation](/images/milestone1.5.png)
+
+[View Completion of Milestone 1 Code Here](https://github.com/KieranBest/Individual-Project/blob/b078ba14acc521815c97ba47adf030f441f26e55/script.js#L408)
+
+#### Milestone 2
+
+
+
 ### Results
 
 #### Challenges
 
 ##### 4th November 2022
 
-A bug appeared that when you click both a sharp key and a major key and remove the major key the sharp key should stay lit up on the visual keyboard, however when removed it returned the sharp key to the original colour despite still holding it.
+A bug appeared that when you click both a sharp key and a major key and remove the major key the sharp key should stay lit up on the visual keyboard, however when removed it returned the sharp key to the original colour despite still holding it. This was fixed by creating an if statement with 2 variables, one for the sharp key and one for the major key. This allowed for the sharp key to stay lit up when the major key was removed and vice versa.
+
+[View Fix Here](https://github.com/KieranBest/Individual-Project/blob/d62134388a64e79a09bd9583056b95e7f6155fc0/script.js#L127)
 
 ##### 16th November 2022
 
-Following the previous bug, when multiple sharp keys are pressed the last one pressed stays lit up, however previous sharp keys are overwritten.
+Following the previous bug, when multiple sharp keys are pressed the last one pressed stays lit up, however previous sharp keys are overwritten. Trying to fix this bug by clearing the canvas to avoid the build up of "residue" of lines on the canvas and redisplay the held notes broke multiple functions and caused new bugs. This included:
+
+- Correct placement for notes displayed on the staff.
+- Correct number of notes pressed displayed on the staff.
+- Bug in which the octaves are causing a new staff key press circle to appear when no key is pressed.
+- Pressing sharp keys deletes the visual keyboard.
+- Pressing major keys is not displayed on the visual keyboard.
+
+The initial bug took much longer to fix than anticipated and was eventually fixed by creating a new array to store sharp notes along with numerous 'if' statements to check if the note is a major or sharp, as well as if any notes are in the 'heldNoteList' array.
+
+[View Fix Here](https://github.com/KieranBest/Individual-Project/blob/d1e0c7baa5195c09c53deece297949a013ec3b5e/script.js#L95)
+[View Fix Here](https://github.com/KieranBest/Individual-Project/blob/d1e0c7baa5195c09c53deece297949a013ec3b5e/script.js#L288)
 
 ##### 15th December 2022
 
 Trying to create a successful flow for the notes across the screen has proved harder than intially thought, the while monitoring the fps it appears to alter slightly when new notes are added to the screen, therefore creating an average fps based on 1000 frames seems to have fixed the problem.
 
+[View Fix Here](https://github.com/KieranBest/Individual-Project/blob/2c1641df990d89f15e4e1baae9ae6fd9a602f3dc/script.js#L495)
+
 ##### 21st February
 
 When saving user data for statistical analysis it has become apparent that when changing level the notes on the previous level are still displayed but are recorded as the next level. For example, when progressing from a single note level to a chord level, the single notes are recorded in the chord levels statistics.
 
-Scoring does not currently work with chords, as currently it can only handle one note at a time. A fix was created, however this seemed to break the single notes score updater.
+Scoring was fixed by accessing the number of notes required and accessing whether 'notesHeldList' array contained the required notes.
+
+[View Fix Here](https://github.com/KieranBest/Individual-Project/blob/07ff64c7daeefd05153f44195ea2733348d7a717/script.js#L482)
 
 ##### 20th March
 
@@ -461,7 +654,9 @@ This was because it was still storing the other datasets used to create the othe
   })
   ```
 
-However when more than 1 dataset existed, this did not fix the bug. Therefore the fix was to set the length of the dataset to 0 and then reinstate a dataset using the required data.
+However when more than 1 dataset existed, this did not fix the bug. Therefore the fix was to set the length of the dataset to 0 or 1 depending on the type of graph being displayed and then reinstate a dataset using the required data.
+
+[View Fix Here](https://github.com/KieranBest/Individual-Project/blob/b500183ec3c41f0e1323456b9165090d564846d4/dataAnalysis.js#L101)
 
 ##### 13th April
 
