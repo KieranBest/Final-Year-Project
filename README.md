@@ -1,8 +1,9 @@
-# Creating a Responsive and Dynamic Piano Education Tool 
+# Creating a Responsive and Dynamic Piano Education Tool
 
-A project to teach users to how to read and play sheet music on a piano. 
+A project to teach users to how to read and play sheet music on a piano.
 
-## Features include:
+## Features include
+
 - Keeping score on whether the user is hitting the note on time or not
 - Adjusting the speed and difficulty based on the score
 - Collect user data from the users input

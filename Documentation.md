@@ -103,7 +103,7 @@ Lowe explained that within CBE also includes:
 
 These were developed by basic learning principles where Skinner (2012) investigated the development of reinforcing “theory to human learning”.
 
-Progressing on from primarily educational tools, educational computer games have proven to be just as effective because of their ability to "increase students' motivation". It does this by allowing the user a fun experience as well as an educational one (Sampayo-Vargas, 2013). Zohaib (2018) explains that dynamic difficulty adjustment will adjust the difficulty based on the users "individual traits", factors including dexterity, learning and adapting ability, and emotional characteristics are measured to adjust the difficulty to avoid boredom for users. Much like that of our "zone of proximal development", Csikszentmihalyi (2009, cited in Zohaib, 2018) states that users travel through a "flow channel" as depicted in Figure 1.
+Progressing on from primarily educational tools, educational computer games have proven to be just as effective because of their ability to "increase students' motivation". It does this by allowing the user a fun experience as well as an educational 1 (Sampayo-Vargas, 2013). Zohaib (2018) explains that dynamic difficulty adjustment will adjust the difficulty based on the users "individual traits", factors including dexterity, learning and adapting ability, and emotional characteristics are measured to adjust the difficulty to avoid boredom for users. Much like that of our "zone of proximal development", Csikszentmihalyi (2009, cited in Zohaib, 2018) states that users travel through a "flow channel" as depicted in Figure 1.
 
 > **Figure 1: Flow Channel**
 >
@@ -235,7 +235,7 @@ Create a Minimum Viable Product (MVP) and be able to produce it to potential use
 - Produce specific key tone on key press - 2
 - Note moves across stave and repeats - 3
 - Note repeats to a different line/note - 2
-- Display more than one note at a time - 1
+- Display more than 1 note at a time - 1
 - Press key at specific time to raise count - 2
 - Ability to change speed of note - 1
 
@@ -313,7 +313,7 @@ gantt
     Produce Specific Note Tone on Key Press                   :a4, after a3, 14d
     Animated Note Moves Across Music Sheet and Repeats        :a4, after a3, 14d
     Note Repeats to a Different Line/Note                     :a4, after a3, 14d
-    Display More than One Note at a Time on Music Sheet       :a4, after a3, 14d
+    Display More than 1 Note at a Time on Music Sheet       :a4, after a3, 14d
     Press Key at Specific Time to Raise Count                 :a5, after a4, 14d
     Ability to Change Speed of Note                           :a5, after a4, 14d
 
@@ -388,47 +388,47 @@ This application requires the user to possess a MIDI keyboard and the ability to
 To start creating this application, I first needed to create a basic HTML page with a canvas element. This was done by creating a new HTML file and adding the following code:
 
 ```HTML
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <link id="favicon" rel="icon" type="image/png" href="images/icon.png">
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
-    <style>
-    canvas {
-        image-rendering: pixelated;
-        object-fit: cover;
-        height: 100%;
-        max-height: 100%;
-        max-width: 100%;
-    }
-    h1 {
-        font-size: 4vw;
-    }
+  <!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8" />
+      <link id="favicon" rel="icon" type="image/png" href="images/icon.png">
+      <link rel="stylesheet" href="style.css">
+      <script src="script.js" defer></script>
+      <style>
+      canvas {
+          image-rendering: pixelated;
+          object-fit: cover;
+          height: 100%;
+          max-height: 100%;
+          max-width: 100%;
+      }
+      h1 {
+          font-size: 4vw;
+      }
 ```
 
-From here testing had to be implemented in the Script.js file in which the index page will output to its console whether a MIDI device has been connected. If a device is connected then the MIDI device details will be displayed, and if not
+From here testing had to be implemented in the Script.js file in which the index page will output to its console if a MIDI device has been connected. If a device is connected then the MIDI device details will be displayed.
 
 ```JavaScript
-// When the Midi device is first connected it will ask for permission to use MIDI device
-// and then display device features if successful
-if(navigator.requestMIDIAccess){
-    navigator.requestMIDIAccess({sysex: false}).then(success, failure)
-}
-function success(midiAccess){
-    midiAccess.addEventListener('statechange',updateDevices)
-    const inputs = midiAccess.inputs;
-    inputs.forEach((input) => {
-        input.addEventListener('midimessage', handleInput)
-    })
-}
-function failure(){
-    console.log('Could not connect MIDI')
-}
-function updateDevices(event){
-    console.log(`Name: ${event.port.name}, Brand: ${event.port.manufacturer}, State:${event.port.state}, Type:${event.port.type}`)
-}
+  // When the Midi device is first connected it will ask for permission to use MIDI device
+  // and then display device features if successful
+  if(navigator.requestMIDIAccess){
+      navigator.requestMIDIAccess({sysex: false}).then(success, failure)
+  }
+  function success(midiAccess){
+      midiAccess.addEventListener('statechange',updateDevices)
+      const inputs = midiAccess.inputs;
+      inputs.forEach((input) => {
+          input.addEventListener('midimessage', handleInput)
+      })
+  }
+  function failure(){
+      console.log('Could not connect MIDI')
+  }
+  function updateDevices(event){
+      console.log(`Name: ${event.port.name}, Brand: ${event.port.manufacturer}, State:${event.port.state}, Type:${event.port.type}`)
+  }
 ```
 
 > **Figure 10: Verification of MIDI Device Connected**
@@ -442,50 +442,50 @@ From here basic input from the MIDI device needed to be registered and enable it
 From there ensuring the canvas is reactive to the users screen size, on both load up and resize of the browser window.
 
 ```JavaScript
-// Window starting gets the window statistics needed before creating keyboard
-window.onload = function(){
-    keyboardStats();
-    drawKeyboard();
-}
+  // Window starting gets the window statistics needed before creating keyboard
+  window.onload = function(){
+      keyboardStats();
+      drawKeyboard();
+  }
 
-window.onresize = function(){
-    keyboardStats();
-    drawKeyboard();
-}
+  window.onresize = function(){
+      keyboardStats();
+      drawKeyboard();
+  }
 ```
 
 The next stage was to create a staff and display the note pressed on the staff. This was difficult at first due to the numbers given to the note pressed by the MIDI device are programmed in a increasing order from left to right whereas the canvas element to draw the note is programmed in a decreasing order due to the canvas element height. This meant I had to create a function to convert the MIDI note number to a canvas height element.
 
 ```JavaScript
-// Draw on the staff when a note is pushed
-function staffNoteHit(staffNumber,notePressed,octave){
-    if(majorKeyPos.includes(notePressed)){
-        if(octave === 1){
-            octaveWeight = (staffNumber*0.5+4)
-        }else if(octave === 0){
-            octaveWeight = (staffNumber*0.5+4)+3.5
-        }else if(octave === 2){
-            octaveWeight = (staffNumber*0.5+4)-3.5
-        }
-        ctx.beginPath()
-        ctx.fillStyle="red"
-        ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
-        ctx.fill()
-    }
-    else if(sharpKeyPos.includes(notePressed)){
-        if(octave === 1){
-            octaveWeight = (staffNumber*0.5+4)
-        }else if(octave === 0){
-            octaveWeight = (staffNumber*0.5+4)+3.5
-        }else if(octave === 2){
-            octaveWeight = (staffNumber*0.5+4)-3.5
-        }
-        ctx.beginPath()
-        ctx.fillStyle="blue"
-        ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
-        ctx.fill()
-    }
-}
+  // Draw on the staff when a note is pushed
+  function staffNoteHit(staffNumber,notePressed,octave){
+      if(majorKeyPos.includes(notePressed)){
+          if(octave === 1){
+              octaveWeight = (staffNumber*0.5+4)
+          }else if(octave === 0){
+              octaveWeight = (staffNumber*0.5+4)+3.5
+          }else if(octave === 2){
+              octaveWeight = (staffNumber*0.5+4)-3.5
+          }
+          ctx.beginPath()
+          ctx.fillStyle="red"
+          ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
+          ctx.fill()
+      }
+      else if(sharpKeyPos.includes(notePressed)){
+          if(octave === 1){
+              octaveWeight = (staffNumber*0.5+4)
+          }else if(octave === 0){
+              octaveWeight = (staffNumber*0.5+4)+3.5
+          }else if(octave === 2){
+              octaveWeight = (staffNumber*0.5+4)-3.5
+          }
+          ctx.beginPath()
+          ctx.fillStyle="blue"
+          ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
+          ctx.fill()
+      }
+  }
 ```
 
 Multiple major notes being held is displayed in figure 11.
@@ -509,58 +509,58 @@ Multiple sharp notes being held is displayed in figure 13.
 After that, a keyboard produces sound so that was the logical next step. This was done by firstly creating an oscillator that produces a tone when any key is pressed and stopping the sound once the note is removed. After that calculating a frequency based on the note number to attain specific note tones. This was done by the following script:
 
 ```JavaScript
-window.AudioContext = window.AudioContext || window.webkitAudioContext
-let soundCTX
+  window.AudioContext = window.AudioContext || window.webkitAudioContext
+  let soundCTX
 
-const startButton = document.querySelector('button')
-const oscillators = {}
+  const startButton = document.querySelector('button')
+  const oscillators = {}
 
-startButton.addEventListener('click', () => {
-    soundCTX = new AudioContext()
-    startButton.style.display = 'none'
-})
-function midiToFreq(number){
-    const a = 440; //Hz
-    return (a/32) * (2 ** ((number - 9) / 12))
-}
+  startButton.addEventListener('click', () => {
+      soundCTX = new AudioContext()
+      startButton.style.display = 'none'
+  })
+  function midiToFreq(number){
+      const a = 440; //Hz
+      return (a/32) * (2 ** ((number - 9) / 12))
+  }
 
-function noteOn(note, velocity){
-    const osc = soundCTX.createOscillator()
+  function noteOn(note, velocity){
+      const osc = soundCTX.createOscillator()
 
-    const oscGain = soundCTX.createGain()
-    oscGain.gain.value = 0.33
+      const oscGain = soundCTX.createGain()
+      oscGain.gain.value = 0.33
 
-    const velocityGainAmount = (1/127) * velocity
-    const velocityGain = soundCTX.createGain()
-    velocityGain.gain.value = velocityGainAmount
+      const velocityGainAmount = (1/127) * velocity
+      const velocityGain = soundCTX.createGain()
+      velocityGain.gain.value = velocityGainAmount
 
-    osc.type = 'sine' //sine, square, triangle, sawtooth
-    osc.frequency.value = midiToFreq(note)
+      osc.type = 'sine' //sine, square, triangle, sawtooth
+      osc.frequency.value = midiToFreq(note)
 
-    osc.connect(oscGain)
-    oscGain.connect(velocityGain)
-    velocityGain.connect(soundCTX.destination) // Connect the oscillator to speaker output
+      osc.connect(oscGain)
+      oscGain.connect(velocityGain)
+      velocityGain.connect(soundCTX.destination) // Connect the oscillator to speaker output
 
-    osc.gain = oscGain
+      osc.gain = oscGain
 
-    oscillators[note.toString()] = osc
-    osc.start()
-}
+      oscillators[note.toString()] = osc
+      osc.start()
+  }
 
-function noteOff(note){
-    const osc = oscillators[note.toString()]
-    const oscGain = osc.gain
+  function noteOff(note){
+      const osc = oscillators[note.toString()]
+      const oscGain = osc.gain
 
-    // This stops the clicking sound when releasing the note due to the sine wave
-    oscGain.gain.setValueAtTime(oscGain.gain.value, soundCTX.currentTime)
-    oscGain.gain.exponentialRampToValueAtTime(0.0001,soundCTX.currentTime + 0.03)
-    setTimeout(() => {
-        osc.stop()
-        osc.disconnect()
-    }, 20)
+      // This stops the clicking sound when releasing the note due to the sine wave
+      oscGain.gain.setValueAtTime(oscGain.gain.value, soundCTX.currentTime)
+      oscGain.gain.exponentialRampToValueAtTime(0.0001,soundCTX.currentTime + 0.03)
+      setTimeout(() => {
+          osc.stop()
+          osc.disconnect()
+      }, 20)
 
-    delete oscillators[note.toString()]
-}
+      delete oscillators[note.toString()]
+  }
 ```
 
 The last part of milestone 1 was to create an animation displaying the required notes to be pressed as visual representation. Initially starting off with a simple animation of a single note displaying over a single line, and then progressing to multiple notes on a single line, and then to multiple notes over multiple lines using a random number generator to generate the element height of the note with an adaptable speed difficulty resulting in the following:
@@ -573,7 +573,122 @@ The last part of milestone 1 was to create an animation displaying the required 
 
 #### Milestone 2
 
+Most of Milestone 2 was creating the levelling system and how the application would navigate between levels. Creating that sense of responsiveness to how the user is playing and making it adaptive to the user's skill level. This would then create a more enjoyable experience for the user and would therefore lead to a more educational experience for the user. In order to do this, I created a class that contained every detail of all the levels. This was then accessed everytime the users score changed to determine whether the level needed to be increased or decreased. The full code for every level can be found [here](https://github.com/KieranBest/Individual-Project/blob/3d1d01a6edbadef9c1179c8599a80aac79286f39/DynamicDifficulty.js#L1)
 
+If we take a look at levels 2-5 for example:
+
+```JavaScript
+  2:{ // roll up and down 7 notes to teach moving fingers correctly
+    speed: 1,
+    hitScreenPercentage: 0.1,
+    recurringNotes:4,
+    numberOfNotes: 1,
+    requiredScoreToProgress: 25, // up and down twice
+    requiredScoreToRegress: -10,
+    down: true
+    },
+  3:{ // random majors in octave
+    speed: 1,
+    hitScreenPercentage: 0.1,
+    recurringNotes:4,
+    numberOfNotes: 1,
+    trebleGeneratorSize: 7,
+    requiredScoreToProgress: 20,
+    requiredScoreToRegress: -15,
+  },
+  4:{ // roll up and down including sharps
+    speed: 1,
+    hitScreenPercentage: 0.1,
+    recurringNotes:4,
+    numberOfNotes: 1,
+    requiredScoreToProgress: 22,
+    requiredScoreToRegress: -20,
+    down: true,
+    sharp:false
+  },
+  5:{ // random notes including sharps
+    speed: 1,
+    hitScreenPercentage: 0.1,
+    recurringNotes:4,
+    numberOfNotes: 1,
+    sharpChance: 0.33,
+    requiredScoreToProgress: 20,
+    requiredScoreToRegress: -20
+  },
+```
+
+We can see that the score required to progress to the next level is different due to the level requirements, level 2 needs 25 correct notes because when you roll up and down an octave (7 notes) twice, there are 25 keys to push. Whereas level 4 has 22 because rolling up and down an octave once gives 22 notes. The score required to regress increases as the user progresses through the levels due to the complexity of levels increasing. This allows a larger margin of error and allows the users score to be able to fluctuate in the distance between score requirements.
+
+To understand how the application works it is important to understand the variables within this 'DynamicDifficulty' class, the speed is adjustable for all levels, however I decided to keep it at 1 due to increasing the speed in which notes move across the screen can add even more difficulty which I felt was unnecessary at the time. The 'hitScreenPercentage' is the percentage of the screen that the user is able to press the note and it be considered correct. This is worked out by 2 invisible lines either side of the 'hitMarker' called the 'lowerBoundary' and 'upperBoundary'. If the note required ('this.x') reaches between these boundaries then the note is considered correct.
+
+```JavaScript
+  lowerBoundary = hitMarker-((window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)/2)
+  upperBoundary = hitMarker+((window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)/2)
+
+  if(this.x > lowerBoundary && this.x < upperBoundary)
+```
+
+'recurringNotes' only changes when progressing from level 1 to 2, and 14 to 15. This is due to the same reason as changing the speed, in order to ensure that the application is applicable to a wide range of audiences, it is important to not drastically change the difficulty every time the level changes. 'numberOfNotes' is the number of notes that are required at any 1 moment, this is the difference between a single note, or a chord which are only implemented in levels 6, 7, 13 and 14. These chord requirements use the same system as accessing the difficulty, a chord class that contains all chords and their note details. This can be found [here](https://github.com/KieranBest/Individual-Project/blob/3d1d01a6edbadef9c1179c8599a80aac79286f39/Chords.js#L1).
+
+```JavaScript
+  const trebleChords = {
+    1:{ // a Major  (A) A - C# - E
+      1: [4, "major"],
+      2: [3, "sharp"],
+      3: [2, "major"]
+    },
+    2:{ // a minor (Am) A - C - E
+      1: [4, "major"],
+      2: [3, "major"],
+      3: [2, "major"]
+    },
+```
+
+The first number is the 'trebleChords' object that is used to access the chord values, the value of that object is another object that contains the note number as the key and an array as the value. Within the array the first number in the location on the staff the note will be displayed and the second value is the type of note, major or sharp.
+
+Levels 2 and 4 contain a boolean key named 'down' that depicts whether the flow of notes is going up or down the octave and is determined within the 'animatingNotes' class as seen below.
+
+```JavaScript
+  case 2: // roll up and down 7 notes to teach moving fingers correctly
+    this.y = staffSpacing * cycleNotes
+    this.major = true
+    if(DynamicDifficulty[2].down == true){ // Scrolls up and down through the octave
+      cycleNotes=cycleNotes+0.5
+      if(cycleNotes>3.5){
+        DynamicDifficulty[2].down = false
+        }
+      }
+      else if (DynamicDifficulty[2].down == false){
+        cycleNotes=cycleNotes-0.5
+          if(cycleNotes<1.5){
+            DynamicDifficulty[2].down = true
+          }
+        }
+      this.image = noteImage
+      break
+```
+
+The only difference between levels 2 and 4 is that in level 4, sharp notes have been introduced and therefore the rolling implementation has been adapted to include an 'if' statement to determine whether the note contains a '#' in the name. In level 5, 'sharpChance' is introduced, this is a float value that determines the chance of a sharp note appearing. This is implemented by whether a random number generator is more than the 'sharpChance' value, if it is then the note is a major and the image produced for that note is represented as as. If it is less than 'sharpChance' then the note is a sharp and the image produced is represented as so.
+
+```JavaScript
+  let trebleSharpValue
+  if(Math.random()>DynamicDifficulty[5].sharpChance){
+    this.image = noteImage
+    this.major = true
+    this.y = trebleValues[Math.floor(Math.random() * 7)+1] * staffSpacing
+  }
+  else{
+    this.image = sharpImage
+    this.major = false
+    trebleSharpValue = Math.floor(Math.random() * 7)+1
+    if(trebleSharpValue == 2 || trebleSharpValue == 3.5){
+      trebleSharpValue ++
+    }
+    this.y = trebleValues[trebleSharpValue] * staffSpacing
+  }
+```
+
+Once levels 1-7 were created, creating levels 8-14 were pretty straight forward as the code just needed to be adapted to change the notes from treble to bass which proved much simpler than originally intended.
 
 ### Results
 
@@ -581,13 +696,13 @@ The last part of milestone 1 was to create an animation displaying the required 
 
 ##### 4th November 2022
 
-A bug appeared that when you click both a sharp key and a major key and remove the major key the sharp key should stay lit up on the visual keyboard, however when removed it returned the sharp key to the original colour despite still holding it. This was fixed by creating an if statement with 2 variables, one for the sharp key and one for the major key. This allowed for the sharp key to stay lit up when the major key was removed and vice versa.
+A bug appeared that when you click both a sharp key and a major key and remove the major key the sharp key should stay lit up on the visual keyboard, however when removed it returned the sharp key to the original colour despite still holding it. This was fixed by creating an if statement with 2 variables, 1 for the sharp key and 1 for the major key. This allowed for the sharp key to stay lit up when the major key was removed and vice versa.
 
 [View Fix Here](https://github.com/KieranBest/Individual-Project/blob/d62134388a64e79a09bd9583056b95e7f6155fc0/script.js#L127)
 
 ##### 16th November 2022
 
-Following the previous bug, when multiple sharp keys are pressed the last one pressed stays lit up, however previous sharp keys are overwritten. Trying to fix this bug by clearing the canvas to avoid the build up of "residue" of lines on the canvas and redisplay the held notes broke multiple functions and caused new bugs. This included:
+Following the previous bug, when multiple sharp keys are pressed the last 1 pressed stays lit up, however previous sharp keys are overwritten. Trying to fix this bug by clearing the canvas to avoid the build up of "residue" of lines on the canvas and redisplay the held notes broke multiple functions and caused new bugs. This included:
 
 - Correct placement for notes displayed on the staff.
 - Correct number of notes pressed displayed on the staff.
@@ -669,9 +784,9 @@ Trying to create a server linking to a client by following tutorials such as tho
 
 #### Findings
 
-Throughout this project one thing that has become apparent is that creating a timeline of sprints is not always accurate due to an inability to comprehend the difficulty of said task. For example creating a level system had originally been anticipated to hold a weighted value of 2, however this task only took 20 minutes to successfully implement.
+Throughout this project 1 thing that has become apparent is that creating a timeline of sprints is not always accurate due to an inability to comprehend the difficulty of said task. For example creating a level system had originally been anticipated to hold a weighted value of 2, however this task only took 20 minutes to successfully implement.
 
-Whereas being able to press multiple keys and releasing only one caused multiple problems in various scenarios such as:
+Whereas being able to press multiple keys and releasing only 1 caused multiple problems in various scenarios such as:
 
 - Multiple major keys
 - Multiple sharp keys
@@ -679,7 +794,7 @@ Whereas being able to press multiple keys and releasing only one caused multiple
 - Multiple keys being displayed on the visual keyboard
 - Multiple keys being displayed on the staff
 - Scoring for multiple keys
-- Documenting wrong notes pushed when one or more notes pressed does not much notes required for chords
+- Documenting wrong notes pushed when 1 or more notes pressed does not much notes required for chords
 
 present all the results (products, experimental findings, theories, etc.) generated during the project. This may also include some off-topic findings that were not expected, or which were side-effects of other explorations.
 
@@ -724,7 +839,7 @@ As are there many features I would've liked to have implemented to make this a m
 - Implement an achivements system, for example, achieving a 95% pass rate earns a badge or achievement
 - Adding a social side to the application that would enable users to attain feedback from their teachers as well as show off their achievments to their class mates
 
-describes two things: firstly, new areas of investigation prompted by developments in this project, and secondly parts of the current work which were not completed due to time constraints and/or problems encountered.
+describes 2 things: firstly, new areas of investigation prompted by developments in this project, and secondly parts of the current work which were not completed due to time constraints and/or problems encountered.
 
 #### Conclusion
 
@@ -792,7 +907,7 @@ Meeting with supervisor to gain insight into oscillator type as well speaking ab
 - Note repeats on differnt notes/lines?
 - Can change speed of notes (recompile?)
 - Press key at right time, raise show count
-- Display more than one note at a time
+- Display more than 1 note at a time
 
 Supervisor’s help to explain potential method of obtaining individual input note value: note value, octave, note letter etc.
 
@@ -882,7 +997,7 @@ Meeting with stakeholder to progress of project. Demonstrated current working pr
 
 Stakeholder expressed how viewing every single period of play could become problematic and overcomplicated to view, so dividing it into weeks and being able to select an amount of weeks or some form of selective capability could make viewing large amounts of data less complex.
 
-A feature that the stakeholder thought would be excellent would be to create a way for a teacher to view all students progress in one page, to enable a bar graph to be produced to see every students average hit against the amount of time they have practised in one graph. This graph could be arranged in ascending or descending order to make it easier to identify the less encouraged students.
+A feature that the stakeholder thought would be excellent would be to create a way for a teacher to view all students progress in 1 page, to enable a bar graph to be produced to see every students average hit against the amount of time they have practised in 1 graph. This graph could be arranged in ascending or descending order to make it easier to identify the less encouraged students.
 
 Many user interface features were brought up such as:
 
