@@ -36,7 +36,7 @@ function handleInput(input){
     }
 }
 
-// https://www.youtube.com/watch?v=dV6V2Ptx_CY
+// Music and Coding (2022) [JavaScript MIDI Synth Tutorial - Part 2 | Playing notes using an oscillator](https://www.youtube.com/watch?v=dV6V2Ptx_CY)
 // Compatibility issues, make sure its compatible across browsers
 window.AudioContext = window.AudioContext || window.webkitAudioContext
 let soundCTX
@@ -197,7 +197,7 @@ window.onresize = function(){
     drawStaff()
     drawKeyboard()
 }
-// https://www.youtube.com/watch?v=uq66IuqYdWg
+// Reid, D (2022) [How to dynamically resize the canvas with JavaScript in under five minutes](https://www.youtube.com/watch?v=uq66IuqYdWg)
 
 // Canvas creation
 var canvas = document.querySelector('canvas')
@@ -425,7 +425,7 @@ const toggleGame = async() => {
     }
 }
 
-// https://www.youtube.com/watch?v=9Sxo7P3F3m0&t=322s
+// McCaffrey, J (2021) [Using RequestAnimationFrame and Classes in JavaScript](https://www.youtube.com/watch?v=9Sxo7P3F3m0&t=322s)
 const noteImage = new Image(135,137) //pixel size
 const sharpImage = new Image(135,137) //pixel size
 noteImage.src = '../images/noteImage.png'

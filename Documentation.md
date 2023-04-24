@@ -382,7 +382,53 @@ This application requires the user to possess a MIDI keyboard and the ability to
 
 #### Database Design
 
+So far when we are saving data for an individual user we are currently storing it as a JSON document locally, it is currently stored in the following format (this depicts the first note from the first level):
 
+```JSON
+{
+  1:[
+    {
+      "currentLevel":1,
+      "hitScreenPercentage":0.1,
+      "numberOfNotes":1,
+      "numberofNotesinLevel":5,
+      "recurringNotes":2,
+      "requiredScoreToProgress":5,
+      "requiredScoreToRegress":undefined,
+      "userNoteProgression"[
+        {
+          1:[
+            {
+              "actualHitTime":[
+                {"h":20,"m":21,"ms":17,"s":14,"time":1682364073969}],
+              "correctNote":true,
+              "correctY1Hit":false,
+              "correctY2Hit":false,
+              "correctYHit":true,
+              "deductionCode":0,
+              "deductionReason":"",
+              "differenceInHitTime":-85,
+              "distanceBetweenPreviousNoteRequiredAndCurrentRequired":-2,
+              "expectedHitTime":[
+                {"h":20,"m":21,"ms":17,"s":14,"time":1682364074017}],
+              "hand":"right",
+              "major1":true,
+              "major2":undefined,
+              "major3":undefined,
+              "missedNote":false,
+              "noteEntered":2,
+              "noteGapBetweenEnteredAndRequired":0,
+              "noteNumberInGame":1,
+              "noteRequired":2,
+              "noteoff":[
+                {"h":20,"m":21,"ms":194,"s":14,"time":1682364074194}],
+              "previousNoteRequired":null,
+              "timeHeldNote":418,
+              "withinExtraBoundary":false
+            }],
+            2:[
+              {
+```
 
 ### Implementation and Testing
 
@@ -427,7 +473,7 @@ From here basic input from the MIDI device needed to be registered and enable it
 
 [View Completion of Visual Keyboard](https://github.com/KieranBest/Individual-Project/blob/d62134388a64e79a09bd9583056b95e7f6155fc0/script.js#L127)
 
-From there ensuring the canvas is reactive to the users screen size, on both load up and resize of the browser window.
+From there ensuring the canvas is reactive to the users screen size, on both load up and resize of the browser window (Reid, 2022).
 
 ```JavaScript
   // Window starting gets the window statistics needed before creating keyboard
@@ -494,7 +540,7 @@ Multiple sharp notes being held is displayed in figure 13.
 >
 > ![Multiple Sharp Keys](/images/milestone1.4.png)
 
-After that, a keyboard produces sound so that was the logical next step. This was done by firstly creating an oscillator that produces a tone when any key is pressed and stopping the sound once the note is removed. After that calculating a frequency based on the note number to attain specific note tones. This was done by the following script:
+After that, a keyboard produces sound so that was the logical next step. This was done by firstly creating an oscillator that produces a tone when any key is pressed and stopping the sound once the note is removed. After that calculating a frequency based on the note number to attain specific note tones (Music and Coding, 2022). This was done by the following script:
 
 ```JavaScript
   window.AudioContext = window.AudioContext || window.webkitAudioContext
@@ -551,7 +597,7 @@ After that, a keyboard produces sound so that was the logical next step. This wa
   }
 ```
 
-The last part of milestone 1 was to create an animation displaying the required notes to be pressed as visual representation. Initially starting off with a simple animation of a single note displaying over a single line, and then progressing to multiple notes on a single line, and then to multiple notes over multiple lines using a random number generator to generate the element height of the note with an adaptable speed difficulty resulting in the following:
+The last part of milestone 1 was to create an animation displaying the required notes to be pressed as visual representation (McCaffrey, 2021). Initially starting off with a simple animation of a single note displaying over a single line, and then progressing to multiple notes on a single line, and then to multiple notes over multiple lines using a random number generator to generate the element height of the note with an adaptable speed difficulty resulting in the following:
 
 > **Figure 13: Note Animation**
 >
@@ -630,7 +676,7 @@ To understand how the application works it is important to understand the variab
   if(this.x > lowerBoundary && this.x < upperBoundary)
 ```
 
-'recurringNotes' only changes when progressing from level 1 to 2, and 14 to 15. This is due to the same reason as changing the speed, in order to ensure that the application is applicable to a wide range of audiences, it is important to not drastically change the difficulty every time the level changes. 'numberOfNotes' is the number of notes that are required at any 1 moment, this is the difference between a single note, or a chord which are only implemented in levels 6, 7, 13 and 14. These chord requirements use the same system as accessing the difficulty, a chord class that contains all chords and their note details. This can be found [here](https://github.com/KieranBest/Individual-Project/blob/3d1d01a6edbadef9c1179c8599a80aac79286f39/Chords.js#L1).
+'recurringNotes' only changes when progressing from level 1 to 2, and 14 to 15. This is due to the same reason as changing the speed, in order to ensure that the application is applicable to a wide range of audiences, it is important to not drastically change the difficulty every time the level changes. 'numberOfNotes' is the number of notes that are required at any 1 moment, this is the difference between a single note, or a chord which are only implemented in levels 6, 7, 13 and 14. These chord requirements use the same system as accessing the difficulty, a chord class that contains all chords and their note details (School of Rock, 2023). This can be found [here](https://github.com/KieranBest/Individual-Project/blob/3d1d01a6edbadef9c1179c8599a80aac79286f39/Chords.js#L1).
 
 ```JavaScript
   const trebleChords = {
@@ -741,7 +787,7 @@ The final task for Milestone 2 was to be able to play a simple song that uses bo
 
 #### Milestone 3
 
-Before meeting with the stakeholder I felt it would be suitable to demonstrate different ways in which the data can be visualised and attain feedback and further suggestions. So I created some ideas of graphs using 'chart JS' (Line Chart, 2023)(Doughnut and Pie Charts, 2023) with my data as can be seen below:
+Before meeting with the stakeholder I felt it would be suitable to demonstrate different ways in which the data can be visualised and attain feedback and further suggestions. So I created some ideas of graphs using 'chart JS' (Chart.js, 2023a;Chart.js, 2023b) with my data as can be seen below:
 
 > **Figure 15: Actual Vs Expected Hit Times**
 >
@@ -774,7 +820,7 @@ In the 3rd and final milestone, it was decided after stakeholder feedback that n
 - Change features on the animation of the staff to depict whether the user hit the note correctly or not, such as a green indicator for correct and red for incorrect
 - Display the name of the note required moving along in the animation above the staff
 
-Due to the amount of feedback and suggestions for the 3rd milestone, and being able to see this in the gantt chart [here](#time-management-using-gantt), it was not possible for me to complete all of the [objectives](#milestone-3-objectives). I created the MongoDB and created a connection using an Express Server, changing the application to a client server model using a MERN stack, however that is as far as I got due to unforeseen circumstances both academically and personally. You can see how I tried to overcome my academic issues [here](#13th-april).
+Due to the amount of feedback and suggestions for the 3rd milestone, and being able to see this in the gantt chart [here](#time-management-using-gantt), it was not possible for me to complete all of the [objectives](#milestone-3-objectives). I created the MongoDB and created a connection using an Express Server, changing the application to a client server model using a MERN stack due to the client and server being unable to fulfill a 'POST' request, however that is as far as I got due to unforeseen circumstances both academically and personally. You can see how I tried to overcome my academic issues [here](#13th-april).
 
 ### Results
 
@@ -868,12 +914,7 @@ However when more than 1 dataset existed, this did not fix the bug. Therefore th
 
 ##### 13th April
 
-Trying to create a server linking to a client by following tutorials such as those listed below, I could still not get the posting to work properly. Querying this online, it was suggested to use 'Postman' to test http requests, however on doing so it would return a 401 error with a 'POST' request. Without a successful 'POST' request working, I could not Due to this and a combination of time restraints due to personal life commitments, I was unable to complete most of Milestone 3's objectives.
-  https://www.youtube.com/watch?app=desktop&v=084rmLU1UgA&t=239s
-  https://www.youtube.com/watch?v=SqcY0GlETPk
-  https://learning.postman.com/docs/introduction/overview/
-  https://www.youtube.com/playlist?list=PL4cUxeGkcC9h77dJ-QJlwGlZlTd4ecZOA
-  https://community.postman.com/t/how-to-resolve-error-401-unauthorized-in-postman/17318/5
+Initially I tried to create the server using Express.js, and the client using Vue.js; however they would not connect to each other and instead returned errors. So then I followed a tutorial on how to create a MERN application as I needed to use a MongoDB and I thought this would be the simplest way to get the server and client working whilst also using a database when I have limited time available (The Net Ninja, 2022)(Programming with Mosh, 2023)(Postman, 2023). However, trying to create a server linking to a client by following tutorials such as those listed below, I could still not get the posting to work properly. Querying this online, it was suggested to use 'Postman' to test http requests, however on doing so it would return a 401 error (StackOverFlow, 2021)(Community Postman,2020)(MongoDB Developer Community, 2021). Without a successful 'POST' request working, I could not develop the client-server connection. I could not progress on this unfortunately due to time restraints from personal life commitments. This then meant that I was unable to complete most of Milestone 3's objectives.
 
 #### Findings
 
@@ -887,15 +928,13 @@ Throughout this project 1 thing that has become apparent is that creating a time
 - Scoring for multiple keys
 - Documenting wrong notes pushed when 1 or more notes pressed does not much notes required for chords
 
-A very important lesson I learned not only from myself, but from my peers is that having a structured work time for this project benefited me greatly, and I could see the difference in my project compared to my peers because I had my 'project day'. I planned from the beginning to work on this project every Wednesday, and I did that religously. From having that structure I was able to fulfill the majority of my research and create a very basic prototype for my project in the first semester ready for the presentation in January. This put me in good stead for the rest of the project, and set me in my way that I can achieve a lot more than I thought capable in a short space of time. This structure also proved excellent in terms of motivation, I looked forward to my project day every week was excited to implement further features and see my progress.
+What also became apparent during this project is while it is beneficial to have a rough structure to the project and be tasked by the stakeholder, this can cause issues down the line as the project is not always going to be structured in the most organised way when it comes to implementation. Had I better planned the extent of this project I would've planned to create the database, server, client and the account system at the beginning of the project as I believe it is one of the most complex parts of my project and should've been treated as so.
+
+A very important lesson I learned, not only from myself but from my peers, is that having a structured work time for this project benefited me greatly, and I could see the difference in my project compared to my peers because I had my 'project day'. I planned from the beginning to work on this project every Wednesday, and I did that religously. From having that structure I was able to fulfill the majority of my research and create a very basic prototype for my project in the first semester ready for the presentation in January. This put me in good stead for the rest of the project, and set me in my way that I can achieve a lot more than I thought capable in a short space of time. This structure also proved excellent in terms of motivation, I looked forward to my project day every week was excited to implement further features and see my progress.
 
 **present all the results (products, experimental findings, theories, etc.) generated during the project. This may also include some off-topic findings that were not expected, or which were side-effects of other explorations.**
 
 #### Goals Achieved
-
-I am proud to say that by the end of the 1st milestone I successfully had a working prototype for the poster presentation in January, I confidently showcased my project in the presentation, being able to express all aspects of the project and how I planned to achieve them. Even using my research to back up conscious choices I have made for this project and potential features that could be implememented in the future.
-
-By the end of the 2nd milestone I had created an application that was able to adapt to the users ability and alter the difficulty in order to keep the user in the "zone of proximal development". It was
 
 When starting this project it was apparent that there would always be room for further improvement, but the scope of the project and how vast it could become was beyond what I could have imagined before this project began. Initially my scope of the project was to create a teaching tool that could be used either in classrooms or personal use, to teach users how to play piano and read sheet music. And since then it has greatly progressed from suggestions from my supervisor, stakeholder and personal research conducted on similar applications and now has features that I hadn't ever considered. Features such as:
 
@@ -904,7 +943,9 @@ When starting this project it was apparent that there would always be room for f
 - Data storage for users progression
 - Visual representation of users progression
 
-Whilst I feel a great achievement for what I have achieved, how I planned this project, and how I executed it with strict time management. I feel I did not succeed in this project due to the final milestone of this project. Had I better planned the extent of this project I would've planned to create the database and account system at the beginning of this project as I believe it is the most complex part of my project and should've been treated as the most important.
+I am proud to say that by the end of the 1st milestone I successfully had a working prototype for the poster presentation in January, I confidently showcased my project in the presentation, being able to express all aspects of the project and how I planned to achieve them. Even using my research to back up conscious choices I have made for this project and potential features that could be implememented in the future.
+
+By the end of the 2nd milestone I had created an application that was able to adapt to the users ability and alter the difficulty in order to keep the user in the "zone of proximal development". I was able to present this to my stakeholder and attain key feedback that would help me further develop my project.
 
 **describes the degree to which the findings support the original objectives laid out for the project. The goals may be partially or fully achieved, or exceeded. Note that reporting of failures to achieve goals is important since a fundamental feature of the assessment procedures is that the processes (how you went about your project) are often as important as the products of the project.**
 
@@ -946,10 +987,14 @@ As are there many features I would've liked to have implemented to make this a m
   - Most time spent practicing
   - Most perfect hits in a row
   - Highest accuracy (%)
+- Adding a library of songs that allows the user to choose what to learn (this then becomes much more enjoyable for each individual user as they are not forced to learn a song they have no interest in)
+- Making the application much more visually appealing with colour changing backgrounds and a more appealing interface
 
 **describes 2 things: firstly, new areas of investigation prompted by developments in this project, and secondly parts of the current work which were not completed due to time constraints and/or problems encountered.**
 
 #### Conclusion
+
+However the 3rd milestone I feel let down the whole project. And whilst I feel a great achievement for what I have achieved, how I planned this project, and how I executed it with strict time management during the 1st and 2nd milestone. I feel I did not succeed in this project due to the final milestone. I did not achieve anywhere near what I wanted to in this milestone, I knew I was not going to get it all done because of the vast amount of features I had tasked myself to implement, but I did not come anywhere close.
 
 **The conclusions can be summarised in a fairly short chapter (2 or 3 pages). This chapter brings together many of the points that you will have made in other chapters, especially in the previous results and discussion chapter. Do not be afraid of repeating some of your earlier statements here, albeit using different wording.**
 
@@ -961,15 +1006,21 @@ As are there many features I would've liked to have implemented to make this a m
 
 Caniuse (2023) [caniuse.com](https://caniuse.com/?search=midi) (Accessed: 23/03/2023)
 
-Line Chart (2023)[Chart.js](https://www.chartjs.org/docs/latest/charts/line.html) (Accessed: 1/03/2023)
+Chart.js (2023a)[Doughnut and Pie Charts](https://www.chartjs.org/docs/latest/charts/doughnut.html) (Accessed: 1/03/2023)
 
-Doughnut and Pie Charts(2023)[Chart.js](https://www.chartjs.org/docs/latest/charts/doughnut.html) (Accessed: 1/03/2023)
+Chart.js (2023b)[Line Chart](https://www.chartjs.org/docs/latest/charts/line.html) (Accessed: 1/03/2023)
 
 Chiu, S.C. and Chen, M.S. (2012) December. A study on difficulty level recognition of piano sheet music. 2012 IEEE International Symposium on Multimedia, pp. 17-23.
+
+Community Postman (2020) [How to resolve error 401 Unauthorized in Postman](https://community.postman.com/t/how-to-resolve-error-401-unauthorized-in-postman/17318/5) (Accessed: 6/4/2023)
+
+Reid, D (2022) [How to dynamically resize the canvas with JavaScript in under five minutes](https://www.youtube.com/watch?v=uq66IuqYdWg) (Accessed: 9/11/2022)
 
 Educational App Store (2022) [Best Apps to Learn Music](https://www.educationalappstore.com/app-lists/best-apps-music-learning)(Accessed: 18/11/2022)
 
 Graesser, A.C. et al.(2012) Intelligent tutoring systems. APA educational psychology handbook, 3:(Application to learning and teaching), pp. 451-473.
+
+McCaffrey, J (2021) [Using RequestAnimationFrame and Classes in JavaScript](https://www.youtube.com/watch?v=9Sxo7P3F3m0&t=322s) (Accessed: 7/12/2022)
 
 Kopiez, R. and In Lee, J. (2008) Towards a general model of skills involved in sight reading music. Music education research, 10(1), pp.41-62.
 
@@ -977,15 +1028,29 @@ López‐Íñiguez, G. and Pozo, J.I. (2014) The influence of teachers’ concep
 
 Lowe, J. (2001) Computer-base education: Is it a panacea? Journal of Research on Technology in Education, 34(2), pp. 169-171.
 
+MongoDB Developer Community (2021) [MERN Stack Tutorial Error – NOT](https://www.mongodb.com/community/forums/t/mern-stack-tutorial-error-not/107881) (Accessed:1/4/2023)
+
 Musacchia, G. and Khalil, A. (2020) Music and Learning: Does music make you smarter. Frontiers for Young Minds, 8
+
+Music and Coding (2022) [JavaScript MIDI Synth Tutorial - Part 2 | Playing notes using an oscillator](https://www.youtube.com/watch?v=dV6V2Ptx_CY) ( Accessed: 30/11/2022)
+
+Postman (2023) [Overview](https://learning.postman.com/docs/introduction/overview/) (Accessed: 6/4/2023)
+
+Programming with Mosh (2023) [React Tutorial for Beginners](https://www.youtube.com/watch?v=SqcY0GlETPk) (Accessed: 31/3/2023)
 
 Rogers, K. et al. (2014) P.I.A.N.O.: Faster Piano Learning with Interactive Projection. Proceedings of the Ninth ACM International Conference on Interactive Tabletops and Surfaces, pp. 149-158.
 
 Sampayo-Vargas, S., Cope, C.J., He, Z. and Byrne, G.J. (2013) The effectiveness of adaptive difficulty adjustments on students' motivation and learning in an educational computer game. Computers & Education, 69, pp.452-462.
 
+School of Rock (2023) [Piano Chords For Beginners](https://www.schoolofrock.com/blog/piano-chords-for-beginners) (Accessed: 7/2/2023)
+
 Skinner, B. (2012) The science of learning and the art of teaching. Reading in Educational Psychology, 66, pp. 301.
 
+StackOverFlow (2021) [getting unauthorized 401 error in mern application](https://stackoverflow.com/questions/70045203/getting-unauthorized-401-error-in-mern-application) (Accessed: 1/4/2023)
+
 Synthesia (2022) [Synthesia Game](https://synthesiagame.com/) (Accessed: 18/11/2022)
+
+The Net Ninja (2022) [Complete MongoDB Tutorial](https://www.youtube.com/playlist?list=PL4cUxeGkcC9h77dJ-QJlwGlZlTd4ecZOA) (Accessed: 31/3/2023)
 
 Yuksel, B.F. et al. (2016) Learn piano with BACh: An adaptive learning interface that adjusts task difficulty based on brain state. Proceedings of the 2016 chi conference on human factors in computing systems, pp. 5372-5384.
 

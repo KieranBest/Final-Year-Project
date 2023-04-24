@@ -33,7 +33,7 @@ const DynamicDifficulty = {
         hitScreenPercentage: 0.1,
         recurringNotes:4,
         numberOfNotes: 1,
-        requiredScoreToProgress: 22, 
+        requiredScoreToProgress: 22,
         requiredScoreToRegress: -20,
         down: true,
         sharp:false
@@ -95,7 +95,7 @@ const DynamicDifficulty = {
         hitScreenPercentage: 0.1,
         recurringNotes:4,
         numberOfNotes: 1,
-        requiredScoreToProgress: 22, 
+        requiredScoreToProgress: 22,
         requiredScoreToRegress: -20,
         down: false,
         sharp:false

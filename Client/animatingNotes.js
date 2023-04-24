@@ -41,12 +41,11 @@ class animatingNotes{
 
     }
     update(){ // Updates and changes each animated notes x variable according to speed
-        if(toggle){      
+        if(toggle){
             if(this.x <= leftBoundary+(window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)){
-                if(this.recordedExpectedTime == false){  
+                if(this.recordedExpectedTime == false){
                     this.recordedExpectedTime = true
                     let ExpectedTime = new Date() // Creates a time that the note will reach the desired hit point
-                    // https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_datetime_millisec
                     currentExpectedHitTime.h = ExpectedTime.getHours()
                     currentExpectedHitTime.m = ExpectedTime.getMinutes()
                     currentExpectedHitTime.s = ExpectedTime.getSeconds()
@@ -55,7 +54,7 @@ class animatingNotes{
                     if(noteNumberInGame > 1 && resetValues == true){ // Needs to be reset so it does not record when the first 2 notes are generated
                         resetValues = false
                         noteNumberInGame = 0
-                        numberOfNotesInLevel = 0   
+                        numberOfNotesInLevel = 0
                     }
                 }
             }
@@ -143,8 +142,8 @@ class animatingNotes{
                                 deductionCode = 1
                                 score--
                                 console.log("score = " + score)
-                                correctNoteHit = false  
-                                this.scoreAdjusted = true 
+                                correctNoteHit = false
+                                this.scoreAdjusted = true
                             }
                         }
                         else if(difficultyLevel == 15){
@@ -196,9 +195,9 @@ class animatingNotes{
                                     deductionCode = 1
                                     score--
                                     console.log("score = " + score)
-                                    correctNoteHit = false  
-                                    this.scoreAdjusted = true 
-                                }    
+                                    correctNoteHit = false
+                                    this.scoreAdjusted = true
+                                }
                             }
                         }
                         else if(this.doNotDeductScore == false){ // Wrong number of notes is pushed
@@ -206,7 +205,7 @@ class animatingNotes{
                             deductionCode = 2
                             score--
                             console.log("score = " + score)
-                            correctNoteHit = false   
+                            correctNoteHit = false
                             this.scoreAdjusted = true
                         }
                         currentActualHitTime.h = hitTime .getHours()
@@ -251,18 +250,18 @@ class animatingNotes{
                     noteOffTime.s = null
                     noteOffTime.ms = null
                     noteOffTime.time = null
-                    correctNoteHit = null 
+                    correctNoteHit = null
                     this.major = null
                     this.major1 = null
-                    this.major2 = null  
+                    this.major2 = null
                     octaveWeight = 0
                     missedNote = true
                 }
                 let leftOrRight
                 let distanceBetweenNotes = 0
                 noteNumberInGame++
-                numberOfNotesInLevel++  
-                if(resetValues == false){ 
+                numberOfNotesInLevel++
+                if(resetValues == false){
                     if(this.y < 6.5){
                         leftOrRight =  "left"
                     }
@@ -270,8 +269,8 @@ class animatingNotes{
                         leftOrRight =  "right"
                     }
                     if(numberOfNotesInLevel > 0){ // Otherwise distanceBetweenPreviousNote will error
-                        distanceBetweenNotes = previousNote-((this.y/staffSpacing)+0.5)      
-                        let differenceInHit      
+                        distanceBetweenNotes = previousNote-((this.y/staffSpacing)+0.5)
+                        let differenceInHit
                         if(deductionCode == 4){
                             differenceInHit = null
                         }
@@ -316,7 +315,7 @@ class animatingNotes{
                         hitScreenPercentage: DynamicDifficulty[difficultyLevel].hitScreenPercentage,
                         requiredScoreToProgress: DynamicDifficulty[difficultyLevel].requiredScoreToProgress,
                         requiredScoreToRegress: DynamicDifficulty[difficultyLevel].requiredScoreToRegress,
-                        numberofNotesinLevel: numberOfNotesInLevel,  
+                        numberofNotesinLevel: numberOfNotesInLevel,
                         userNoteProgression: userNoteProgression
                     }
                     difficultyLevel++
@@ -334,7 +333,7 @@ class animatingNotes{
                         hitScreenPercentage: DynamicDifficulty[difficultyLevel].hitScreenPercentage,
                         requiredScoreToProgress: DynamicDifficulty[difficultyLevel].requiredScoreToProgress,
                         requiredScoreToRegress: DynamicDifficulty[difficultyLevel].requiredScoreToRegress,
-                        numberofNotesinLevel: numberOfNotesInLevel,  
+                        numberofNotesinLevel: numberOfNotesInLevel,
                         userNoteProgression: userNoteProgression
                     }
                     difficultyLevel--
@@ -356,7 +355,7 @@ class animatingNotes{
                 currentExpectedHitTime = {}
                 currentActualHitTime = {}
                 noteOffTime = {}
-                
+
                 switch(difficultyLevel){
                     case 1: // random 4 notes
                         this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize)
@@ -370,13 +369,13 @@ class animatingNotes{
                             cycleNotes=cycleNotes+0.5
                             if(cycleNotes>3.5){
                                 DynamicDifficulty[2].down = false
-                            } 
+                            }
                         }
                         else if (DynamicDifficulty[2].down == false){
                             cycleNotes=cycleNotes-0.5
                             if(cycleNotes<1.5){
                                 DynamicDifficulty[2].down = true
-                            }  
+                            }
                         }
                         this.image = noteImage
                         break
@@ -404,7 +403,7 @@ class animatingNotes{
                             }
                             if(noteLetter[sharpNoteCycle] == "G"){
                                 DynamicDifficulty[4].down = false
-                            } 
+                            }
                         }
                         else if (DynamicDifficulty[4].down == false){
                             if(noteLetter[sharpNoteCycle].includes("#")){
@@ -419,14 +418,14 @@ class animatingNotes{
                                 sharpNoteCycle++
                                 if(sharpNoteCycle > 11){
                                     sharpNoteCycle = 0
-                                }    
+                                }
                                 if(!noteLetter[sharpNoteCycle].includes("#")){
                                     cycleNotes=cycleNotes-0.5
                                 }
                             }
                             if(noteLetter[sharpNoteCycle] == "G"){
                                 DynamicDifficulty[4].down = true
-                            } 
+                            }
                         }
                         break
                     case 5: // random notes including sharps
@@ -530,13 +529,13 @@ class animatingNotes{
                             bassCycle=bassCycle-0.5
                             if(bassCycle<7.5){
                                 DynamicDifficulty[9].down = true
-                            } 
+                            }
                         }
                         else if (DynamicDifficulty[9].down == true){
                             bassCycle=bassCycle+0.5
                             if(bassCycle>9.5){
                                 DynamicDifficulty[9].down = false
-                            }  
+                            }
                         }
                         this.image = noteImage
                         break
@@ -558,7 +557,7 @@ class animatingNotes{
                                 this.image = noteImage
                                 this.major = true
                                 bassSharpCycle++
-                            
+
                                 if(bassSharpCycle > 11){
                                     bassSharpCycle = 0
                                 }
@@ -568,7 +567,7 @@ class animatingNotes{
                             }
                             if(noteLetter[bassSharpCycle] == "C"){
                                 DynamicDifficulty[11].down = true
-                            } 
+                            }
                         }
                         else if (DynamicDifficulty[11].down == true){
                             if(noteLetter[bassSharpCycle].includes("#")){
@@ -587,7 +586,7 @@ class animatingNotes{
                             }
                             if(noteLetter[bassSharpCycle] == "C"){
                                 DynamicDifficulty[11].down = false
-                            } 
+                            }
                         }
                         break
                     case 12: // random notes including sharps
@@ -605,7 +604,7 @@ class animatingNotes{
                                 bassSharpValue --
                             }
                             this.y = bassValues[bassSharpValue] * staffSpacing
-                        }                            
+                        }
                         this.y1 = null
                         this.y2 = null
                         break
@@ -706,10 +705,10 @@ class animatingNotes{
                             songCycle=1
                         }
                         break
-                }   
-            }   
+                }
+            }
             this.x -= DynamicDifficulty[difficultyLevel].speed
-        }    
+        }
         else{
             cancelAnimationFrame(movePlayableNotes)
             this.x = window.innerWidth
@@ -728,5 +727,5 @@ class animatingNotes{
         if(this.y != undefined || this.y != null){
             ctx.drawImage(this.image,this.x, this.y, staffSpacing,staffSpacing)
         }
-    }              
+    }
 }
