@@ -14,7 +14,7 @@ This project is aimed at creating a responsive educational tool to teach users h
 
 ### Acknowledgements
 
-I would like to give thanks to my supervisor, Allan Callaghan, for all his amazing support, guidance and patience throughout this project.
+I would like to give thanks to my supervisor, Allan Callaghan, for all his amazing support, guidance and patience throughout this project. And also to my stakeholder, Emily Sayers, for her putting her time and knowledge into helping me with her invaluable ideas and experience.
 
 ### Table Of Contents
 
@@ -22,40 +22,51 @@ I would like to give thanks to my supervisor, Allan Callaghan, for all his amazi
 - [Acknowledgements](#acknowledgements)
 - [Table Of Contents](#table-of-contents)
 - [Introduction](#introduction)
-- [Literature Review](#literature-review)
-  - [How Do We Learn?](#how-do-we-learn)
-  - [Importance of Sheet Music](#importance-of-sheet-music)
-  - [Similar Applications](#similar-applications)
+- [Problem Analysis](#problem-analysis)
+  - [Goals](#goals)
+  - [Objectives](#objectives)
+  - [Literature Review](#literature-review)
+    - [How Do We Learn?](#how-do-we-learn)
+    - [Importance of Sheet Music](#importance-of-sheet-music)
+    - [Similar Applications](#similar-applications)
+  - [Possible Solutions](#possible-solutions)
 - [Requirements and Analysis](#requirements-and-analysis)
   - [Methodology](#methodology)
-  - [User Stories](#user-stories)
-  - [Objectives](#objectives)
-    - [Milestone 1 Objective](#milestone-1-objective)
-    - [Milestone 2 Objective](#milestone-2-objective)
-    - [Milestone 3 Objectives](#milestone-3-objectives)
-  - [Time Management Using Gantt](#time-management-using-gantt)
-- [Design](#design)
-  - [Conditional Flow Diagram](#conditional-flow-diagram)
   - [Hardware and Software Stack](#hardware-and-software-stack)
-  - [Database Design](#database-design)
-- [Implementation and Testing](#implementation-and-testing)
+- [Implementation](#implementation)
   - [Milestone 1](#milestone-1)
+    - [Milestone 1 - Objectives](#milestone-1---objectives)
+    - [Milestone 1 - Time Management](#milestone-1---time-management)
+    - [Conditional Flow Diagram](#conditional-flow-diagram)
+    - [Milestone 1 - Implementation](#milestone-1---implementation)
+    - [Milestone 1 - Challenges](#milestone-1---challenges)
+      - [4th November 2022](#4th-november-2022)
+      - [16th November 2022](#16th-november-2022)
+      - [15th December 2022](#15th-december-2022)
   - [Milestone 2](#milestone-2)
+    - [Milestone 2 - Objectives](#milestone-2---objectives)
+    - [Milestone 2 - Time Management](#milestone-2---time-management)
+    - [Milestone 2 - Implementation](#milestone-2---implementation)
+    - [Milestone 2 - Challenges](#milestone-2---challenges)
+      - [21st February](#21st-february)
+      - [6th March](#6th-march)
   - [Milestone 3](#milestone-3)
-- [Results](#results)
-  - [Challenges](#challenges)
-    - [4th November 2022](#4th-november-2022)
-    - [16th November 2022](#16th-november-2022)
-    - [15th December 2022](#15th-december-2022)
-    - [21st February](#21st-february)
-    - [6th March](#6th-march)
-    - [20th March](#20th-march)
-    - [13th April](#13th-april)
+    - [Milestone 3 - Objectives](#milestone-3---objectives)
+    - [Database Design](#database-design)
+    - [Milestone 3 - Time Management](#milestone-3---time-management)
+    - [Milestone 3 - Implementation](#milestone-3---implementation)
+    - [Milestone 3 - Challenges](#milestone-3---challenges)
+      - [20th March](#20th-march)
+      - [13th April](#13th-april)
+- [Conclusion](#conclusion)
   - [Findings](#findings)
   - [Goals Achieved](#goals-achieved)
+  - [User Feedback](#user-feedback)
+  - [Business Evaluation](#business-evaluation)
+  - [Technical Evaluation](#technical-evaluation)
+  - [Process Evaluation](#process-evaluation)
   - [Further Work](#further-work)
-  - [Conclusion](#conclusion)
-  - [Evaluating the Project](#evaluating-the-project)
+  - [Final Evaluation](#final-evaluation)
 - [References](#references)
 - [Appendices](#appendices)
   - [Meeting Notes](#meeting-notes)
@@ -82,9 +93,35 @@ The aim of this project is to create an application that teaches users to how to
 - Time difference between user pressed note and note needed to be pressed
 - Amount of times note hit was incorrect due to various reasons
 
-### Literature Review
+This will then allow users to understand their progression and see how much they have grown as a musician. This is beneficial due to the motivation it can give a user, to see their progression and understand that they are improving, but also because it allows the user to analyse their own playing and understand how they can improve. This is key to the user getting better as it allows them to understand their strengths and weaknesses, allowing them to understand their necessary areas for improvement.
 
-#### How Do We Learn?
+Throughout this report, I will be discussing the motivation behind the project, the process of creating this application, the challenges of this project and lastly, an evaluation of this project that critically analyses my approach, the final product, and the process of creating this application.
+
+### Problem Analysis
+
+#### Goals
+
+#### Objectives
+
+Whilst there are many objectives within this project, it is important to clarify the main objectives as opposed to the less important objectives. Using MoSCoW prioritisation and we are able to understand that the 'Must Have' objectives are as follows:
+
+- The application must demonstrate which key I am pressing and what note that is to begin with.
+- The application must allow me to clearly follow which note I need to press and when.
+- The application must clearly define if I’ve pressed the correct key or not.
+- The application must be a plug in and play application, and not require me to install multiple drivers to run.
+- The application must develop my understanding by progressing to a harder difficulty.
+- The application must adjust its difficulty based on my current ability.
+- The application must produce a visual representation expressing my learning progression.
+
+'Should Have' objectives are as follows:
+
+'Could Have' objectives are as follows:
+
+'Won't Have' objectives are as follows:
+
+#### Literature Review
+
+##### How Do We Learn?
 
  Yuksel et al. (2016) explains we learn better when the our cognitive workload is above a certain level. and that this is hard to achieve through the use of videos. To meet the greatest level of education,  we must reach a “zone of proximal development”. This can be difficult due to underlying factors such as:
 
@@ -134,7 +171,7 @@ As you can see, a linear increase in difficulty obtains the lowest score of 3.3,
 
 As you can see from Figure 3, a linear increase in difficult results in a gradual decline in correct responses, whereas an adaptive difficulty results in the correct responses staying in the upper percentile.
 
-#### Importance of Sheet Music
+##### Importance of Sheet Music
 
 Sight reading is the ability to read and play a piece of music unrehearsed, it is the performers ability to process "complex visual input (the score)" with minimal error (Kopiez and Lee, 2008). Having the ability to sight read sheet music can increase your skill as a musician in so many ways and "plays an important role in music education"(Chiu and Chen, 2012). Sight reading can
 
@@ -151,7 +188,7 @@ Just like muscles, exercising your brain can cause it to become stronger, and th
 
 Whilst playing an instrument is not only hugely beneficial for your brain in terms of cognitive function, it can also be beneficial for your mental well being..................
 
-#### Similar Applications
+##### Similar Applications
 
 Whilst there similar applications to the proposed, none have the exact features. ‘Simply Guitar’ and ‘Harmony City’ (Educational App Store, 2022) will teach you how to play a song. ‘Tenuto’, ‘Piano Notes Fun’ and ‘Note Trainer Pro’ which will teach you how to read music. These are all based on recordings and do not offer an interactive experience. This can be be detrimental to the users learning experience as explained previously.
 
@@ -187,6 +224,8 @@ The most similar application to what I propose is ‘Synthesia’. An educationa
 >
 > *(Synthesia Game, 2022)*
 
+#### Possible Solutions
+
 ### Requirements and Analysis
 
 #### Methodology
@@ -195,33 +234,32 @@ The most similar application to what I propose is ‘Synthesia’. An educationa
 
 - September - January
 - January - March
-- March - May
+- March - April
 
 Milestones will be divided into 2 weekly sprints and tasks will be assigned weights. Sprints will be based on the weights to determine how many tasks are to be completed each sprint.
 
-Each Milestone will show logical steps in its production process whilst also giving clear deadlines for each sprint. It will be created using JavaScript, HTML5, CSS, Express and MongoDB.
+Each milestone will show logical steps in its production process whilst also giving clear deadlines for each sprint. It will be created using JavaScript, HTML5, CSS, Express and MongoDB.
 
-#### User Stories
 
-- As a user the application must demonstrate which key I am pressing and what note that is to begin with.
-- As a user the application must allow me to clearly follow which note I need to press and when.
-- As a user the application must clearly define if I’ve pressed the correct key or not.
-- As a user the application must be a plug in and play application, and not require me to install multiple drivers to run.
-- As a user the application must develop my understanding by progressing to a harder difficulty.
-- As a user the application must be visually appealing.
-- As a user the application must adjust its difficulty based on my current ability.
-- As a user the application must produce a visual representation expressing my learning progression.
-- As a user I want to be able to choose a difficulty setting that affects the speed.
+#### Hardware and Software Stack
 
-- As a teacher the application must be able to produce a visual output that enables me to see how long each student has used the application as well as compare that against the students average hit percentage in a ascending or descending order.
+This application requires the user to possess a MIDI keyboard and the ability to plug into a computer or laptop device. The device will need to have a web browser that supports MIDI input such as Chrome, Edge, Firefox and Opera (caniuse, 2023). This is to enable the application to receive MIDI input from the keyboard and translate this into usable data which the application will need to function. The keyboard used to create this project is a 'M-Audio Keystation Mini 32 MK3' that only has 32 keys, therefore the protoype product will only support this. The application will have to be modified in order to work correctly with anything larger or smaller than 32 keys.
 
-#### Objectives
+### Implementation
 
-> Every Milestone Objective will have a number next to it displaying its difficulty as a weight.
+#### Milestone 1
 
-##### Milestone 1 Objective
+##### Milestone 1 - Objectives
 
-Create a Minimum Viable Product (MVP) and be able to produce it to potential users to attain feedback on usability and potential features.
+To start creating this application, I had my initial proposal, to create a Minimum Viable Product (MVP) that will teach users how to play piano and read sheet music. This MVP would allow me to attain feedback on usability ideas in order to proceed in the development. So the objectives for milestone 1 were as follows:
+
+- Create a graphical keyboard and show when notes have been pressed
+- Create a visual staff and show when notes have been pressed
+- Produce sound when notes are pressed
+- Make notes move across the staff to depict when they need to be pressed
+- Create a score system to track if the user presses the note correctly or not
+
+To break these objectives down and manage my time more effectively, I broke these down into simple steps and assigned weights which will then be considered when managing time throughout the milestone. This then allowed me to create a gantt chart to better visualise the progress needed.
 
 - Display that a key has been pressed on the terminal - 1
 - Display graphical shapes - 1
@@ -242,58 +280,7 @@ Create a Minimum Viable Product (MVP) and be able to produce it to potential use
 - Press key at specific time to raise count - 2
 - Ability to change speed of note - 1
 
-##### Milestone 2 Objective
-
-To create a level system that will slowly introduce users to how to play a keyboard.
-
-- Create Level System - 2
-- Create Level 1 - Right Hand, Without Moving Hand - 1
-- Create Level 2 - Right Hand, Roll Up and Down 1 Octave - 1
-- Create Level 3 - Right Hand, Random Notes Across 1 Octave - 1
-- Create Level 4 - Right Hand, Roll Up and Down 1 Octave Including Sharps and Flats - 1
-- Create Level 5 - Right Hand, Random Notes Across 1 Octave Including Sharps and Flats - 1
-- Create Level 6 - Right Hand, Introduce 3 Note Chords in Order - 1
-- Create Level 7 - Right Hand, Random Order of 3 Note Chords - 1
-- Create Level 8 - Left Hand, Without Moving Hand - 1
-- Create Level 9 - Left Hand, Roll Up and Down 1 Octave - 1
-- Create Level 10 - Left Hand, Random Notes Across 1 Octave - 1
-- Create Level 11 - Left Hand, Roll Up and Down 1 Octave Including Sharps and Flats - 1
-- Create Level 12 - Left Hand, Random Notes Across 1 Octave Including Sharps and Flats - 1
-- Create Level 13 - Left Hand, Introduce 3 Note Chords in Order - 1
-- Create Level 14 - Left Hand, Random Order of 3 Note Chords - 1
-- Create Data Capture - 1
-- Adapt Levelling System to Suit Capturing Data - 1
-- Create Level 15 - Play Simple Song Using Both Hands - 1
-
-##### Milestone 3 Objectives
-
-To produce visual aid in understanding the progression of a users' learning experience as well as include usability features.
-
-- Create Offline Storage for JSON Data Files - 1
-- Create Graphs from JSON Data Files - 2
-- Create Express API with Cookies - 2
-- Create MongoDB - 1
-- Link Express API with MongoDB - 2
-- Extract data from database and create visual representation - 3
-- Create log in for users - 2
-- Create teacher/student accounts - 2
-- Create graph for teachers that allow teacher profile to view all students progress statistics aswell as comparison bar chart.
-- Create accuracy graph comparing left hand against right hand.
-- Create a scatter graph containing: - 1
-  - Accuracy of pitch (%)
-  - Accuracy of timing (%)
-  - Duration of practice (minutes)
-  - Accuracy of chords (%)
-  - Number of perfect hits
-- Create user interface features such as:
-  - Creating a difficulty setting that would affect the speed in order to be more applicable to the younger or disabled audiences E.g. 'Easy', 'Medium' and 'Hard' buttons - 1
-  - Creating an instruction manual for how to use the application - 1
-  - When the note is hit correctly, remove it from the staff - 1
-  - When the note is hit correctly, display the note pressed in green on both the visual keyboard and the staff - 1
-  - When the note is hit incorrectly, display the note pressed in red on both the visual keyboard and the staff - 1
-  - Display the note/chord name above the staff whilst moving across the screen - 1
-
-#### Time Management Using Gantt
+##### Milestone 1 - Time Management
 
 ```mermaid
 gantt
@@ -319,51 +306,9 @@ gantt
     Display More than 1 Note at a Time on Music Sheet         :a5, after a4, 14d
     Press Key at Specific Time to Raise Count                 :a6, after a5, 14d
     Ability to Change Speed of Note                           :a6, after a5, 14d
-
-    section Milestone 2
-    Create Level System                                       :a7, after a6, 14d
-    Create Level 1                                            :a7, after a6, 14d
-    Create Level 2                                            :a8, after a7, 14d
-    Create Level 3                                            :a8, after a7, 14d
-    Create Level 4                                            :a8, after a7, 14d
-    Create Level 5                                            :a8, after a7, 14d
-    Create Level 6                                            :a9, after a8, 14d
-    Create Level 7                                            :a9, after a8, 14d
-    Create Level 8                                            :a9, after a8, 14d
-    Create Level 9                                            :a10, after a9, 14d
-    Create Level 10                                           :a10, after a9, 14d
-    Create Level 11                                           :a10, after a9, 14d
-    Create Level 12                                           :a10, after a9, 14d
-    Create Level 13                                           :a10, after a9, 14d
-    Create Level 14                                           :a10, after a9, 14d
-    Create Data Capture                                       :a11, after a10, 14d
-    Change Levelling system                                   :a11, after a10, 14d
-    Create Level 15                                           :a11, after a10, 14d
-
-    section Milestone 3
-    Create Offline Storage for JSON Data Files                    :a12, after a11, 14d
-    Create Graphs from JSON Data Files                            :a12, after a11, 14d
-    Create Express API with Cookies                               :a13, after a12, 14d
-    Create MongoDB                                                :a14, after a13, 14d
-    Link Express API with MongoDB by Saving User Data to MongoDB  :a14, after a13, 14d
-    Extract Data from Database and Create Visual Representation   :a15, after a14, 14d
-    Create Log in for Users                                       :a15, after a14, 14d
-    Create Teacher/Student Accounts                               :a15, after a14, 14d
-    Enable Teachers to View all Students Statistics               :a15, after a14, 14d
-    Create Accuracy Graph Comparing Left Hand Against Right Hand  :a16, after a15, 14d
-    Create New Scatter Graph                                      :a16, after a15, 14d
-    Creating a Difficulty Setting that Controls Speed             :a16, after a15, 14d
-    Creating Instruction Manual                                   :a16, after a15, 14d
-    When the Note is Hit Correctly, Remove it from the Staff      :a16, after a15, 14d
-    Display the Note Pressed in Green when Pressed Correctly      :a16, after a15, 14d
-    Display the note pressed in red when Pressed Incorrectly      :a16, after a15, 14d
-    Display the note/chord name above the staff                   :a16, after a15, 14d
-
 ```
 
-### Design
-
-#### Conditional Flow Diagram
+##### Conditional Flow Diagram
 
 The flow of the application is controlled by the user input as all actions for the application are dependent on the MIDI device input:
 
@@ -376,71 +321,7 @@ The flow of the application is controlled by the user input as all actions for t
 >
 > ![Conditional Flow Diagram](/images/ConditionalFlow.png)
 
-#### Hardware and Software Stack
-
-This application requires the user to possess a MIDI keyboard and the ability to plug into a computer or laptop device. The device will need to have a web browser that supports MIDI input such as Chrome, Edge, Firefox and Opera (caniuse, 2023).
-
-#### Database Design
-
-So far when we are saving data for an individual user we are currently storing it as a JSON document locally, it is currently stored in the following format (this depicts the first note from the first level):
-
-```JSON
-{
-  1:[
-    {
-      "currentLevel":1,
-      "hitScreenPercentage":0.1,
-      "numberOfNotes":1,
-      "numberofNotesinLevel":5,
-      "recurringNotes":2,
-      "requiredScoreToProgress":5,
-      "requiredScoreToRegress":undefined,
-      "userNoteProgression"[
-        {
-          1:[
-            {
-              "actualHitTime":[
-                {"h":20,"m":21,"ms":17,"s":14,"time":1682364073969}],
-              "correctNote":true,
-              "correctY1Hit":false,
-              "correctY2Hit":false,
-              "correctYHit":true,
-              "deductionCode":0,
-              "deductionReason":"",
-              "differenceInHitTime":-85,
-              "distanceBetweenPreviousNoteRequiredAndCurrentRequired":-2,
-              "expectedHitTime":[
-                {"h":20,"m":21,"ms":17,"s":14,"time":1682364074017}],
-              "hand":"right",
-              "major1":true,
-              "major2":undefined,
-              "major3":undefined,
-              "missedNote":false,
-              "noteEntered":2,
-              "noteGapBetweenEnteredAndRequired":0,
-              "noteNumberInGame":1,
-              "noteRequired":2,
-              "noteoff":[
-                {"h":20,"m":21,"ms":194,"s":14,"time":1682364074194}],
-              "previousNoteRequired":null,
-              "timeHeldNote":418,
-              "withinExtraBoundary":false
-            }],
-            2:[
-              {
-```
-
-### Implementation and Testing
-
-#### Milestone 1
-
-To start creating this application, I had my initial proposal, to create a prototype application that will teach users how to play piano and read sheet music. So the objectives for milestone 1 were as follows:
-
-- Create a graphical keyboard and show when notes have been pressed
-- Create a visual staff and show when notes have been pressed
-- Produce sound when notes are pressed
-- Make notes move across the staff to depict when they need to be pressed
-- Create a score system to track if the user presses the note correctly or not
+##### Milestone 1 - Implementation
 
 To start off this application I first needed to create a basic HTML page with a canvas element. From here testing had to be implemented in the Script.js file in which the index page will output to its console if a MIDI device has been connected. If a device is connected then the MIDI device details will be displayed in the browser console.
 
@@ -522,7 +403,7 @@ The next stage was to create a staff and display the note pressed on the staff. 
   }
 ```
 
-Multiple major notes being held is displayed in figure 11.
+Multiple major notes being held is displayed in Figure 11.
 
 > **Figure 11: Multiple Major Keys**
 >
@@ -534,7 +415,7 @@ Multiple major notes with a sharp note being held is displayed in Figure 12.
 >
 > ![Multiple Major Keys with a Sharp Key](/images/milestone1.3.png)
 
-Multiple sharp notes being held is displayed in figure 13.
+Multiple sharp notes being held is displayed in Figure 13.
 
 > **Figure 13: Multiple Sharp Keys**
 >
@@ -599,13 +480,44 @@ After that, a keyboard produces sound so that was the logical next step. This wa
 
 The last part of milestone 1 was to create an animation displaying the required notes to be pressed as visual representation (McCaffrey, 2021). Initially starting off with a simple animation of a single note displaying over a single line, and then progressing to multiple notes on a single line, and then to multiple notes over multiple lines using a random number generator to generate the element height of the note with an adaptable speed difficulty resulting in the following:
 
-> **Figure 13: Note Animation**
+> **Figure 14: Note Animation**
 >
 > ![Note Animation](/images/milestone1.5.png)
 
 [View Completion of Milestone 1 Code Here](https://github.com/KieranBest/Individual-Project/blob/b078ba14acc521815c97ba47adf030f441f26e55/script.js#L408)
 
+##### Milestone 1 - Challenges
+
+###### 4th November 2022
+
+A bug appeared that when you click both a sharp key and a major key and remove the major key the sharp key should stay lit up on the visual keyboard, however when removed it returned the sharp key to the original colour despite still holding it. This was fixed by creating an if statement with 2 variables, 1 for the sharp key and 1 for the major key. This allowed for the sharp key to stay lit up when the major key was removed and vice versa.
+
+[View Fix Here](https://github.com/KieranBest/Individual-Project/blob/d62134388a64e79a09bd9583056b95e7f6155fc0/script.js#L127)
+
+###### 16th November 2022
+
+Following the previous bug, when multiple sharp keys are pressed the last 1 pressed stays lit up, however previous sharp keys are overwritten. Trying to fix this bug by clearing the canvas to avoid the build up of "residue" of lines on the canvas and redisplay the held notes broke multiple functions and caused new bugs. This included:
+
+- Correct placement for notes displayed on the staff.
+- Correct number of notes pressed displayed on the staff.
+- Bug in which the octaves are causing a new staff key press circle to appear when no key is pressed.
+- Pressing sharp keys deletes the visual keyboard.
+- Pressing major keys is not displayed on the visual keyboard.
+
+The initial bug took much longer to fix than anticipated and was eventually fixed by creating a new array to store sharp notes along with numerous 'if' statements to check if the note is a major or sharp, as well as if any notes are in the 'heldNoteList' array.
+
+[View Fix Here](https://github.com/KieranBest/Individual-Project/blob/d1e0c7baa5195c09c53deece297949a013ec3b5e/script.js#L95)
+[View Fix Here](https://github.com/KieranBest/Individual-Project/blob/d1e0c7baa5195c09c53deece297949a013ec3b5e/script.js#L288)
+
+###### 15th December 2022
+
+Trying to create a successful flow for the notes across the screen has proved harder than intially thought, the while monitoring the fps it appears to alter slightly when new notes are added to the screen, therefore creating an average fps based on 1000 frames seems to have fixed the problem.
+
+[View Fix Here](https://github.com/KieranBest/Individual-Project/blob/2c1641df990d89f15e4e1baae9ae6fd9a602f3dc/script.js#L495)
+
 #### Milestone 2
+
+##### Milestone 2 - Objectives
 
 At the beginning of milestone 2, I had my first meeting with my stakeholder to discuss the project and to determine the next steps of the application. We discussed:
 
@@ -615,11 +527,62 @@ At the beginning of milestone 2, I had my first meeting with my stakeholder to d
   - A feature that teaches users how to roll up and down the keyboard smoothly.
 - The application could track the users progress and display it in a way that would be understandable and beneficial to the user.
 
-It was decided that the levels in the application should have the flow depicted in Figure 14.
+It was decided that the levels in the application should have the flow depicted in Figure 15.
 
-> **Figure 14: Level Flow**
+> **Figure 15: Level Flow**
 >
 > ![Level Flow](/images/milestone2.1.png)
+
+Again, breaking these objectives down  into simple steps and assigning weights to better manage my time throughout the milestone resulted in the following:
+
+- Create Level System - 2
+- Create Level 1 - Right Hand, Without Moving Hand - 1
+- Create Level 2 - Right Hand, Roll Up and Down 1 Octave - 1
+- Create Level 3 - Right Hand, Random Notes Across 1 Octave - 1
+- Create Level 4 - Right Hand, Roll Up and Down 1 Octave Including Sharps and Flats - 1
+- Create Level 5 - Right Hand, Random Notes Across 1 Octave Including Sharps and Flats - 1
+- Create Level 6 - Right Hand, Introduce 3 Note Chords in Order - 1
+- Create Level 7 - Right Hand, Random Order of 3 Note Chords - 1
+- Create Level 8 - Left Hand, Without Moving Hand - 1
+- Create Level 9 - Left Hand, Roll Up and Down 1 Octave - 1
+- Create Level 10 - Left Hand, Random Notes Across 1 Octave - 1
+- Create Level 11 - Left Hand, Roll Up and Down 1 Octave Including Sharps and Flats - 1
+- Create Level 12 - Left Hand, Random Notes Across 1 Octave Including Sharps and Flats - 1
+- Create Level 13 - Left Hand, Introduce 3 Note Chords in Order - 1
+- Create Level 14 - Left Hand, Random Order of 3 Note Chords - 1
+- Create Data Capture - 1
+- Adapt Levelling System to Suit Capturing Data - 1
+- Create Level 15 - Play Simple Song Using Both Hands - 1
+
+##### Milestone 2 - Time Management
+
+```mermaid
+gantt
+    title Figure 16: A Gantt Diagram
+    dateFormat  YYYY-MM-DD
+
+    section Milestone 2
+    Create Level System                                       :a7, 2023-01-06, 14d
+    Create Level 1                                            :a7, 2023-01-06, 14d
+    Create Level 2                                            :a8, after a7, 14d
+    Create Level 3                                            :a8, after a7, 14d
+    Create Level 4                                            :a8, after a7, 14d
+    Create Level 5                                            :a8, after a7, 14d
+    Create Level 6                                            :a9, after a8, 14d
+    Create Level 7                                            :a9, after a8, 14d
+    Create Level 8                                            :a9, after a8, 14d
+    Create Level 9                                            :a10, after a9, 14d
+    Create Level 10                                           :a10, after a9, 14d
+    Create Level 11                                           :a10, after a9, 14d
+    Create Level 12                                           :a10, after a9, 14d
+    Create Level 13                                           :a10, after a9, 14d
+    Create Level 14                                           :a10, after a9, 14d
+    Create Data Capture                                       :a11, after a10, 14d
+    Change Levelling system                                   :a11, after a10, 14d
+    Create Level 15                                           :a11, after a10, 14d
+```
+
+##### Milestone 2 - Implementation
 
 Most of my time in milestone 2 was creating the levelling system and how the application would navigate between levels. In order to do this, I created a class that contained every detail of all the levels. This was then accessed everytime the users score changed to determine whether the level needed to be increased or decreased. The full code for every level can be found [here](https://github.com/KieranBest/Individual-Project/blob/3d1d01a6edbadef9c1179c8599a80aac79286f39/DynamicDifficulty.js#L1)
 
@@ -783,23 +746,42 @@ Then every time the user level increased or decreased, the details of that level
   }
 ```
 
-The final task for Milestone 2 was to be able to play a simple song that uses both hands, to enable the user to bring together everything they have learnt and combine both hands to play. The idea of this stage of the application is to again start simple and not overload the user, therefore the song 'Happy Birthday' was chosen due to it only user single notes on both treble and bass. The future development of this project would see the addition of more complex songs that use chords.
+The final task for milestone 2 was to be able to play a simple song that uses both hands, to enable the user to bring together everything they have learnt and combine both hands to play. The idea of this stage of the application is to again start simple and not overload the user, therefore the song 'Happy Birthday' was chosen due to it only user single notes on both treble and bass. The future development of this project would see the addition of more complex songs that use chords.
+
+##### Milestone 2 - Challenges
+
+###### 21st February
+
+When saving user data for statistical analysis it has become apparent that when changing level the notes on the previous level are still displayed but are recorded as the next level. For example, when progressing from a single note level to a chord level, the single notes are recorded in the chord levels statistics.
+
+Scoring was fixed by accessing the number of notes required and accessing whether 'notesHeldList' array contained the required notes.
+
+[View Fix Here](https://github.com/KieranBest/Individual-Project/blob/07ff64c7daeefd05153f44195ea2733348d7a717/script.js#L482)
+
+###### 6th March
+
+When creating the 15th level, the problem with trying to make it an actual song was that:
+
+- The application uses a oscillator to create the sound, so the sound is never going to be pitch perfect unless I go through and change the frequency of each note. Which is do able, except it would take further time to do so that I do not have for this project. This could go down as a future development idea, to change the sound produced to use actual piano sounds.
+- The frame rate for my monitor is different to other monitors, and that is what is used to create the movement of the notes across the screen. Therefore the song will have a different speed on different monitors, which I am unaware of how to fix at this moment in time. Whilst this is detrimental to the user experience, this application is just a prototype and had I known this would affect me when I created the animation for the notes, I would have researched into a better method for creating the animation.
 
 #### Milestone 3
 
+##### Milestone 3 - Objectives
+
 Before meeting with the stakeholder I felt it would be suitable to demonstrate different ways in which the data can be visualised and attain feedback and further suggestions. So I created some ideas of graphs using 'chart JS' (Chart.js, 2023a;Chart.js, 2023b) with my data as can be seen below:
 
-> **Figure 15: Actual Vs Expected Hit Times**
+> **Figure 17: Actual Vs Expected Hit Times**
 >
 > ![Actual Vs Expected Hit Times](/images/milestone3.1.png)
 
-In figure 15, the black line, depicts a baseline of when the user should hit the note, the red line depicts when the user actually hit the note. If the red line is above the black, it means they hit it late, if it is below it was early.
+In Figure 17, the black line, depicts a baseline of when the user should hit the note, the red line depicts when the user actually hit the note. If the red line is above the black, it means they hit it late, if it is below it was early.
 
-> **Figure 16: Note Traits Overall**
+> **Figure 18: Note Traits Overall**
 >
 > ![Note Traits Overall](/images/milestone3.2.png)
 
-In figure 16, we can see overall statistics of how many times the user:
+In Figure 18, we can see overall statistics of how many times the user:
 
 - Pressed the correct note
 - Pressed the wrong note
@@ -820,55 +802,118 @@ In the 3rd and final milestone, it was decided after stakeholder feedback that n
 - Change features on the animation of the staff to depict whether the user hit the note correctly or not, such as a green indicator for correct and red for incorrect
 - Display the name of the note required moving along in the animation above the staff
 
-Due to the amount of feedback and suggestions for the 3rd milestone, and being able to see this in the gantt chart [here](#time-management-using-gantt), it was not possible for me to complete all of the [objectives](#milestone-3-objectives). I created the MongoDB and created a connection using an Express Server, changing the application to a client server model using a MERN stack due to the client and server being unable to fulfill a 'POST' request, however that is as far as I got due to unforeseen circumstances both academically and personally. You can see how I tried to overcome my academic issues [here](#13th-april).
+Breaking down these objectives, organising them in order of most importance and assigning weights based on difficulty, led to this:
 
-### Results
+- Create Offline Storage for JSON Data Files - 1
+- Create Graphs from JSON Data Files - 2
+- Create Express API with Cookies - 2
+- Create MongoDB - 1
+- Link Express API with MongoDB - 2
+- Extract data from database and create visual representation - 3
+- Create log in for users - 2
+- Create teacher/student accounts - 2
+- Create graph for teachers that allow teacher profile to view all students progress statistics aswell as comparison bar chart.
+- Create accuracy graph comparing left hand against right hand.
+- Create a scatter graph containing: - 1
+  - Accuracy of pitch (%)
+  - Accuracy of timing (%)
+  - Duration of practice (minutes)
+  - Accuracy of chords (%)
+  - Number of perfect hits
+- Create user interface features such as:
+  - Creating a difficulty setting that would affect the speed in order to be more applicable to the younger or disabled audiences E.g. 'Easy', 'Medium' and 'Hard' buttons - 1
+  - Creating an instruction manual for how to use the application - 1
+  - When the note is hit correctly, remove it from the staff - 1
+  - When the note is hit correctly, display the note pressed in green on both the visual keyboard and the staff - 1
+  - When the note is hit incorrectly, display the note pressed in red on both the visual keyboard and the staff - 1
+  - Display the note/chord name above the staff whilst moving across the screen - 1
 
-#### Challenges
+##### Database Design
 
-##### 4th November 2022
+So far when we are saving data for an individual user we are currently storing it as a JSON document locally, it is currently stored in the following format (this depicts the first note from the first level):
 
-A bug appeared that when you click both a sharp key and a major key and remove the major key the sharp key should stay lit up on the visual keyboard, however when removed it returned the sharp key to the original colour despite still holding it. This was fixed by creating an if statement with 2 variables, 1 for the sharp key and 1 for the major key. This allowed for the sharp key to stay lit up when the major key was removed and vice versa.
+```JSON
+{
+  1:[
+    {
+      "currentLevel":1,
+      "hitScreenPercentage":0.1,
+      "numberOfNotes":1,
+      "numberofNotesinLevel":5,
+      "recurringNotes":2,
+      "requiredScoreToProgress":5,
+      "requiredScoreToRegress":undefined,
+      "userNoteProgression"[
+        {
+          1:[
+            {
+              "actualHitTime":[
+                {"h":20,"m":21,"ms":17,"s":14,"time":1682364073969}],
+              "correctNote":true,
+              "correctY1Hit":false,
+              "correctY2Hit":false,
+              "correctYHit":true,
+              "deductionCode":0,
+              "deductionReason":"",
+              "differenceInHitTime":-85,
+              "distanceBetweenPreviousNoteRequiredAndCurrentRequired":-2,
+              "expectedHitTime":[
+                {"h":20,"m":21,"ms":17,"s":14,"time":1682364074017}],
+              "hand":"right",
+              "major1":true,
+              "major2":undefined,
+              "major3":undefined,
+              "missedNote":false,
+              "noteEntered":2,
+              "noteGapBetweenEnteredAndRequired":0,
+              "noteNumberInGame":1,
+              "noteRequired":2,
+              "noteoff":[
+                {"h":20,"m":21,"ms":194,"s":14,"time":1682364074194}],
+              "previousNoteRequired":null,
+              "timeHeldNote":418,
+              "withinExtraBoundary":false
+            }],
+            2:[
+              {
+```
 
-[View Fix Here](https://github.com/KieranBest/Individual-Project/blob/d62134388a64e79a09bd9583056b95e7f6155fc0/script.js#L127)
+This can be adapted into putting into a MongoDB, the database itself will be called 'pianoData', and each user will have a different collection, named after the user's username. There will be a separate collection that contains all students details, including their username. This will allow teachers the ability to view multiple students progress.
 
-##### 16th November 2022
+##### Milestone 3 - Time Management
 
-Following the previous bug, when multiple sharp keys are pressed the last 1 pressed stays lit up, however previous sharp keys are overwritten. Trying to fix this bug by clearing the canvas to avoid the build up of "residue" of lines on the canvas and redisplay the held notes broke multiple functions and caused new bugs. This included:
+```mermaid
+gantt
+    title Figure 19: A Gantt Diagram
+    dateFormat  YYYY-MM-DD
 
-- Correct placement for notes displayed on the staff.
-- Correct number of notes pressed displayed on the staff.
-- Bug in which the octaves are causing a new staff key press circle to appear when no key is pressed.
-- Pressing sharp keys deletes the visual keyboard.
-- Pressing major keys is not displayed on the visual keyboard.
+    section Milestone 3
+    Create Offline Storage for JSON Data Files                    :a12, 2023-03-17, 14d
+    Create Graphs from JSON Data Files                            :a12, 2023-03-17, 14d
+    Create Express API with Cookies                               :a13, after a12, 14d
+    Create MongoDB                                                :a14, after a13, 14d
+    Link Express API with MongoDB by Saving User Data to MongoDB  :a14, after a13, 14d
+    Extract Data from Database and Create Visual Representation   :a15, after a14, 14d
+    Create Log in for Users                                       :a15, after a14, 14d
+    Create Teacher/Student Accounts                               :a15, after a14, 14d
+    Enable Teachers to View all Students Statistics               :a15, after a14, 14d
+    Create Accuracy Graph Comparing Left Hand Against Right Hand  :a16, after a15, 14d
+    Create New Scatter Graph                                      :a16, after a15, 14d
+    Creating a Difficulty Setting that Controls Speed             :a16, after a15, 14d
+    Creating Instruction Manual                                   :a16, after a15, 14d
+    When the Note is Hit Correctly, Remove it from the Staff      :a16, after a15, 14d
+    Display the Note Pressed in Green when Pressed Correctly      :a16, after a15, 14d
+    Display the note pressed in red when Pressed Incorrectly      :a16, after a15, 14d
+    Display the note/chord name above the staff                   :a16, after a15, 14d
+```
 
-The initial bug took much longer to fix than anticipated and was eventually fixed by creating a new array to store sharp notes along with numerous 'if' statements to check if the note is a major or sharp, as well as if any notes are in the 'heldNoteList' array.
+##### Milestone 3 - Implementation
 
-[View Fix Here](https://github.com/KieranBest/Individual-Project/blob/d1e0c7baa5195c09c53deece297949a013ec3b5e/script.js#L95)
-[View Fix Here](https://github.com/KieranBest/Individual-Project/blob/d1e0c7baa5195c09c53deece297949a013ec3b5e/script.js#L288)
+Due to the amount of feedback and suggestions for the 3rd milestone, and being able to see this in the gantt chart [here](#milestone-3---time-management), it was not possible for me to complete all of the [objectives](#milestone-3---objectives). I created the MongoDB and created a connection using an Express Server, changing the application to a client server model using a MERN stack due to the client and server being unable to fulfill a 'POST' request, however that is as far as I got due to unforeseen circumstances both academically and personally. You can see how I tried to overcome my academic issues [here](#13th-april).
 
-##### 15th December 2022
+##### Milestone 3 - Challenges
 
-Trying to create a successful flow for the notes across the screen has proved harder than intially thought, the while monitoring the fps it appears to alter slightly when new notes are added to the screen, therefore creating an average fps based on 1000 frames seems to have fixed the problem.
-
-[View Fix Here](https://github.com/KieranBest/Individual-Project/blob/2c1641df990d89f15e4e1baae9ae6fd9a602f3dc/script.js#L495)
-
-##### 21st February
-
-When saving user data for statistical analysis it has become apparent that when changing level the notes on the previous level are still displayed but are recorded as the next level. For example, when progressing from a single note level to a chord level, the single notes are recorded in the chord levels statistics.
-
-Scoring was fixed by accessing the number of notes required and accessing whether 'notesHeldList' array contained the required notes.
-
-[View Fix Here](https://github.com/KieranBest/Individual-Project/blob/07ff64c7daeefd05153f44195ea2733348d7a717/script.js#L482)
-
-##### 6th March
-
-When creating the 15th level, the problem with trying to make it an actual song was that:
-
-- The application uses a oscillator to create the sound, so the sound is never going to be pitch perfect unless I go through and change the frequency of each note. Which is do able, except it would take further time to do so that I do not have for this project. This could go down as a future development idea, to change the sound produced to use actual piano sounds.
-- The frame rate for my monitor is different to other monitors, and that is what is used to create the movement of the notes across the screen. Therefore the song will have a different speed on different monitors, which I am unaware of how to fix at this moment in time. Whilst this is detrimental to the user experience, this application is just a prototype and had I known this would affect me when I created the animation for the notes, I would have researched into a better method for creating the animation.
-
-##### 20th March
+###### 20th March
 
 When creating a pie chart it was perfect if the user chooses the pie chart graph first, however if the user chose either of the others the pie would then become a doughnut graph.
 
@@ -912,9 +957,11 @@ However when more than 1 dataset existed, this did not fix the bug. Therefore th
 
 [View Fix Here](https://github.com/KieranBest/Individual-Project/blob/b500183ec3c41f0e1323456b9165090d564846d4/dataAnalysis.js#L101)
 
-##### 13th April
+###### 13th April
 
-Initially I tried to create the server using Express.js, and the client using Vue.js; however they would not connect to each other and instead returned errors. So then I followed a tutorial on how to create a MERN application as I needed to use a MongoDB and I thought this would be the simplest way to get the server and client working whilst also using a database when I have limited time available (The Net Ninja, 2022)(Programming with Mosh, 2023)(Postman, 2023). However, trying to create a server linking to a client by following tutorials such as those listed below, I could still not get the posting to work properly. Querying this online, it was suggested to use 'Postman' to test http requests, however on doing so it would return a 401 error (StackOverFlow, 2021)(Community Postman,2020)(MongoDB Developer Community, 2021). Without a successful 'POST' request working, I could not develop the client-server connection. I could not progress on this unfortunately due to time restraints from personal life commitments. This then meant that I was unable to complete most of Milestone 3's objectives.
+Initially I tried to create the server using Express.js, and the client using Vue.js; however they would not connect to each other and instead returned errors. So then I followed a tutorial on how to create a MERN application as I needed to use a MongoDB and I thought this would be the simplest way to get the server and client working whilst also using a database when I have limited time available (The Net Ninja, 2022)(Programming with Mosh, 2023)(Postman, 2023). However, trying to create a server linking to a client by following tutorials such as those listed below, I could still not get the posting to work properly. Querying this online, it was suggested to use 'Postman' to test http requests, however on doing so it would return a 401 error (StackOverFlow, 2021)(Community Postman,2020)(MongoDB Developer Community, 2021). Without a successful 'POST' request working, I could not develop the client-server connection. I could not progress on this unfortunately due to time restraints from personal life commitments. This then meant that I was unable to complete most of milestone 3's objectives.
+
+### Conclusion
 
 #### Findings
 
@@ -932,6 +979,8 @@ What also became apparent during this project is while it is beneficial to have 
 
 A very important lesson I learned, not only from myself but from my peers, is that having a structured work time for this project benefited me greatly, and I could see the difference in my project compared to my peers because I had my 'project day'. I planned from the beginning to work on this project every Wednesday, and I did that religously. From having that structure I was able to fulfill the majority of my research and create a very basic prototype for my project in the first semester ready for the presentation in January. This put me in good stead for the rest of the project, and set me in my way that I can achieve a lot more than I thought capable in a short space of time. This structure also proved excellent in terms of motivation, I looked forward to my project day every week was excited to implement further features and see my progress.
 
+A large part I regret in this project is spending so much time on the levelling system, while it is interesting and intricate. My time would have been much better spent cutting milestone 2's length in half and giving that time to milestone 3. This would've allowed me to develop the server and client connection, and create a much more in depth project.
+
 **present all the results (products, experimental findings, theories, etc.) generated during the project. This may also include some off-topic findings that were not expected, or which were side-effects of other explorations.**
 
 #### Goals Achieved
@@ -948,6 +997,18 @@ I am proud to say that by the end of the 1st milestone I successfully had a work
 By the end of the 2nd milestone I had created an application that was able to adapt to the users ability and alter the difficulty in order to keep the user in the "zone of proximal development". I was able to present this to my stakeholder and attain key feedback that would help me further develop my project.
 
 **describes the degree to which the findings support the original objectives laid out for the project. The goals may be partially or fully achieved, or exceeded. Note that reporting of failures to achieve goals is important since a fundamental feature of the assessment procedures is that the processes (how you went about your project) are often as important as the products of the project.**
+
+#### User Feedback
+
+#### Business Evaluation
+
+If this project was to be developed further and completed the necessary requirements and perhaps my suggested requirements then I feel this could become a marketable product similar to that of 'Synthesia' or 'P.I.A.N.O.'. However this product I feel would be better suited to school's for teaching music, it could be developed further to suit that demographic with features that would make the product more inclusive and better suited to a classroom environment. The age range this product could be suited to, could be deterministic and be developed further to suit different age ranges. A younger version perhaps for children ranged 4-11 could be filled with animated characters and bright colours, whereas a product suited for young adults ranged 12-18 could be much more simplistic in its design but still hold many of the same features outlined [below](#further-work).
+
+#### Technical Evaluation
+
+This project used a variety of technologies, all of which I deem appropriate for this project. The bulk of the project is written in JavaScript due to the nature of the project being dependant on MIDI input, which is enabled on particular browsers making it accessible for users that may not be technologically minded, therefore making it a web application seemed like the most logical step. Within the project are certain libraries and functions such as oscillators, "requestAnimationFrame()" and 'chart.js'. An oscillator is the way sound is produced based on the value given for the frequency which is generated upon a note pressed. While this is perfectly fine for a prototype, if the project was to be developed further and marketed as a business idea, this would need to be adapted so that the sound produced is a actual piano key sound as opposed to a generated sound based on frequency. "requestAnimationFrame()" is the animation within the staff, this function is called repeatedly in order to make the required notes move across the staff in a smooth manner. To use this, I created a class that contains how each moving note will function, whether it be a single note, or a chord. Each class works independently and this then does affect different screen resolutions. To develop this further, this would need to be altered to enable the animation to work correctly off time stamps and use states to understand what is to individual notes/chords and to easily adapt what is happening between frames. 'chart.js' is a library that is used to create the visual representation of users progression. It is an excellent tool that can be used to create a variety of visual representations of data. Even though I did not get to implement the extra changes that my stakeholder required, I feel it is an excellent library to use for the purposes required.
+
+#### Process Evaluation
 
 #### Further Work
 
@@ -982,25 +1043,21 @@ As are there many features I would've liked to have implemented to make this a m
 
 - Adding to the levelling system more levels that included more complex songs
 - Implement an achivements system, for example, achieving a 95% pass rate earns a badge or achievement
-- Adding a social side to the application that would enable users to attain feedback from their teachers as well as show off their achievments to their class mates
+- Adding a social side to the application that would enable users to attain feedback from their teachers as well as show off their achievments to their peers
 - Creating a leaderboard with different attributes such as:
   - Most time spent practicing
   - Most perfect hits in a row
   - Highest accuracy (%)
 - Adding a library of songs that allows the user to choose what to learn (this then becomes much more enjoyable for each individual user as they are not forced to learn a song they have no interest in)
 - Making the application much more visually appealing with colour changing backgrounds and a more appealing interface
+- Allow teachers to pick specific lessons for students, such as scales, chords, particular songs, etc.
+- Creating a testing page for teachers to test their students and determine their level of understanding of certain concepts.
 
-**describes 2 things: firstly, new areas of investigation prompted by developments in this project, and secondly parts of the current work which were not completed due to time constraints and/or problems encountered.**
+#### Final Evaluation
 
-#### Conclusion
+The 3rd milestone I feel let down the whole project and whilst I feel a great achievement for what I have achieved, how I planned this project, and how I executed it with strict time management during the 1st and 2nd milestone. I feel I did not succeed in this project due to the final milestone. I did not achieve anywhere near what I wanted to in this milestone, I knew I was not going to get it all done because of the vast amount of features I had tasked myself to implement, but I did not come anywhere close.
 
-However the 3rd milestone I feel let down the whole project. And whilst I feel a great achievement for what I have achieved, how I planned this project, and how I executed it with strict time management during the 1st and 2nd milestone. I feel I did not succeed in this project due to the final milestone. I did not achieve anywhere near what I wanted to in this milestone, I knew I was not going to get it all done because of the vast amount of features I had tasked myself to implement, but I did not come anywhere close.
-
-**The conclusions can be summarised in a fairly short chapter (2 or 3 pages). This chapter brings together many of the points that you will have made in other chapters, especially in the previous results and discussion chapter. Do not be afraid of repeating some of your earlier statements here, albeit using different wording.**
-
-#### Evaluating the Project
-
-**Evaluation for this project will be done through comparison of the initial specification and design documents against the finalised project. It will also look at each sprint to see if targets were completed on time and to the expected standard.**
+If I were to do this project again, there are a multitude of changes I would make, firstly structuring the project better and understanding fully the requirements of the project. I would put milestone 3 as milestone 1, working on the server/client connection first, implement the connection to a mongo database, and ensure the http requsts work effectively. Being able to 'POST' and 'GET' data to and from the database is a large part of this project and should've been treated as the most important. From there creating the application in the order I did but putting less time into the levelling system. This only needed to be a basic representation with more a maximum of 4 levels to be able to demonstrate the reponsiveness of the levelling system along with visual representation of the users progress.
 
 ### References
 
@@ -1157,7 +1214,7 @@ Meeting with supervisor to discuss potentials for data to be captures and next s
 
 ##### Wednesday 8th March
 
-Meeting with supervisor to discuss heading for Milestone 3, basic steps and current progression on Milestone 3.
+Meeting with supervisor to discuss heading for milestone 3, basic steps and current progression on milestone 3.
 Basic guidelines include to use gitpod to create a express API connected with mongoDB.
 
 ##### Wednesday 22nd March
