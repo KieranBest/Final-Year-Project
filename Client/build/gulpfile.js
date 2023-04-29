@@ -25,8 +25,6 @@ gulp.task('js', function () {
     presets: ['@babel/env']
   })).pipe(gulp.dest('./build'));
 });
-// mdn Web Docs (2023) [Introduction to automated testing | MDN](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Automated_testing)
-
 gulp.task("watch", function () {
   gulp.watch("./src/*.js").on("change", function (event) {
     gulp.src(dirs.src).pipe(browserify({
@@ -39,3 +37,5 @@ gulp.task("watch", function () {
 gulp.task('default', gulp.series('html', 'css', 'js'));
 
 // When initiated creates the build folder and copies the files from the src folder to the build folder
+
+// mdn Web Docs (2023) [Introduction to automated testing | MDN](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Automated_testing)

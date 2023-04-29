@@ -69,13 +69,12 @@ pauseButton.addEventListener('click', function () {
 var dataValue = 0;
 var submitButton = document.getElementById('submitButton');
 submitButton.addEventListener('click', function () {
-  var itemSet = localStorage.getItem('dataValue') !== null;
-  if (itemSet) {
-    dataValue++;
+  //localStorage.clear();
+  if (Object.keys(localStorage).length !== 0) {
+    dataValue = Object.keys(localStorage).length;
   } else {
     dataValue = 0;
   }
-  localStorage.setItem("dataValue", dataValue);
   localStorage.setItem(dataValue, JSON.stringify(gameProgression));
 });
 function midiToFreq(number) {

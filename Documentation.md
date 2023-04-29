@@ -348,7 +348,7 @@ The flow of the application is controlled by the user input as all actions for t
 
 ##### Milestone 1 - Implementation
 
-To create this project automated testing needed to be implemented to help keep my scripts concise and ensure I conform to standard coding practices. I used gulp.js to do this by testing my JS, HTML5 and CSS scripts. To do this I needed to install the packages required and simply enter 'gulp' into the terminal that is in the same directory as my HTML55, CSS, and JS files (mdn Web Docs, 2023). This can be seen as follows:
+To create this project automated testing needed to be implemented to help keep my scripts concise and ensure I conform to standard coding practices. I used gulp.js to do this by testing my JS, HTML5 and CSS scripts. To do this I needed to install the packages required, run vs code in administrator, and simply enter 'Set-ExecutionPolicy RemoteSigned' before entering'gulp' into the terminal that is in the same directory as my HTML55, CSS, and JS files (mdn Web Docs, 2023). This can be seen as follows:
 
 ```JavaScript
 const gulp = require('gulp');
