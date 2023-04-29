@@ -10,7 +10,7 @@
 
 ### Abstract
 
-This project is aimed at creating a responsive educational tool to teach users how to play piano whilst simultaneously how to read sheet music; it will also create a visual representation of the user's learning progression from data collected from the user's input. This project will be completed using the agile framework, HTML5, CSS and JavaScript.
+This project is aimed at creating a responsive educational tool to teach users how to play piano whilst simultaneously how to read sheet music; it will also create a visual representation of the user's learning progression from data collected from the user's input. This project will be completed using the agile framework, HTML5, CSS and JS.
 
 ### Acknowledgements
 
@@ -23,12 +23,12 @@ I would like to give thanks to my supervisor, Allan Callaghan, for all his amazi
 - [Table Of Contents](#table-of-contents)
 - [Introduction](#introduction)
 - [Problem Analysis](#problem-analysis)
-  - [Goals](#goals)
   - [Objectives](#objectives)
   - [Literature Review](#literature-review)
     - [How Do We Learn?](#how-do-we-learn)
     - [Importance of Sheet Music](#importance-of-sheet-music)
     - [Similar Applications](#similar-applications)
+  - [Goals](#goals)
   - [Possible Solutions](#possible-solutions)
 - [Analysis and Requirements](#analysis-and-requirements)
   - [Methodology](#methodology)
@@ -99,8 +99,6 @@ Throughout this report, I will be discussing the motivation behind the project, 
 
 ### Problem Analysis
 
-#### Goals
-
 #### Objectives
 
 Whilst there are many objectives within this project, it is important to clarify the main objectives as opposed to the less important objectives. Using MoSCoW prioritisation and we are able to understand that the application has different levels of requirements. While these may all be possible developments for the application, they are not all required for my protoype project. The outlined objectives following the MoSCoW prioritisation are as follows:
@@ -123,10 +121,13 @@ Whilst there are many objectives within this project, it is important to clarify
 - The application could tell me which note is required to be pressed by name
 - The application could tell me which note I have pressed by name
 - The application could signify whether I have pressed the correct note at the correct time or not
+- The application could have challenges to complete
+- The application could have awards for completing certain tasks
 
 'Won't Have':
 
 - The application won’t allow me to pick and choose my own songs
+- The application won't be downloadable onto devices such as phones or tablets
 
 #### Literature Review
 
@@ -233,6 +234,12 @@ The most similar application to what I propose is ‘Synthesia’. An educationa
 >
 > *(Synthesia Game, 2022)*
 
+#### Goals
+
+The goals of this project are to create a prototype application that will teach users how to play piano as well as learn how to read sheet music. It will adapt to the users ability and adjust its level of difficulty based on the users performance. It will also produce a visual representation of the users progression since they have started using the application. From this the user will be able to identify key areas of improvement and will be able to see their progression.
+
+As this is a primarily stakeholder driven project, objectives during the development process will be dictated by the stakeholder to ensure that the project is usable for its intended purpose and is fulfilling in its requirements. The stakeholder will be involved throughout the project and will provide feedback and guidance as to its development.
+
 #### Possible Solutions
 
 ### Analysis and Requirements
@@ -247,7 +254,7 @@ The most similar application to what I propose is ‘Synthesia’. An educationa
 
 Milestones will be divided into 2 weekly sprints and tasks will be assigned weights. Sprints will be based on the weights to determine how many tasks are to be completed each sprint.
 
-Each milestone will show logical steps in its production process whilst also giving clear deadlines for each sprint. It will be created using gulp.js to automate testing when writing in JavaScript, HTML5, CSS to ensure the continuous test driven development,gulp.js will ensure scripts are concise and there are no duplicate variables. It will use Jest.js for unit testing to ensure all functions and aspects of the JS scripts work effectively. It will also use Express and MongoDB to create the client and server relationship, enabling a larger project.
+Each milestone will show logical steps in its production process whilst also giving clear deadlines for each sprint. It will be created using gulp.js to automate testing when writing in JS, HTML5, CSS to ensure the continuous test driven development, gulp.js will ensure scripts are concise and there are no duplicate variables. It will use Jest for unit testing to ensure all functions and aspects of the JS scripts work effectively. It will also use Express and MongoDB to create the client and server relationship, enabling a larger project.
 
 #### Hardware and Software Stack
 
@@ -331,7 +338,61 @@ The flow of the application is controlled by the user input as all actions for t
 
 ##### Milestone 1 - Implementation
 
-To create this project automated testing needed to be implemented to help keep my scripts concise and ensure I conform to standard coding practices. I used gulp.js to do this by testing my JavaScript, HTML5 and CSS scripts. To do this I needed to install the packages required and simply enter 'gulp' into the terminal that is in the same directory as my HTML, CSS, and JavaScript files.
+To create this project automated testing needed to be implemented to help keep my scripts concise and ensure I conform to standard coding practices. I used gulp.js to do this by testing my JS, HTML5 and CSS scripts. To do this I needed to install the packages required and simply enter 'gulp' into the terminal that is in the same directory as my HTML55, CSS, and JS files (mdn Web Docs, 2023). This can be seen as follows:
+
+```JavaScript
+const gulp = require('gulp');
+const htmltidy = require('gulp-htmltidy');
+const autoprefixer = require('gulp-autoprefixer');
+const csslint = require('gulp-csslint');
+const babel = require('gulp-babel');
+const jshint = require('gulp-jshint');
+
+gulp.task('html', function() {
+    return gulp.src('./*.html') // your html directory
+          .pipe(htmltidy())
+          .pipe(gulp.dest('build/')); //writes the output, cleanly formatted HTML to the build directory
+  });
+
+  gulp.task('css', function() {
+    return gulp.src('./*.css') //your css directory
+        .pipe(csslint())
+        .pipe(csslint.formatter())
+        .pipe(autoprefixer({
+            browsers: ['last 5 versions'],  //config to add prefixes to work on older browsers
+            cascade: false
+        }))
+        .pipe(gulp.dest('./build'));
+});
+
+gulp.task('js', function() {
+    return gulp.src('./*.js')  //directory of your .js file
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'))
+        .pipe(babel({
+            presets: ['@babel/env']
+        }))
+        .pipe(gulp.dest('./build'));
+});
+
+gulp.task("watch", function() {
+    gulp.watch("./src/*.js").on("change", function(event) {
+      gulp
+        .src(dirs.src)
+        .pipe(
+          browserify({
+            transform: [babelify.configure({ presets: ["@babel/preset-env"] })]
+          })
+        )
+        .pipe(rename("bundle.js"))
+        .pipe(gulp.dest(dirs.dest));
+    });
+  });
+
+gulp.task('default', gulp.series('html', 'css', 'js'));
+
+// When initiated creates the build folder and copies the files from the src folder to the build folder
+```
 
 To start off this application I first needed to be able to access the MIDI device and ensure its connection is successful. The browser will firstly ask if the connection is allowed, if the user clicks 'Allow', then the MIDI device is connected and its device details will be portayed in the console. If the user selects 'Block', an error message will be displayed.
 
@@ -360,7 +421,90 @@ function updateDevices(event){
 >
 > ![Verification of MIDI Device Connected](/images/milestone1.1.png)
 
-From here basic input from the MIDI device needed to be registered and enable it to manipulate the canvas element. To ensure this works to its best capacity, I have used Jest to test functions that make the visual keyboard adapt to the users input. After installing the packages required, to use Jest.js, type 'npm test' into the terminal once in located in the 'testing' directory. After that understanding which note had been pressed and displayed on the graphical keyboard on the screen was straight forward. Developing this until the user could press multiple keys and the notes would be displayed on a keyboard.
+From here basic input from the MIDI device needed to be registered and enable it to manipulate the canvas element. To ensure this works to its best capacity, I have used Jest (Jest, 2022)(Tanner, 2020) to test functions that use the values inputted from the MIDI device. After installing the packages required, to use Jest, type 'npm test' into the terminal once located in the 'testing' directory. The tests used to ensure player input is evaluated correctly are as follows:
+
+```JavaScript
+const noteLetter = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
+
+function findLetter(note) {
+  var noteNumber = note % 12
+  return noteLetter[noteNumber]
+}
+module.exports = findLetter;
+
+
+const findLetter = require('./findNoteLetter');
+
+test('key with number 79 equals a G', () => {
+  expect(findLetter(79)).toBe("G");
+});
+
+test('key with number 58 equals a A#', () => {
+  expect(findLetter(58)).toBe("A#");
+});
+```
+
+After that understanding which note had been pressed and displayed on the graphical keyboard on the screen was straight forward. Developing this until the user could press and release multiple keys and the notes would be displayed on a keyboard. This was also tested extensively using Jest to ensure the note was being displayed on the correct key on the visual keyboard.
+
+The following are tests for identifying ensuring the correct key position is identified when pressing a key on the MIDI device:
+
+```JavaScript
+const findLetter = require('./findNoteLetter');
+const majorKeyPos = ["C","D","E","F","G","A","B"]
+const sharpKeyPos = ["C#","D#","E#","F#","G#","A#","B#"] // There are wrong keys due to the indexing needed
+module.exports = {};
+module.exports.keyboardOn = function keyboardOn(note){
+    const notePressed = findLetter(note);
+    const octave = parseInt(note/12) - 4 // -4 because my keyboard automatically starts at pos 48, this will need to be changed when keyboard information is entered with numWhiteKeys
+    if(majorKeyPos.includes(notePressed)){
+        noteNumber = majorKeyPos.indexOf(notePressed)
+        return ((7*octave)+noteNumber)
+    }else if(sharpKeyPos.includes(notePressed)){
+        noteNumber = sharpKeyPos.indexOf(notePressed)
+        return ((7*octave)+noteNumber)+0.75
+    }
+}
+
+const onFunctions = require('./noteOn');
+test('note 48 on keyboard should be in position 0 on visual keyboard', () => {
+  expect(onFunctions.keyboardOn(48)).toBe(0);
+});
+test('note 66 on keyboard should be in position 10.75 on visual keyboard', () => {
+    expect(onFunctions.keyboardOn(66)).toBe(10.75);
+  });
+```
+
+The following are tests for identifying currently held keys, and adding or subtracting from that array:
+
+```JavaScript
+notesHeldList=[62,67,71]
+module.exports.notesHeld = function notesHeld(note){
+    notesHeldList.push(note)
+    return notesHeldList
+}
+
+test('note 66 on keyboard should be added on to notes held list', () => {
+    expect(onFunctions.notesHeld(66)).toStrictEqual([62,67,71,66]);
+});
+
+
+// Releasing a single note uses the exact same method as pressing a note, so no test is needed as it will just become a duplicate.
+notesHeldList=[62,66,67,71]
+
+function removeNoteFromList(note) {
+    notesHeldList = notesHeldList.filter(function(without){
+        return without !== (note)
+    })
+    return notesHeldList
+}
+module.exports = removeNoteFromList;
+
+const removeNoteFromList = require('./noteOff.js');
+test('note 48 on keyboard should be in position 0 on visual keyboard', () => {
+    expect(removeNoteFromList(66)).toStrictEqual([62,67,71]
+        );
+  });
+```
 
 [View Completion of Visual Keyboard](https://github.com/KieranBest/Individual-Project/blob/d62134388a64e79a09bd9583056b95e7f6155fc0/script.js#L127)
 
@@ -379,7 +523,51 @@ From there ensuring the canvas is reactive to the users screen size, on both loa
   };
 ```
 
-The next stage was to create a staff and display the note pressed on the staff. This was difficult at first due to the numbers given to the note pressed by the MIDI device are programmed in a increasing order from left to right whereas the canvas element to draw the note is programmed in a decreasing order due to the canvas element height. This meant I had to create a function to convert the MIDI note number to a canvas height element.
+The next stage was to create a staff and display the note pressed on the staff. This was difficult at first due to the numbers given to the note pressed by the MIDI device are programmed in a increasing order from left to right whereas the canvas element to draw the note is programmed in a decreasing order due to the canvas element height. This meant I had to create a function to convert the MIDI note number to a canvas height element. Using jest testing, I was able to depict a formula in order to automatically convert the MIDI note number to a canvas height element.
+
+```JavaScript
+const staffShtMajorPos = ["B","A","G","F","E","D","C"] // These are the order needed for the staff
+const staffShtSharpPos = ["B#","A#","G#","F#","E#","D#","C#"] // These are the order needed for the staff
+
+module.exports.staffOn = function staffOn(note){
+    const notePressed = findLetter(note);
+    const octave = parseInt(note/12) - 4 // -4 because my keyboard automatically starts at pos 48, this will need to be changed when keyboard information is entered with numWhiteKeys
+    if(majorKeyPos.includes(notePressed)){
+        staffNumber = staffShtMajorPos.indexOf(notePressed)
+    }else if(sharpKeyPos.includes(notePressed)){
+        staffNumber = staffShtSharpPos.indexOf(notePressed)
+    }
+
+    if(majorKeyPos.includes(notePressed)){
+        if(octave === 1){
+            octaveWeight = (staffNumber*0.5+4)
+        }else if(octave === 0){
+            octaveWeight = (staffNumber*0.5+4)+3.5
+        }else if(octave === 2){
+            octaveWeight = (staffNumber*0.5+4)-3.5
+        }
+    }
+    else if(sharpKeyPos.includes(notePressed)){
+        if(octave === 1){
+            octaveWeight = (staffNumber*0.5+4)
+        }else if(octave === 0){
+            octaveWeight = (staffNumber*0.5+4)+3.5
+        }else if(octave === 2){
+            octaveWeight = (staffNumber*0.5+4)-3.5
+        }
+    }
+    return octaveWeight
+}
+
+test('note 48 on keyboard should be in position 10.5 on visual staff', () => {
+    expect(onFunctions.staffOn(48)).toBe(10.5);
+});
+test('note 66 on keyboard should be in position 5.5 on visual staff', () => {
+    expect(onFunctions.staffOn(66)).toBe(5.5);
+});
+```
+
+The result of this testing being the following code:
 
 ```JavaScript
   // Draw on the staff when a note is pushed
@@ -895,13 +1083,17 @@ So far when we are saving data for an individual user we are currently storing i
               {
 ```
 
-This can be adapted into putting into a MongoDB, the database itself will be called 'pianoData', and each user will have a different collection, named after the user's username. There will be a separate collection that contains all students details, including their username. This will allow teachers the ability to view multiple students progress.
+> **Figure 20: Document Database Design**
+>
+> ![Document Database Design](/images/milestone3.4.png)
+
+This can be adapted into putting into a MongoDB, the database itself will be called 'pianoData', and each user will have a different collection, named after the user's username. There will be a separate collection that contains all students details, including their username, name, occupation (student or teacher). This will allow teachers the ability to view multiple students progress.
 
 ##### Milestone 3 - Time Management
 
 ```mermaid
 gantt
-    title Figure 20: A Gantt Diagram
+    title Figure 21: A Gantt Diagram
     dateFormat  YYYY-MM-DD
 
     section Milestone 3
@@ -1023,7 +1215,7 @@ If this project was to be developed further and completed the necessary requirem
 
 #### Technical Evaluation
 
-This project used a variety of technologies, all of which I deem appropriate for this project. The bulk of the project is written in JavaScript due to the nature of the project being dependant on MIDI input, which is enabled on particular browsers making it accessible for users that may not be technologically minded, therefore making it a web application seemed like the most logical step. Within the project are certain libraries and functions such as oscillators, "requestAnimationFrame()" and 'chart.js'. An oscillator is the way sound is produced based on the value given for the frequency which is generated upon a note pressed. While this is perfectly fine for a prototype, if the project was to be developed further and marketed as a business idea, this would need to be adapted so that the sound produced is an actual piano key sound as opposed to a generated sound based on frequency. "requestAnimationFrame()" is the animation within the staff, this function is called repeatedly in order to make the required notes move across the staff in a smooth manner. To use this, I created a class that contains how each moving note will function, whether it be a single note, or a chord. Each class works independently and this then does affect different screen resolutions. To develop this further, this would need to be altered to enable the animation to work correctly off time stamps and use states to understand what is to individual notes/chords and to easily adapt what is happening between frames. 'chart.js' is a library that is used to create the visual representation of users progression. It is an excellent tool that can be used to create a variety of visual representations of data. Even though I did not get to implement the extra changes that my stakeholder required, I feel it is an excellent library to use for the purposes required.
+This project used a variety of technologies, all of which I deem appropriate for this project. The bulk of the project is written in JS due to the nature of the project being dependant on MIDI input, which is enabled on particular browsers making it accessible for users that may not be technologically minded, therefore making it a web application seemed like the most logical step. Within the project are certain libraries and functions such as oscillators, "requestAnimationFrame()" and 'chart.js'. An oscillator is the way sound is produced based on the value given for the frequency which is generated upon a note pressed. While this is perfectly fine for a prototype, if the project was to be developed further and marketed as a business idea, this would need to be adapted so that the sound produced is an actual piano key sound as opposed to a generated sound based on frequency. "requestAnimationFrame()" is the animation within the staff, this function is called repeatedly in order to make the required notes move across the staff in a smooth manner. To use this, I created a class that contains how each moving note will function, whether it be a single note, or a chord. Each class works independently and this then does affect different screen resolutions. To develop this further, this would need to be altered to enable the animation to work correctly off time stamps and use states to understand what is to individual notes/chords and to easily adapt what is happening between frames. 'chart.js' is a library that is used to create the visual representation of users progression. It is an excellent tool that can be used to create a variety of visual representations of data. Even though I did not get to implement the extra changes that my stakeholder required, I feel it is an excellent library to use for the purposes required.
 
 #### Process Evaluation
 
@@ -1094,19 +1286,21 @@ Chiu, S.C. and Chen, M.S. (2012) December. A study on difficulty level recogniti
 
 Community Postman (2020) [How to resolve error 401 Unauthorized in Postman](https://community.postman.com/t/how-to-resolve-error-401-unauthorized-in-postman/17318/5) (Accessed: 6/4/2023)
 
-Reid, D (2022) [How to dynamically resize the canvas with JavaScript in under five minutes](https://www.youtube.com/watch?v=uq66IuqYdWg) (Accessed: 9/11/2022)
-
 Educational App Store (2022) [Best Apps to Learn Music](https://www.educationalappstore.com/app-lists/best-apps-music-learning)(Accessed: 18/11/2022)
 
 Graesser, A.C. et al.(2012) Intelligent tutoring systems. APA educational psychology handbook, 3:(Application to learning and teaching), pp. 451-473.
 
-McCaffrey, J (2021) [Using RequestAnimationFrame and Classes in JavaScript](https://www.youtube.com/watch?v=9Sxo7P3F3m0&t=322s) (Accessed: 7/12/2022)
+Jest (2022) [Getting Started](https://jestjs.io/docs/getting-started) (Accessed: 26/10/2022)
 
 Kopiez, R. and In Lee, J. (2008) Towards a general model of skills involved in sight reading music. Music education research, 10(1), pp.41-62.
 
 López‐Íñiguez, G. and Pozo, J.I. (2014) The influence of teachers’ conceptions on their students’ learning: Children's understanding of sheet music. British Journal of Educational Psychology, 84(2), pp.311-328.
 
 Lowe, J. (2001) Computer-base education: Is it a panacea? Journal of Research on Technology in Education, 34(2), pp. 169-171.
+
+McCaffrey, J (2021) [Using RequestAnimationFrame and Classes in JavaScript](https://www.youtube.com/watch?v=9Sxo7P3F3m0&t=322s) (Accessed: 7/12/2022)
+
+mdn Web Docs (2023) [Introduction to automated testing | MDN](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Automated_testing) (Accessed: 26/10/2022)
 
 MongoDB Developer Community (2021) [MERN Stack Tutorial Error – NOT](https://www.mongodb.com/community/forums/t/mern-stack-tutorial-error-not/107881) (Accessed:1/4/2023)
 
@@ -1117,6 +1311,8 @@ Music and Coding (2022) [JavaScript MIDI Synth Tutorial - Part 2 | Playing notes
 Postman (2023) [Overview](https://learning.postman.com/docs/introduction/overview/) (Accessed: 6/4/2023)
 
 Programming with Mosh (2023) [React Tutorial for Beginners](https://www.youtube.com/watch?v=SqcY0GlETPk) (Accessed: 31/3/2023)
+
+Reid, D (2022) [How to dynamically resize the canvas with JavaScript in under five minutes](https://www.youtube.com/watch?v=uq66IuqYdWg) (Accessed: 9/11/2022)
 
 Rogers, K. et al. (2014) P.I.A.N.O.: Faster Piano Learning with Interactive Projection. Proceedings of the Ninth ACM International Conference on Interactive Tabletops and Surfaces, pp. 149-158.
 
@@ -1129,6 +1325,8 @@ Skinner, B. (2012) The science of learning and the art of teaching. Reading in E
 StackOverFlow (2021) [getting unauthorized 401 error in mern application](https://stackoverflow.com/questions/70045203/getting-unauthorized-401-error-in-mern-application) (Accessed: 1/4/2023)
 
 Synthesia (2022) [Synthesia Game](https://synthesiagame.com/) (Accessed: 18/11/2022)
+
+Tanner, G. (2020) [An Introduction to testing in JavaScript](https://gabrieltanner.org/blog/testing-introduction/) (Accessed: 26/10/2022)
 
 The Net Ninja (2022) [Complete MongoDB Tutorial](https://www.youtube.com/playlist?list=PL4cUxeGkcC9h77dJ-QJlwGlZlTd4ecZOA) (Accessed: 31/3/2023)
 
@@ -1194,7 +1392,7 @@ Meeting with supervisor to discuss documentation and areas needed for improvemen
 
 ##### Friday 2nd December
 
-Meeting with supervisor to discuss mark scheme, and introduce a JavaScript method called "requestAnimationFrame()" used to create moving animations.
+Meeting with supervisor to discuss mark scheme, and introduce a JS method called "requestAnimationFrame()" used to create moving animations.
 
 [Request Animation Frame](http://www.javascriptkit.com/javatutors/requestanimationframe.shtml)
 

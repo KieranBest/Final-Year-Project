@@ -139,7 +139,7 @@ function viewNoteCodesLine(){
 
   myChart.data.labels = ['Number Of Correct Hits','Number Of Wrong Hits','Number Of Wrong Number Hits',
     'Number Of Out Of Bound Hits','Number Of Missed Notes'];
-  for(let numberOfPeriods = 0; numberOfPeriods < playPeriodNotes.length; numberOfPeriods++){
+  for(let numberOfPeriods = 1; numberOfPeriods < playPeriodNotes.length; numberOfPeriods++){
     let colour = '#' + Math.floor(Math.random()*16777215).toString(16);
     var newDataset = {
       label: "Period " + numberOfPeriods,

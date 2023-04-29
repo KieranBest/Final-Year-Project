@@ -1,5 +1,4 @@
-const onFunctions = require('./noteOn');
-
+  const onFunctions = require('./noteOn');
 
 test('note 48 on keyboard should be in position 0 on visual keyboard', () => {
   expect(onFunctions.keyboardOn(48)).toBe(0);

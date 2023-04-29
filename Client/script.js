@@ -58,14 +58,14 @@ pauseButton.addEventListener('click', () => {
 let dataValue = 0;
 const submitButton = document.getElementById('submitButton');
 submitButton.addEventListener('click', () => {
-    const itemSet = (localStorage.getItem('dataValue') !== null);
-    if (itemSet) {
-        dataValue ++;
+    //localStorage.clear();
+    if (Object.keys(localStorage).length !== 0) {
+        dataValue = (Object.keys(localStorage).length);
     }
     else{
         dataValue = 0;
     }
-    localStorage.setItem("dataValue",dataValue);
+
     localStorage.setItem(dataValue, JSON.stringify(gameProgression));
 });
 
