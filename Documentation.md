@@ -30,7 +30,7 @@ I would like to give thanks to my supervisor, Allan Callaghan, for all his amazi
     - [Importance of Sheet Music](#importance-of-sheet-music)
     - [Similar Applications](#similar-applications)
   - [Possible Solutions](#possible-solutions)
-- [Requirements and Analysis](#requirements-and-analysis)
+- [Analysis and Requirements](#analysis-and-requirements)
   - [Methodology](#methodology)
   - [Hardware and Software Stack](#hardware-and-software-stack)
 - [Implementation](#implementation)
@@ -103,21 +103,30 @@ Throughout this report, I will be discussing the motivation behind the project, 
 
 #### Objectives
 
-Whilst there are many objectives within this project, it is important to clarify the main objectives as opposed to the less important objectives. Using MoSCoW prioritisation and we are able to understand that the 'Must Have' objectives are as follows:
+Whilst there are many objectives within this project, it is important to clarify the main objectives as opposed to the less important objectives. Using MoSCoW prioritisation and we are able to understand that the application has different levels of requirements. While these may all be possible developments for the application, they are not all required for my protoype project. The outlined objectives following the MoSCoW prioritisation are as follows:
 
-- The application must demonstrate which key I am pressing and what note that is to begin with.
-- The application must allow me to clearly follow which note I need to press and when.
-- The application must clearly define if I’ve pressed the correct key or not.
-- The application must be a plug in and play application, and not require me to install multiple drivers to run.
-- The application must develop my understanding by progressing to a harder difficulty.
-- The application must adjust its difficulty based on my current ability.
-- The application must produce a visual representation expressing my learning progression.
+'Must Have':
 
-'Should Have' objectives are as follows:
+- The application must demonstrate which key I am pressing on both the staff and visual keyboard
+- The application must be a plug in and play application, and not require me to install multiple drivers to run
+- The application must develop my understanding by progressing to a harder difficulty
+- The application must adjust its difficulty based on my current ability
+- The application must produce a visual representation expressing my learning progression
 
-'Could Have' objectives are as follows:
+'Should Have':
 
-'Won't Have' objectives are as follows:
+- The application should clearly define if I’ve pressed the correct key or not
+- The application should allow me to clearly follow when I need to press a note
+
+'Could Have':
+
+- The application could tell me which note is required to be pressed by name
+- The application could tell me which note I have pressed by name
+- The application could signify whether I have pressed the correct note at the correct time or not
+
+'Won't Have':
+
+- The application won’t allow me to pick and choose my own songs
 
 #### Literature Review
 
@@ -226,7 +235,7 @@ The most similar application to what I propose is ‘Synthesia’. An educationa
 
 #### Possible Solutions
 
-### Requirements and Analysis
+### Analysis and Requirements
 
 #### Methodology
 
@@ -238,8 +247,7 @@ The most similar application to what I propose is ‘Synthesia’. An educationa
 
 Milestones will be divided into 2 weekly sprints and tasks will be assigned weights. Sprints will be based on the weights to determine how many tasks are to be completed each sprint.
 
-Each milestone will show logical steps in its production process whilst also giving clear deadlines for each sprint. It will be created using JavaScript, HTML5, CSS, Express and MongoDB.
-
+Each milestone will show logical steps in its production process whilst also giving clear deadlines for each sprint. It will be created using gulp.js to automate testing when writing in JavaScript, HTML5, CSS to ensure the continuous test driven development,gulp.js will ensure scripts are concise and there are no duplicate variables. It will also use Express and MongoDB to create the client and server relationship, enabling a larger project.
 
 #### Hardware and Software Stack
 
@@ -323,27 +331,27 @@ The flow of the application is controlled by the user input as all actions for t
 
 ##### Milestone 1 - Implementation
 
-To start off this application I first needed to create a basic HTML page with a canvas element. From here testing had to be implemented in the Script.js file in which the index page will output to its console if a MIDI device has been connected. If a device is connected then the MIDI device details will be displayed in the browser console.
+To start off this application I first needed to be able to access the MIDI device and ensure its connection is successful. The browser will firstly ask if the connection is allowed, if the user clicks 'Allow', then the MIDI device is connected and its device details will be portayed in the console. If the user selects 'Block', an error message will be displayed.
 
 ```JavaScript
-  // When the Midi device is first connected it will ask for permission to use MIDI device
-  // and then display device features if successful
-  if(navigator.requestMIDIAccess){
-      navigator.requestMIDIAccess({sysex: false}).then(success, failure)
-  }
-  function success(midiAccess){
-      midiAccess.addEventListener('statechange',updateDevices)
-      const inputs = midiAccess.inputs;
-      inputs.forEach((input) => {
-          input.addEventListener('midimessage', handleInput)
-      })
-  }
-  function failure(){
-      console.log('Could not connect MIDI')
-  }
-  function updateDevices(event){
-      console.log(`Name: ${event.port.name}, Brand: ${event.port.manufacturer}, State:${event.port.state}, Type:${event.port.type}`)
-  }
+// When the Midi device is first connected it will ask for permission to use MIDI device
+// and then display device features if successful
+if(navigator.requestMIDIAccess){
+    navigator.requestMIDIAccess({sysex: true}).then(success, failure); //sysex asks the browser for permission to use the midi device
+}
+function success(midiAccess){
+    midiAccess.addEventListener('statechange',updateDevices);
+    const inputs = midiAccess.inputs;
+    inputs.forEach((input) => {
+        input.addEventListener('midimessage', handleInput);
+    });
+}
+function failure(){
+    console.log('Could not connect MIDI');
+}
+function updateDevices(event){
+    console.log(`Name: ${event.port.name}, Brand: ${event.port.manufacturer}, State:${event.port.state}, Type:${event.port.type}`);
+}
 ```
 
 > **Figure 10: Verification of MIDI Device Connected**
@@ -361,12 +369,12 @@ From there ensuring the canvas is reactive to the users screen size, on both loa
   window.onload = function(){
       keyboardStats();
       drawKeyboard();
-  }
+  };
 
   window.onresize = function(){
       keyboardStats();
       drawKeyboard();
-  }
+  };
 ```
 
 The next stage was to create a staff and display the note pressed on the staff. This was difficult at first due to the numbers given to the note pressed by the MIDI device are programmed in a increasing order from left to right whereas the canvas element to draw the note is programmed in a decreasing order due to the canvas element height. This meant I had to create a function to convert the MIDI note number to a canvas height element.
@@ -376,29 +384,29 @@ The next stage was to create a staff and display the note pressed on the staff. 
   function staffNoteHit(staffNumber,notePressed,octave){
       if(majorKeyPos.includes(notePressed)){
           if(octave === 1){
-              octaveWeight = (staffNumber*0.5+4)
+              octaveWeight = (staffNumber*0.5+4);
           }else if(octave === 0){
-              octaveWeight = (staffNumber*0.5+4)+3.5
+              octaveWeight = (staffNumber*0.5+4)+3.5;
           }else if(octave === 2){
-              octaveWeight = (staffNumber*0.5+4)-3.5
+              octaveWeight = (staffNumber*0.5+4)-3.5;
           }
-          ctx.beginPath()
-          ctx.fillStyle="red"
-          ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
-          ctx.fill()
+          ctx.beginPath();
+          ctx.fillStyle="red";
+          ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI);
+          ctx.fill();
       }
       else if(sharpKeyPos.includes(notePressed)){
           if(octave === 1){
-              octaveWeight = (staffNumber*0.5+4)
+              octaveWeight = (staffNumber*0.5+4);
           }else if(octave === 0){
-              octaveWeight = (staffNumber*0.5+4)+3.5
+              octaveWeight = (staffNumber*0.5+4)+3.5;
           }else if(octave === 2){
-              octaveWeight = (staffNumber*0.5+4)-3.5
+              octaveWeight = (staffNumber*0.5+4)-3.5;
           }
-          ctx.beginPath()
-          ctx.fillStyle="blue"
-          ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI)
-          ctx.fill()
+          ctx.beginPath();
+          ctx.fillStyle="blue";
+          ctx.arc(hitNoteLine, octaveWeight*staffSpacing , staffSpacing*0.4, 0, 2 * Math.PI);
+          ctx.fill();
       }
   }
 ```
@@ -421,60 +429,60 @@ Multiple sharp notes being held is displayed in Figure 13.
 >
 > ![Multiple Sharp Keys](/images/milestone1.4.png)
 
-After that, a keyboard produces sound so that was the logical next step. This was done by firstly creating an oscillator that produces a tone when any key is pressed and stopping the sound once the note is removed. After that calculating a frequency based on the note number to attain specific note tones (Music and Coding, 2022). This was done by the following script:
+After that, a keyboard produces sound so that was the logical next step. This was done by firstly creating an oscillator that uses a digital synthesizer to produce a tone when any key is pressed and stopping the sound once the note is removed. After that calculating a frequency based on the note number to attain specific note tones (Music and Coding, 2022). This was done by the following script:
 
 ```JavaScript
-  window.AudioContext = window.AudioContext || window.webkitAudioContext
-  let soundCTX
+  window.AudioContext = window.AudioContext || window.webkitAudioContext;
+  let soundCTX;
 
-  const startButton = document.querySelector('button')
-  const oscillators = {}
+  const startButton = document.querySelector('button');
+  const oscillators = {};
 
   startButton.addEventListener('click', () => {
-      soundCTX = new AudioContext()
-      startButton.style.display = 'none'
-  })
+      soundCTX = new AudioContext();
+      startButton.style.display = 'none';
+  });
   function midiToFreq(number){
       const a = 440; //Hz
-      return (a/32) * (2 ** ((number - 9) / 12))
+      return (a/32) * (2 ** ((number - 9) / 12));
   }
 
   function noteOn(note, velocity){
-      const osc = soundCTX.createOscillator()
+      const osc = soundCTX.createOscillator();
 
-      const oscGain = soundCTX.createGain()
-      oscGain.gain.value = 0.33
+      const oscGain = soundCTX.createGain();
+      oscGain.gain.value = 0.33;
 
-      const velocityGainAmount = (1/127) * velocity
-      const velocityGain = soundCTX.createGain()
-      velocityGain.gain.value = velocityGainAmount
+      const velocityGainAmount = (1/127) * velocity;
+      const velocityGain = soundCTX.createGain();
+      velocityGain.gain.value = velocityGainAmount;
 
-      osc.type = 'sine' //sine, square, triangle, sawtooth
-      osc.frequency.value = midiToFreq(note)
+      osc.type = 'sine'; //sine, square, triangle, sawtooth
+      osc.frequency.value = midiToFreq(note);
 
-      osc.connect(oscGain)
-      oscGain.connect(velocityGain)
-      velocityGain.connect(soundCTX.destination) // Connect the oscillator to speaker output
+      osc.connect(oscGain);
+      oscGain.connect(velocityGain);
+      velocityGain.connect(soundCTX.destination); // Connect the oscillator to speaker output
 
-      osc.gain = oscGain
+      osc.gain = oscGain;
 
-      oscillators[note.toString()] = osc
-      osc.start()
+      oscillators[note.toString()] = osc;
+      osc.start();
   }
 
   function noteOff(note){
-      const osc = oscillators[note.toString()]
-      const oscGain = osc.gain
+      const osc = oscillators[note.toString()];
+      const oscGain = osc.gain;
 
       // This stops the clicking sound when releasing the note due to the sine wave
-      oscGain.gain.setValueAtTime(oscGain.gain.value, soundCTX.currentTime)
-      oscGain.gain.exponentialRampToValueAtTime(0.0001,soundCTX.currentTime + 0.03)
+      oscGain.gain.setValueAtTime(oscGain.gain.value, soundCTX.currentTime);
+      oscGain.gain.exponentialRampToValueAtTime(0.0001,soundCTX.currentTime + 0.03);
       setTimeout(() => {
-          osc.stop()
-          osc.disconnect()
-      }, 20)
+          osc.stop();
+          osc.disconnect();
+      }, 20);
 
-      delete oscillators[note.toString()]
+      delete oscillators[note.toString()];
   }
 ```
 
@@ -507,6 +515,7 @@ Following the previous bug, when multiple sharp keys are pressed the last 1 pres
 The initial bug took much longer to fix than anticipated and was eventually fixed by creating a new array to store sharp notes along with numerous 'if' statements to check if the note is a major or sharp, as well as if any notes are in the 'heldNoteList' array.
 
 [View Fix Here](https://github.com/KieranBest/Individual-Project/blob/d1e0c7baa5195c09c53deece297949a013ec3b5e/script.js#L95)
+
 [View Fix Here](https://github.com/KieranBest/Individual-Project/blob/d1e0c7baa5195c09c53deece297949a013ec3b5e/script.js#L288)
 
 ###### 15th December 2022
@@ -633,10 +642,10 @@ We can see that the score required to progress to the next level is different du
 To understand how the application works it is important to understand the variables within this 'DynamicDifficulty' class, the speed is adjustable for all levels, however I decided to keep it at 1 due to increasing the speed in which notes move across the screen can add even more difficulty which I felt was unnecessary at the time. The 'hitScreenPercentage' is the percentage of the screen that the user is able to press the note and it be considered correct. This is worked out by 2 invisible lines either side of the 'hitMarker' called the 'lowerBoundary' and 'upperBoundary'. If the note required ('this.x') reaches between these boundaries then the note is considered correct.
 
 ```JavaScript
-  lowerBoundary = hitMarker-((window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)/2)
-  upperBoundary = hitMarker+((window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)/2)
+  lowerBoundary = hitMarker-((window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)/2);
+  upperBoundary = hitMarker+((window.innerWidth*DynamicDifficulty[difficultyLevel].hitScreenPercentage)/2);
 
-  if(this.x > lowerBoundary && this.x < upperBoundary)
+  if(this.x > lowerBoundary && this.x < upperBoundary);
 ```
 
 'recurringNotes' only changes when progressing from level 1 to 2, and 14 to 15. This is due to the same reason as changing the speed, in order to ensure that the application is applicable to a wide range of audiences, it is important to not drastically change the difficulty every time the level changes. 'numberOfNotes' is the number of notes that are required at any 1 moment, this is the difference between a single note, or a chord which are only implemented in levels 6, 7, 13 and 14. These chord requirements use the same system as accessing the difficulty, a chord class that contains all chords and their note details (School of Rock, 2023). This can be found [here](https://github.com/KieranBest/Individual-Project/blob/3d1d01a6edbadef9c1179c8599a80aac79286f39/Chords.js#L1).
@@ -661,41 +670,41 @@ Levels 2 and 4 contain a boolean key named 'down' that depicts whether the flow 
 
 ```JavaScript
   case 2: // roll up and down 7 notes to teach moving fingers correctly
-    this.y = staffSpacing * cycleNotes
-    this.major = true
+    this.y = staffSpacing * cycleNotes;
+    this.major = true;
     if(DynamicDifficulty[2].down == true){ // Scrolls up and down through the octave
-      cycleNotes=cycleNotes+0.5
+      cycleNotes=cycleNotes+0.5;
       if(cycleNotes>3.5){
-        DynamicDifficulty[2].down = false
+        DynamicDifficulty[2].down = false;
         }
       }
       else if (DynamicDifficulty[2].down == false){
-        cycleNotes=cycleNotes-0.5
+        cycleNotes=cycleNotes-0.5;
           if(cycleNotes<1.5){
-            DynamicDifficulty[2].down = true
+            DynamicDifficulty[2].down = true;
           }
         }
-      this.image = noteImage
-      break
+      this.image = noteImage;
+      break;
 ```
 
 The only difference between levels 2 and 4 is that in level 4, sharp notes have been introduced and therefore the rolling implementation has been adapted to include an 'if' statement to determine whether the note contains a '#' in the name. In level 5, 'sharpChance' is introduced, this is a float value that determines the chance of a sharp note appearing. This is implemented by whether a random number generator is more than the 'sharpChance' value, if it is then the note is a major and the image produced for that note is represented as as. If it is less than 'sharpChance' then the note is a sharp and the image produced is represented as so.
 
 ```JavaScript
-  let trebleSharpValue
+  let trebleSharpValue;
   if(Math.random()>DynamicDifficulty[5].sharpChance){
-    this.image = noteImage
-    this.major = true
-    this.y = trebleValues[Math.floor(Math.random() * 7)+1] * staffSpacing
+    this.image = noteImage;
+    this.major = true;
+    this.y = trebleValues[Math.floor(Math.random() * 7)+1] * staffSpacing;
   }
   else{
-    this.image = sharpImage
-    this.major = false
-    trebleSharpValue = Math.floor(Math.random() * 7)+1
+    this.image = sharpImage;
+    this.major = false;
+    trebleSharpValue = Math.floor(Math.random() * 7)+1;
     if(trebleSharpValue == 2 || trebleSharpValue == 3.5){
-      trebleSharpValue ++
+      trebleSharpValue ++;
     }
-    this.y = trebleValues[trebleSharpValue] * staffSpacing
+    this.y = trebleValues[trebleSharpValue] * staffSpacing;
   }
 ```
 
@@ -728,7 +737,7 @@ After that, creating a system to capture data was the next task, capturing user 
     deductionReason: deductionReason,
     deductionCode: deductionCode,
     withinExtraBoundary: this.bonusScore
-  }
+  };
 ```
 
 Then every time the user level increased or decreased, the details of that level along with every note collection would be stored such as:
@@ -743,7 +752,7 @@ Then every time the user level increased or decreased, the details of that level
     requiredScoreToRegress: DynamicDifficulty[difficultyLevel].requiredScoreToRegress,
     numberofNotesinLevel: numberOfNotesInLevel,
     userNoteProgression: userNoteProgression
-  }
+  };
 ```
 
 The final task for milestone 2 was to be able to play a simple song that uses both hands, to enable the user to bring together everything they have learnt and combine both hands to play. The idea of this stage of the application is to again start simple and not overload the user, therefore the song 'Happy Birthday' was chosen due to it only user single notes on both treble and bass. The future development of this project would see the addition of more complex songs that use chords.
@@ -788,6 +797,12 @@ In Figure 18, we can see overall statistics of how many times the user:
 - Pressed the wrong amount of notes
 - Pressed the note either too early or too late
 - Missed the note
+
+> **Figure 19: Note Traits Over Time**
+>
+> ![Note Traits Over Time](/images/milestone3.3.png)
+
+In Figure 19, you are able to see the same data as Figure 18, however it is displayed over every period of time spent using the application as opposed to overall.
 
 In the 3rd and final milestone, it was decided after stakeholder feedback that not only the user being able to identify key areas of improvement using visual aid, but also for a teacher to be able to view all students progress and data visually. This would allow the teacher to identify key areas of improvement for each student. This would be done by creating a teacher login and a student login, the teacher would be able to view all students progress and the student would be able to view their own individual progress. Among other feedback, it was also explained that it may be more beneficial to measure some statistics against how much time the user has used the application, rather than the number of notes they have played. This would allow for a more accurate representation of the user's progress as my stakeholder explained, the more time you spend learning piano, the better you will become. It was also suggested to create features such as:
 
@@ -884,7 +899,7 @@ This can be adapted into putting into a MongoDB, the database itself will be cal
 
 ```mermaid
 gantt
-    title Figure 19: A Gantt Diagram
+    title Figure 20: A Gantt Diagram
     dateFormat  YYYY-MM-DD
 
     section Milestone 3
@@ -1002,13 +1017,15 @@ By the end of the 2nd milestone I had created an application that was able to ad
 
 #### Business Evaluation
 
-If this project was to be developed further and completed the necessary requirements and perhaps my suggested requirements then I feel this could become a marketable product similar to that of 'Synthesia' or 'P.I.A.N.O.'. However this product I feel would be better suited to school's for teaching music, it could be developed further to suit that demographic with features that would make the product more inclusive and better suited to a classroom environment. The age range this product could be suited to, could be deterministic and be developed further to suit different age ranges. A younger version perhaps for children ranged 4-11 could be filled with animated characters and bright colours, whereas a product suited for young adults ranged 12-18 could be much more simplistic in its design but still hold many of the same features outlined [below](#further-work).
+If this project was to be developed further and completed the necessary requirements and perhaps my suggested requirements then I feel this could become a marketable product similar to that of 'Synthesia' or 'P.I.A.N.O.'. However this product I feel would be better suited to school's for teaching music, it could be developed further to suit that demographic with features that would make the product more inclusive and better suited to a classroom environment. The age range this product could be suited to, could be deterministic and be developed further to suit different age ranges. A younger version perhaps for children ranged 4-11 could be filled with animated characters and bright colours, whereas a product suited for young adults ranged 12-18 could be much more simplistic in its visual design but still hold many of the same features outlined [below](#further-work).
 
 #### Technical Evaluation
 
-This project used a variety of technologies, all of which I deem appropriate for this project. The bulk of the project is written in JavaScript due to the nature of the project being dependant on MIDI input, which is enabled on particular browsers making it accessible for users that may not be technologically minded, therefore making it a web application seemed like the most logical step. Within the project are certain libraries and functions such as oscillators, "requestAnimationFrame()" and 'chart.js'. An oscillator is the way sound is produced based on the value given for the frequency which is generated upon a note pressed. While this is perfectly fine for a prototype, if the project was to be developed further and marketed as a business idea, this would need to be adapted so that the sound produced is a actual piano key sound as opposed to a generated sound based on frequency. "requestAnimationFrame()" is the animation within the staff, this function is called repeatedly in order to make the required notes move across the staff in a smooth manner. To use this, I created a class that contains how each moving note will function, whether it be a single note, or a chord. Each class works independently and this then does affect different screen resolutions. To develop this further, this would need to be altered to enable the animation to work correctly off time stamps and use states to understand what is to individual notes/chords and to easily adapt what is happening between frames. 'chart.js' is a library that is used to create the visual representation of users progression. It is an excellent tool that can be used to create a variety of visual representations of data. Even though I did not get to implement the extra changes that my stakeholder required, I feel it is an excellent library to use for the purposes required.
+This project used a variety of technologies, all of which I deem appropriate for this project. The bulk of the project is written in JavaScript due to the nature of the project being dependant on MIDI input, which is enabled on particular browsers making it accessible for users that may not be technologically minded, therefore making it a web application seemed like the most logical step. Within the project are certain libraries and functions such as oscillators, "requestAnimationFrame()" and 'chart.js'. An oscillator is the way sound is produced based on the value given for the frequency which is generated upon a note pressed. While this is perfectly fine for a prototype, if the project was to be developed further and marketed as a business idea, this would need to be adapted so that the sound produced is an actual piano key sound as opposed to a generated sound based on frequency. "requestAnimationFrame()" is the animation within the staff, this function is called repeatedly in order to make the required notes move across the staff in a smooth manner. To use this, I created a class that contains how each moving note will function, whether it be a single note, or a chord. Each class works independently and this then does affect different screen resolutions. To develop this further, this would need to be altered to enable the animation to work correctly off time stamps and use states to understand what is to individual notes/chords and to easily adapt what is happening between frames. 'chart.js' is a library that is used to create the visual representation of users progression. It is an excellent tool that can be used to create a variety of visual representations of data. Even though I did not get to implement the extra changes that my stakeholder required, I feel it is an excellent library to use for the purposes required.
 
 #### Process Evaluation
+
+The process used to create this project was the agile methodology, and while this was the correct method to use because of the consistent level of feedback, my organisation with it perhaps could've been improved. Whilst I have mentioned before that had I structured this project better in terms of content management it would have run smoother, but I also think more demonstrations to the stakeholder would've been very beneficial. Whilst having them at the end of the milestone did have its advantages, having them perhaps 1 or 2 times within the milestone could've proven a great benefit. This could have led me to not spend so much time creating levels and focus on more relevant features for a protoype application.
 
 #### Further Work
 
@@ -1055,9 +1072,11 @@ As are there many features I would've liked to have implemented to make this a m
 
 #### Final Evaluation
 
-The 3rd milestone I feel let down the whole project and whilst I feel a great achievement for what I have achieved, how I planned this project, and how I executed it with strict time management during the 1st and 2nd milestone. I feel I did not succeed in this project due to the final milestone. I did not achieve anywhere near what I wanted to in this milestone, I knew I was not going to get it all done because of the vast amount of features I had tasked myself to implement, but I did not come anywhere close.
+Whilst I feel a great achievement for what I have achieved, how I planned this project, and how I executed it with strict time management during the 1st and 2nd milestone. I feel I did not succeed in this project due to the final milestone. I did not achieve anywhere near what I wanted to in this milestone, I knew I was not going to get it all done because of the vast amount of features I had tasked myself to implement, and the lack of time to do so. This can be seen in [Figure 19](#milestone-3---time-management) where all objectives can be seen finishing 26th May, however the required finish time for this project was the 14th April. That is 6 weeks less than the time needed to complete this milestone, and that's not accounting for any challenges and delays that may have occurred.
 
 If I were to do this project again, there are a multitude of changes I would make, firstly structuring the project better and understanding fully the requirements of the project. I would put milestone 3 as milestone 1, working on the server/client connection first, implement the connection to a mongo database, and ensure the http requsts work effectively. Being able to 'POST' and 'GET' data to and from the database is a large part of this project and should've been treated as the most important. From there creating the application in the order I did but putting less time into the levelling system. This only needed to be a basic representation with more a maximum of 4 levels to be able to demonstrate the reponsiveness of the levelling system along with visual representation of the users progress.
+
+Restructuring the project, increasing the number of stakeholder demonstrations and feedback, and shortening the levelling system would have enabled me more time to implement many more features and allowed this project to have produced the MVP product that would prove that this application is a viable product and could fulfill its purpose of successfully teaching users how to play piano and read sheet music whilst simultaneously showing users how they can improve their skills.
 
 ### References
 

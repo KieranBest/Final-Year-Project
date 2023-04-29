@@ -60,7 +60,7 @@ const trebleChords = {
         2: [4, "sharp"],
         3: [2.5, "major"]
     }
-}
+};
 const bassChords = {
     1:{ // a Major  (A) A - C# - E
         1: [7.5, "major"],
@@ -122,4 +122,4 @@ const bassChords = {
         2: [7.5, "sharp"],
         3: [6, "major"]
     }
-}
+};

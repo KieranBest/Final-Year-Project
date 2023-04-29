@@ -1,5 +1,5 @@
-let difficultyLevel = 1
-let bassGenerator = 0
+let difficultyLevel = 1;
+let bassGenerator = 0;
 const DynamicDifficulty = {
     // Treble cleff
     1:{ // random 4 notes
@@ -133,4 +133,4 @@ const DynamicDifficulty = {
         requiredScoreToProgress: 20,
         requiredScoreToRegress: -2000
     }
-}
+};
