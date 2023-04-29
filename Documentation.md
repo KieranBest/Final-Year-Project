@@ -14,7 +14,7 @@ This project is aimed at creating a responsive educational tool to teach users h
 
 ### Acknowledgements
 
-I would like to give thanks to my supervisor, Allan Callaghan, for all his amazing support, guidance and patience throughout this project. And also to my stakeholder, Emily Sayers, for her putting her time and knowledge into helping me with her invaluable ideas and experience.
+I would like to give thanks to my supervisor, Allan Callaghan, for all his amazing support, guidance and patience throughout this project. Also to my stakeholder, Emily Sayers, for putting her time and knowledge into helping me with her invaluable feedback,ideas and experience in both teaching and playing piano.
 
 ### Table Of Contents
 
@@ -99,6 +99,8 @@ Throughout this report, I will be discussing the motivation behind the project, 
 
 ### Problem Analysis
 
+The idea from this project came from wanting to learn piano, but no resources exist in which you are naturally monitored in how you play. There is no existing solution that will adapt to your individual skill level and provide feedback on how you can improve. This means that users are just blindly following tutorials, and not understanding the content they are being taught.
+
 #### Objectives
 
 Whilst there are many objectives within this project, it is important to clarify the main objectives as opposed to the less important objectives. Using MoSCoW prioritisation and we are able to understand that the application has different levels of requirements. While these may all be possible developments for the application, they are not all required for my protoype project. The outlined objectives following the MoSCoW prioritisation are as follows:
@@ -123,6 +125,7 @@ Whilst there are many objectives within this project, it is important to clarify
 - The application could signify whether I have pressed the correct note at the correct time or not
 - The application could have challenges to complete
 - The application could have awards for completing certain tasks
+- The application could have tests to ensure understanding of the material at certain stages of the users development
 
 'Won't Have':
 
@@ -183,7 +186,7 @@ As you can see from Figure 3, a linear increase in difficult results in a gradua
 
 ##### Importance of Sheet Music
 
-Sight reading is the ability to read and play a piece of music unrehearsed, it is the performers ability to process "complex visual input (the score)" with minimal error (Kopiez and Lee, 2008). Having the ability to sight read sheet music can increase your skill as a musician in so many ways and "plays an important role in music education"(Chiu and Chen, 2012). Sight reading can
+Sight reading is the ability to read and play a piece of music unrehearsed, it is the performers ability to process "complex visual input (the score)" with minimal error (Kopiez and Lee, 2008). Having the ability to sight read sheet music can increase your skill as a musician in so many ways and "plays an important role in music education"(Chiu and Chen, 2012).
 
 Not only is sight reading beneficial to you in terms of your musical ability but it can also be beneficial to all aspects of our lives. Musacchia and Khalil (2020) explain that musical training can give a multisensory workout and can help improve many things such as:
 
@@ -194,9 +197,16 @@ Not only is sight reading beneficial to you in terms of your musical ability but
 - Sight
 - Social Awareness
 
-Just like muscles, exercising your brain can cause it to become stronger, and the process of exercising your brain through activity is called neuro plasticity (Musacchia and Khalil, 2020). Neuro plasticity is where the brain becomes stronger in certain aspects of function. It has been proven that expert musicians have stronger than average brain power in auditory, visual and motor areas of the brain (Musacchia and Khalil, 2020).
+Just like muscles, exercising your brain can cause it to become stronger, and the process of exercising your brain through activity is called neuro plasticity (Musacchia and Khalil, 2020). Neuro plasticity is where the brain becomes stronger in certain aspects of function. It has been proven that expert musicians have stronger than average brain power in auditory, visual and motor areas of the brain (Musacchia and Khalil, 2020). Due to this neuro plasticity, it has also been linked in with allowing the brain to be more resilient to learning of new languages. Swaminathan & Gopinath (2013) express that there is a link between music and languages and that they share processing resources; their study shows that students are musically literate have a higher ability to learn new languages than those musically illiterate.
 
-Whilst playing an instrument is not only hugely beneficial for your brain in terms of cognitive function, it can also be beneficial for your mental well being..................
+Whilst playing an instrument is not only hugely beneficial for your brain in terms of cognitive function, it can also be beneficial for your mental well being, Papinczak et al. (2015) expresses that it is highly common for young people between the ages of 15-25 to seek out music as a way to "achieve wellbeing". Papinczak et al. (2015) evaluates that seeking out music for wellbeing leads to many positive results such as:
+
+- Facilitation of relationships with family and friends
+- Immersing in emotions
+- Changing emotions
+- Modifying cognitions
+
+The sample of people Papinczak et al. (2015) used in their study "strongly believe that music played an integral role in their daily lives and was an important aspect of their wellbeing".
 
 ##### Similar Applications
 
@@ -236,7 +246,7 @@ The most similar application to what I propose is ‘Synthesia’. An educationa
 
 #### Goals
 
-The goals of this project are to create a prototype application that will teach users how to play piano as well as learn how to read sheet music. It will adapt to the users ability and adjust its level of difficulty based on the users performance. It will also produce a visual representation of the users progression since they have started using the application. From this the user will be able to identify key areas of improvement and will be able to see their progression.
+The goal of this project is to create a prototype application that will teach users how to play piano as well as learn how to read sheet music. It will adapt to the users ability and adjust its level of difficulty based on the users performance. It will also produce a visual representation of the users progression since they have started using the application. From this the user will be able to identify key areas of improvement and will be able to see their progression.
 
 As this is a primarily stakeholder driven project, objectives during the development process will be dictated by the stakeholder to ensure that the project is usable for its intended purpose and is fulfilling in its requirements. The stakeholder will be involved throughout the project and will provide feedback and guidance as to its development.
 
@@ -1035,7 +1045,7 @@ Breaking down these objectives, organising them in order of most importance and 
 
 ##### Database Design
 
-So far when we are saving data for an individual user we are currently storing it as a JSON document locally, it is currently stored in the following format (this depicts the first note from the first level):
+So far when we are saving data for an individual user we are currently storing it as a JSON document in the browers local storage, it is currently stored in the following format (this depicts the first note from the first level):
 
 ```JSON
 {
@@ -1308,6 +1318,8 @@ Musacchia, G. and Khalil, A. (2020) Music and Learning: Does music make you smar
 
 Music and Coding (2022) [JavaScript MIDI Synth Tutorial - Part 2 | Playing notes using an oscillator](https://www.youtube.com/watch?v=dV6V2Ptx_CY) ( Accessed: 30/11/2022)
 
+Papinczak, Z.E., Dingle, G.A., Stoyanov, S.R., Hides, L. and Zelenko, O. (2015) Young people's uses of music for well-being. Journal of Youth Studies, 18(9), pp.1119-1134.
+
 Postman (2023) [Overview](https://learning.postman.com/docs/introduction/overview/) (Accessed: 6/4/2023)
 
 Programming with Mosh (2023) [React Tutorial for Beginners](https://www.youtube.com/watch?v=SqcY0GlETPk) (Accessed: 31/3/2023)
@@ -1323,6 +1335,8 @@ School of Rock (2023) [Piano Chords For Beginners](https://www.schoolofrock.com/
 Skinner, B. (2012) The science of learning and the art of teaching. Reading in Educational Psychology, 66, pp. 301.
 
 StackOverFlow (2021) [getting unauthorized 401 error in mern application](https://stackoverflow.com/questions/70045203/getting-unauthorized-401-error-in-mern-application) (Accessed: 1/4/2023)
+
+Swaminathan, S. and Gopinath, J.K. (2013) Music training and second-language English comprehension and vocabulary skills in Indian children. Psychological Studies, 58, pp.164-170.
 
 Synthesia (2022) [Synthesia Game](https://synthesiagame.com/) (Accessed: 18/11/2022)
 
