@@ -48,3 +48,5 @@ gulp.task("watch", function() {
   });
 
 gulp.task('default', gulp.series('html', 'css', 'js'));
+
+// When initiated creates the build folder and copies the files from the src folder to the build folder

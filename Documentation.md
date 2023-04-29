@@ -247,7 +247,7 @@ The most similar application to what I propose is ‘Synthesia’. An educationa
 
 Milestones will be divided into 2 weekly sprints and tasks will be assigned weights. Sprints will be based on the weights to determine how many tasks are to be completed each sprint.
 
-Each milestone will show logical steps in its production process whilst also giving clear deadlines for each sprint. It will be created using gulp.js to automate testing when writing in JavaScript, HTML5, CSS to ensure the continuous test driven development,gulp.js will ensure scripts are concise and there are no duplicate variables. It will also use Express and MongoDB to create the client and server relationship, enabling a larger project.
+Each milestone will show logical steps in its production process whilst also giving clear deadlines for each sprint. It will be created using gulp.js to automate testing when writing in JavaScript, HTML5, CSS to ensure the continuous test driven development,gulp.js will ensure scripts are concise and there are no duplicate variables. It will use Jest.js for unit testing to ensure all functions and aspects of the JS scripts work effectively. It will also use Express and MongoDB to create the client and server relationship, enabling a larger project.
 
 #### Hardware and Software Stack
 
@@ -331,6 +331,8 @@ The flow of the application is controlled by the user input as all actions for t
 
 ##### Milestone 1 - Implementation
 
+To create this project automated testing needed to be implemented to help keep my scripts concise and ensure I conform to standard coding practices. I used gulp.js to do this by testing my JavaScript, HTML5 and CSS scripts. To do this I needed to install the packages required and simply enter 'gulp' into the terminal that is in the same directory as my HTML, CSS, and JavaScript files.
+
 To start off this application I first needed to be able to access the MIDI device and ensure its connection is successful. The browser will firstly ask if the connection is allowed, if the user clicks 'Allow', then the MIDI device is connected and its device details will be portayed in the console. If the user selects 'Block', an error message will be displayed.
 
 ```JavaScript
@@ -358,7 +360,7 @@ function updateDevices(event){
 >
 > ![Verification of MIDI Device Connected](/images/milestone1.1.png)
 
-From here basic input from the MIDI device needed to be registered and enable it to manipulate the canvas element. From here understanding which note had been pressed and display this on a graphical keyboard on the screen. Developing this until the user could press multiple keys and the notes would be displayed on a keyboard.
+From here basic input from the MIDI device needed to be registered and enable it to manipulate the canvas element. To ensure this works to its best capacity, I have used Jest to test functions that make the visual keyboard adapt to the users input. After installing the packages required, to use Jest.js, type 'npm test' into the terminal once in located in the 'testing' directory. After that understanding which note had been pressed and displayed on the graphical keyboard on the screen was straight forward. Developing this until the user could press multiple keys and the notes would be displayed on a keyboard.
 
 [View Completion of Visual Keyboard](https://github.com/KieranBest/Individual-Project/blob/d62134388a64e79a09bd9583056b95e7f6155fc0/script.js#L127)
 
@@ -1026,6 +1028,8 @@ This project used a variety of technologies, all of which I deem appropriate for
 #### Process Evaluation
 
 The process used to create this project was the agile methodology, and while this was the correct method to use because of the consistent level of feedback, my organisation with it perhaps could've been improved. Whilst I have mentioned before that had I structured this project better in terms of content management it would have run smoother, but I also think more demonstrations to the stakeholder would've been very beneficial. Whilst having them at the end of the milestone did have its advantages, having them perhaps 1 or 2 times within the milestone could've proven a great benefit. This could have led me to not spend so much time creating levels and focus on more relevant features for a protoype application.
+
+A big difficulty throughout this project is remembering all the named variables, because I made so many functions and so many variables that are very similar in what they store, it became very easy to become confused with what each variables purpose was. For example, there are multiple variables all for controlling the storage of currently held notes for the purpose of highlighting multiple notes on the visual keyboard and staff. Both the keyboard and staff have an array, and the staff has a overly complex design for removing these notes from the array. This has become extremely problematic because I only noticed this at a later date and by then, trying to understand what I did is extremely difficult. Therefore this is something that I definitely need to improve on in the future and will be a key area for improvement on my next project. Organising my project on an internal level will be key for larger projects in the future.
 
 #### Further Work
 

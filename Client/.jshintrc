@@ -1,3 +1,5 @@
+// Determines whiuch version of ECMAScript to use
+// https://stackoverflow.com/questions/27441803/why-does-jshint-throw-a-warning-if-i-am-using-const
 {
     "esversion": 8
 }
