@@ -383,6 +383,7 @@ class animatingNotes{
                         this.y = staffSpacing * noteGenerator(trebleValues,DynamicDifficulty[difficultyLevel].trebleGeneratorSize);
                         this.image = noteImage;
                         this.major = true;
+                        cycleNotes = 1;
                         break;
                     case 4: // roll up and down including sharps somehow
                         this.y = staffSpacing * cycleNotes;
@@ -446,6 +447,7 @@ class animatingNotes{
                         }
                         this.y1 = null;
                         this.y2 = null;
+                        cycleNotes = 1;
                         break;
                     case 6: // 3 note chords
                         // y Note
