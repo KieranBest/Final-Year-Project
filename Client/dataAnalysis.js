@@ -8,8 +8,6 @@ window.onload = function(){
   }
   retrieveIndividualNotes(allData);
   retrievePlaytimePeriods(allData);
-
-  console.log(allData);
 };
 
 // Define canvas for graph display with predefined data variables
@@ -55,6 +53,11 @@ const config = {
   type: 'line',
   data,
   options: {
+    elements:{
+      point:{
+        radius: 0
+      }
+    },
     scales: {
       y: {
         beginAtZero: true,

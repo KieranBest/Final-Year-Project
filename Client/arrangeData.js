@@ -53,14 +53,17 @@ function retrieveNoteCodes(individualNotes){
     }
 }
 
+let totalLength = 0;
 let playPeriodNotes = [];
 function retrievePlaytimePeriods(allData){
     for(let storageLength = 0; storageLength < localStorage.length; storageLength++){
+        totalLength = 0;
         if(allData[storageLength] != null){
             playPeriodNotes[storageLength] = {};
             for(let levelNumber = 1; levelNumber <= Object.keys(allData[storageLength]).length; levelNumber++){
                 for(let noteNumber = 1; noteNumber < Object.keys(allData[storageLength][levelNumber].userNoteProgression).length+1; noteNumber++){
-                        playPeriodNotes[storageLength][noteNumber] = allData[storageLength][levelNumber].userNoteProgression[noteNumber];
+                    totalLength ++;
+                    playPeriodNotes[storageLength][totalLength] = allData[storageLength][levelNumber].userNoteProgression[noteNumber];
                 }
             }
         }
@@ -97,3 +100,10 @@ function retrieveNoteCodesFromPeriods(playPeriodNotes){
         playPeriodCodes[numberOfPeriods] = [numOfCorrectHits,numOfWrongHits,numOfWrongNumberHits,numOfOutOfBoundHits,numOfMissedNotes];
     }
 }
+
+console.log("allData")
+console.log(allData)
+console.log("playPeriodNotes")
+console.log(playPeriodNotes)
+console.log("playPeriodCodes")
+console.log(playPeriodCodes)

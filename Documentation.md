@@ -371,7 +371,7 @@ This is demonstrated in the following flow diagram in Figure 9:
 
 ##### Milestone 1 - Implementation
 
-To create this project automated testing needed to be implemented to help keep my scripts concise and ensure I conform to standard coding practices. I used gulp.js to do this by testing my JS, HTML5 and CSS scripts. To do this I needed to install the packages required, run vs code in administrator, and simply enter 'Set-ExecutionPolicy RemoteSigned' before entering'gulp' into the terminal that is in the same directory as my HTML55, CSS, and JS files (mdn Web Docs, 2023). This can be seen as follows:
+To create this project automated testing needed to be implemented to help keep my scripts concise and ensure I conform to standard coding practices. I used gulp.js to do this by testing my JS, HTML5 and CSS scripts. To do this I needed to install the packages required, such as node and gulp, run vs code in administrator, and simply enter 'Set-ExecutionPolicy RemoteSigned' before entering'gulp' into the terminal that is in the same directory as my HTML55, CSS, and JS files (mdn Web Docs, 2023). This can be seen as follows:
 
 ```JavaScript
 const gulp = require('gulp');
@@ -1282,6 +1282,33 @@ In order to create an application that is widely understandble, clear instructio
 - On creation of an account a tutorial is presented automatically
 - A button must be clicked on order to provide a tutorial
 
+When demonstrating the project to my stakeholder, she was extremely impressed with how far this project has come overall. She had numerous helpful points for further development and things she feels should have been implemented such as the following:
+
+- Tell the user when the level changes up or down
+- Teach users how to play with helpful finger hints demonstrating how to navigate around the keyboard
+- Change the colours used for when pressing a key, instead of red for majors and blue for sharps, change it to indicate whether the user has pressed the correct key at the correct time. For example, green for pressing correct and red for incorrect
+- Change the image of notes such as (seen in Figure 27)
+  - Sharp notes used to coincide with enharmonic spellings
+  - Expressing chords using a triad
+- Allow the user to pick and choose the sound created, for example allowing the choice between numerous instruments such as:
+  - Synthesized sounds
+  - Piano sounds
+  - Guitar sounds
+  - Drum sounds
+  - Harmonica sounds
+- Reduce the length of some levels, levels 5 and 6 are too long
+- Add names of chords and single notes above staff that move along in animation (Figure 27)
+- Names of elements used in 'Note Traits Overall' and 'Note Traits Over Time' charts are not explanatory enough. These could be changed as the following:
+  - "Number of Correct Hits" to "Correct Note at Correct Time"
+  - "Number of Wrong Hits" to "Incorrect note at Correct Time"
+  - "Number of Wrong Number Hits" to "Incorrect Number of Notes Played"
+  - "Number of Out of Bound Hits" to "Correct Note at Incorrect Time"
+  - "Number of Missed Notes" to "No Note Played"
+
+**Figure 27: Note Depictions from Stakeholder**
+
+![Note Depictions from Stakeholder](/images/NoteDepictions.jpg)
+
 #### Technical Evaluation
 
 This project used a variety of technologies, all of which I deem appropriate for this project. The bulk of the project is written in JS due to the nature of the project being dependant on MIDI input, which is enabled on particular browsers making it accessible for users that may not be technologically minded, therefore making it a web application seemed like the most logical step.
@@ -1353,37 +1380,35 @@ Restructuring the project, increasing the number of stakeholder demonstrations a
 
 The following images are the final prototype product delivered to the stakeholder:
 
-Opening Page of Application
-
-**Figure 27: Opening Page of Application**
+**Figure 28: Opening Page of Application**
 
 ![Opening Page of Application](/images/final.1.png)
 
-**Figure 28: Blocking MIDI Access**
+**Figure 29: Blocking MIDI Access**
 
 ![Blocking MIDI Access](/images/final.2.png)
 
-**Figure 29: Level 1**
+**Figure 30: Level 1**
 
 ![First Level](/images/final.3.png)
 
-**Figure 30: Level 4**
+**Figure 31: Level 4**
 
 ![Fourth Level](/images/final.4.png)
 
-**Figure 31: Opening of Graph Page**
+**Figure 32: Opening of Graph Page**
 
 ![Opening of Graph Page](/images/final.5.png)
 
-**Figure 32: Actual Vs Expected Hit Times**
+**Figure 33: Actual Vs Expected Hit Times**
 
 ![Actual Vs Expected Hit Times](/images/final.6.png)
 
-**Figure 33: Note Traits Overall**
+**Figure 34: Note Traits Overall**
 
 ![Note Traits Overall](/images/final.7.png)
 
-**Figure 34: Note Traits Over Time**
+**Figure 35: Note Traits Over Time**
 
 ![Note Traits Over Time](/images/final.8.png)
 
