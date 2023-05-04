@@ -1647,3 +1647,28 @@ Meeting with supervisor to discuss creating the API and different types of Docke
 [Supervisor Example for Using MongoDB](https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fcalaldees%2FTeachProgramming%2Ftree%2Fmaster%2Fteachprogramming%2Fstatic%2Fprojects%2Fdata%2Fmongo&data=05%7C01%7Ck.best806%40canterbury.ac.uk%7C2e54a99d71b349707fbe08db2b831677%7C0320b2da22dd4dab8c216e644ba14f13%7C0%7C0%7C638151614242327608%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=eNuRlF7BUikr5ALIAT3XUWFJfIzdfDLI3sidgk7Lx2Q%3D&reserved=0)
 
 [Supervisor Example for using Multi Container System](https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fcalaldees%2FdockerWorkshop%23multi-container-systems&data=05%7C01%7Ck.best806%40canterbury.ac.uk%7C2e54a99d71b349707fbe08db2b831677%7C0320b2da22dd4dab8c216e644ba14f13%7C0%7C0%7C638151614242327608%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=vBuaJgvqbYnACNIEkhRO5HgH9XVNnpiMowGgd9CQ2Uk%3D&reserved=0)
+
+##### Wednesday 3rd May
+
+Meeting with stakeholder to attain feedback on final deliverable, while she was very happy with what I have produced she expressed that there are a lot of usability features she would have liked to have seen implemented had their been sufficient time. These included:
+
+- Tell the user when the level changes up or down
+- Teach users how to play with helpful finger hints demonstrating how to navigate around the keyboard
+- Change the colours used for when pressing a key, instead of red for majors and blue for sharps, change it to indicate whether the user has pressed the correct key at the correct time. For example, green for pressing correct and red for incorrect
+- Change the image of notes such as (seen in Figure 28)
+  - Sharp notes used to coincide with enharmonic spellings
+  - Expressing chords using a triad
+- Allow the user to choose the sound created, for example allowing the choice between numerous instruments such as:
+  - Synthesized sounds
+  - Piano sounds
+  - Guitar sounds
+  - Drum sounds
+  - Harmonica sounds
+- Reduce the length of some levels, levels 5 and 6 are too long
+- Add names of chords and single notes above staff that move along in animation (Figure 28)
+- Names of elements used in 'Note Traits Overall' and 'Note Traits Over Time' charts are not explanatory enough. These could be changed to the following titles and could include descriptions once viewing the graph to ensure understanding of the data:
+  - "Number of Correct Hits" to "Correct Note at Correct Time"
+  - "Number of Wrong Hits" to "Incorrect note at Correct Time"
+  - "Number of Wrong Number Hits" to "Incorrect Number of Notes Played"
+  - "Number of Out of Bound Hits" to "Correct Note at Incorrect Time"
+  - "Number of Missed Notes" to "No Note Played"
