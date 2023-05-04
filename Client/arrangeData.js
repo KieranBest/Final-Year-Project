@@ -100,10 +100,3 @@ function retrieveNoteCodesFromPeriods(playPeriodNotes){
         playPeriodCodes[numberOfPeriods] = [numOfCorrectHits,numOfWrongHits,numOfWrongNumberHits,numOfOutOfBoundHits,numOfMissedNotes];
     }
 }
-
-console.log("allData")
-console.log(allData)
-console.log("playPeriodNotes")
-console.log(playPeriodNotes)
-console.log("playPeriodCodes")
-console.log(playPeriodCodes)

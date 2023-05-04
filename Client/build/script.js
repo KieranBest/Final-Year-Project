@@ -489,13 +489,12 @@ function movePlayableNotes(staffNumber, notePressed, octave) {
       } else {
         timeDelay = 0;
       }
+      // updates x and y values and then displays them whilst removing the old values from visibility
       ctx.fillStyle = "white";
       ctx.fillRect(leftBoundary, 0, canvas.width, staffHeight);
       staffNoteHit(staffNumber, notePressed, octave);
       drawStaff();
     }
-    // updates x and y values and then displays them whilst removing the old values from visibility
-
     switch (DynamicDifficulty[difficultyLevel].recurringNotes) {
       case 2:
         animating_Notes1.update();
@@ -514,11 +513,11 @@ function movePlayableNotes(staffNumber, notePressed, octave) {
         animating_Notes3.display();
         setTimeout(function (s) {
           return animating_Notes5.update();
-        }, 4 * timeDelay);
+        }, timeDelay);
         animating_Notes5.display();
         setTimeout(function (s) {
           return animating_Notes7.update();
-        }, 6 * timeDelay);
+        }, 3 * timeDelay);
         animating_Notes7.display();
         break;
       case 8:

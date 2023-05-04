@@ -50,14 +50,17 @@ function retrieveNoteCodes(individualNotes) {
     }
   }
 }
+var totalLength = 0;
 var playPeriodNotes = [];
 function retrievePlaytimePeriods(allData) {
   for (var storageLength = 0; storageLength < localStorage.length; storageLength++) {
+    totalLength = 0;
     if (allData[storageLength] != null) {
       playPeriodNotes[storageLength] = {};
       for (var levelNumber = 1; levelNumber <= Object.keys(allData[storageLength]).length; levelNumber++) {
         for (var noteNumber = 1; noteNumber < Object.keys(allData[storageLength][levelNumber].userNoteProgression).length + 1; noteNumber++) {
-          playPeriodNotes[storageLength][noteNumber] = allData[storageLength][levelNumber].userNoteProgression[noteNumber];
+          totalLength++;
+          playPeriodNotes[storageLength][totalLength] = allData[storageLength][levelNumber].userNoteProgression[noteNumber];
         }
       }
     }

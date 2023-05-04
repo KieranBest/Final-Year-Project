@@ -460,22 +460,34 @@ let timeDelay = 0;
 let repeatQuantity = 0;
 function movePlayableNotes(staffNumber,notePressed,octave){
     if(toggle){
-        a++
-        averageFPS = (61214/1000)+513;
-        timeDelay = (DynamicDifficulty[difficultyLevel].recurringNotes)*(window.innerWidth-(leftBoundary-(0.5*staffSpacing))/(averageFPS)*100)/DynamicDifficulty[difficultyLevel].speed;
-      
-        ctx.fillStyle = "white";
-        ctx.fillRect(leftBoundary,0,canvas.width,staffHeight);
-        staffNoteHit(staffNumber,notePressed,octave);
-        drawStaff();    
-        // updates x and y values and then displays them whilst removing the old values from visibility
-
+        if(a<1000){
+            a++;
+        }
+        if(a>20 && a<1000){
+            let thisloop = performance.now();
+            let fps = Math.round(1000/(thisloop-lastloop));
+            averageFPS = averageFPS+fps;
+            lastloop = thisloop;
+        }
+        if(a>100){
+            if(toggle){
+                timeDelay = (window.innerWidth-(leftBoundary-(0.5*staffSpacing))/(averageFPS/a)*1000)/DynamicDifficulty[difficultyLevel].speed;
+            }
+            else{
+                timeDelay = 0;
+            }
+            // updates x and y values and then displays them whilst removing the old values from visibility
+            ctx.fillStyle = "white";
+            ctx.fillRect(leftBoundary,0,canvas.width,staffHeight);
+            staffNoteHit(staffNumber,notePressed,octave);
+            drawStaff();
+        }
         switch(DynamicDifficulty[difficultyLevel].recurringNotes){
             case 2:
                 animating_Notes1.update();
                 animating_Notes1.display();
                 setTimeout((s) => animating_Notes5.update(), 4*timeDelay);
-                animating_Notes5.display()
+                animating_Notes5.display();
                 break;
             case 4:
                 animating_Notes1.update();
