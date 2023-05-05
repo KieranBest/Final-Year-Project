@@ -10,7 +10,7 @@
 
 ### Abstract
 
-This project is aimed at creating a responsive educational tool to teach users how to play piano whilst simultaneously how to read sheet music; it will also create a visual representation of the user's learning progression from data collected from the user's input. This project will be completed using the agile framework, HTML5, CSS, JS, Gulp pipieline tool and Jest test framework.
+This project is aimed at creating a responsive educational tool to teach users how to play piano whilst simultaneously how to read sheet music; it will also create a visual representation of the user's learning progression from data collected from the user's input. This project will be completed using the agile framework, HTML5, CSS, JS, Gulp pipieline tool and Jest test framework.You can see all progress and documentation of the project [here](https://github.com/KieranBest/Individual-Project).
 
 ### Acknowledgements
 
@@ -79,6 +79,7 @@ I would like to give thanks to my supervisor, Allan Callaghan, for all his amazi
     - [Wednesday 22nd March](#wednesday-22nd-march)
       - [Stakeholder Meeting](#stakeholder-meeting)
       - [Supervisor Meeting](#supervisor-meeting)
+    - [Wednesday 3rd May](#wednesday-3rd-may)
 
 ### Introduction
 
