@@ -329,7 +329,7 @@ To be able to manage my time more effectively, I broke these down into simple st
 ##### Milestone 1 - Time Management
 
 ```mermaid
-Gantt
+gantt
     title Figure 8: A Gantt Chart of Milestone 1
     dateFormat  YYYY-MM-DD
 
@@ -805,7 +805,7 @@ Whilst the usability features are detrimental to a finalised product, this proje
 ##### Milestone 2 - Time Management
 
 ```mermaid
-Gantt
+gantt
     title Figure 20: A Gantt Chart of Milestone 2
     dateFormat  YYYY-MM-DD
 
@@ -1196,7 +1196,7 @@ This can be adapted into putting into a MongoDB, as can be seen in Figure 25, th
 ##### Milestone 3 - Time Management
 
 ```mermaid
-Gantt
+gantt
     title Figure 26: A Gantt Chart of Milestone 3
     dateFormat  YYYY-MM-DD
 
